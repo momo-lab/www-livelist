@@ -4,3 +4,17 @@ import { twMerge } from 'tailwind-merge';
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+// 日付を「6/1(月)」形式にフォーマットする関数
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()];
+  return `${month}/${day}(${dayOfWeek})`;
+};
+
+// グループIDに基づいてバッジの色を決定する関数
+export const getBadgeVariant = (url: string): string => {
+  return url.replace(/^.*\//, '');
+};
