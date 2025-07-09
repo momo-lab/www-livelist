@@ -14,7 +14,31 @@ export const formatDate = (dateString: string): string => {
   return `${month}/${day}(${dayOfWeek})`;
 };
 
+// Badgeのvariant型を定義
+type BadgeVariant =
+  | 'default'
+  | 'mofcro'
+  | 'mofcro-outline'
+  | 'girudoru'
+  | 'girudoru-outline'
+  | 'mofrurock'
+  | 'mofrurock-outline'
+  | 'osahoto'
+  | 'osahoto-outline';
+
 // グループIDに基づいてバッジの色を決定する関数
-export const getBadgeVariant = (url: string): string => {
-  return url.replace(/^.*\//, '');
+export const getBadgeVariant = (url: string): BadgeVariant => {
+  const urlPart = url.replace(/^.*\//, '');
+  switch (urlPart) {
+    case 'mofcro':
+      return 'mofcro';
+    case 'girudoru':
+      return 'girudoru';
+    case 'mofrurock':
+      return 'mofrurock';
+    case 'osahoto':
+      return 'osahoto';
+    default:
+      return 'default';
+  }
 };
