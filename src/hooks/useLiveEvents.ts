@@ -29,7 +29,9 @@ export const useLiveEvents = (
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch(`${import.meta.env.BASE_URL}data.json`);
+        const response = await fetch(
+          `${import.meta.env.BASE_URL}data.json?cachebuster=${new Date().getTime()}`
+        );
         if (!response.ok) {
           throw new Error('データの取得に失敗しました。');
         }

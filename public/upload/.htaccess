@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Restricted Area"
+AuthUserFile /home/momo-lab/.htpasswd
+Require user upload-admin

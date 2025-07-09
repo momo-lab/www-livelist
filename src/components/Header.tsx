@@ -11,8 +11,18 @@ import {
   SheetDescription,
 } from '@/components/ui/sheet';
 
+const TITLES: Record<string, string> = {
+  '/': '開催予定',
+  '/past': '過去の履歴',
+  '/about': 'このサイトについて',
+};
+
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const base = import.meta.env.BASE_URL; // 例: "/app/"
+  const relativePath = location.pathname.replace(new RegExp(`^${base}`), '/');
+  const title = TITLES[relativePath];
 
   const navLinks = (
     <>
@@ -50,7 +60,7 @@ export const Header: React.FC = () => {
   );
 
   return (
-    <header className="p-4 fixed top-0 w-full z-50">
+    <header className="p-2 fixed top-0 w-full z-50">
       <div className="container mx-auto flex justify-between items-center">
         {/* 左側：スマホはハンバーガー＋タイトル、PCはタイトルのみ */}
         <div className="flex items-center space-x-2">
@@ -81,7 +91,9 @@ export const Header: React.FC = () => {
           </div>
 
           {/* タイトル */}
-          <div className="text-lg font-semibold whitespace-nowrap">abc</div>
+          <div className="text-2xl font-semibold whitespace-nowrap">
+            {title}
+          </div>
         </div>
 
         {/* 右側：ナビゲーション（PCのみ表示） */}

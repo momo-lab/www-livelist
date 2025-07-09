@@ -3,9 +3,9 @@ import { LinkButton } from '@/components/ui/LinkButton';
 
 export const AboutPage: React.FC = () => {
   return (
-    <div className="container mx-auto py-10 px-4">
+    <div className="container mx-auto py-4 px-4">
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">このサイトについて</h2>
+        <h2 className="text-xl font-semibold mb-2">概要</h2>
         <p className="mb-2">
           このサイトは、ルミナス所属アイドルのライブ出演情報を時系列で整理した、個人による非公式のまとめです。
         </p>
