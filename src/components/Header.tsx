@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, CalendarDays, Info } from 'lucide-react';
+import { Menu, CalendarDays, CalendarCheck, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -12,8 +12,8 @@ import {
 } from '@/components/ui/sheet';
 
 const TITLES: Record<string, string> = {
-  '/': '開催予定',
-  '/past': '過去の履歴',
+  '/': '開催予定のライブ',
+  '/past': '過去のライブ',
   '/about': 'このサイトについて',
 };
 
@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
           onClick={() => setIsOpen(false)}
         >
           <CalendarDays className="h-4 w-4 mr-2" />
-          開催予定
+          {TITLES['/']}
         </Link>
       </li>
       <li className="ms-2">
@@ -42,8 +42,8 @@ export const Header: React.FC = () => {
           className="hover:underline flex items-center"
           onClick={() => setIsOpen(false)}
         >
-          <CalendarDays className="h-4 w-4 mr-2" />
-          過去の履歴
+          <CalendarCheck className="h-4 w-4 mr-2" />
+          {TITLES['/past']}
         </Link>
       </li>
       <li className="ms-2">
@@ -53,7 +53,7 @@ export const Header: React.FC = () => {
           onClick={() => setIsOpen(false)}
         >
           <Info className="h-4 w-4 mr-2" />
-          このサイトについて
+          {TITLES['/about']}
         </Link>
       </li>
     </>
