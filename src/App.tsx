@@ -94,23 +94,43 @@ function App() {
   // 日付ごとにグループ化し、rowspan情報を付与するヘルパー関数
   const processEventsForTable = (
     eventsToProcess: LiveEvent[]
-  ): (LiveEvent & { rowspan?: number; isFirstOfDay?: boolean })[] => {
+  ): (LiveEvent & {
+    rowspan?: number;
+    isFirstOfDay?: boolean;
+    groupIndex?: number;
+  })[] => {
+    let currentGroupIndex = -1;
+    let lastFormattedDate = '';
+
     return eventsToProcess.reduce(
       (
-        acc: (LiveEvent & { rowspan?: number; isFirstOfDay?: boolean })[],
-        event,
-        index
+        acc: (LiveEvent & {
+          rowspan?: number;
+          isFirstOfDay?: boolean;
+          groupIndex?: number;
+        })[],
+        event
       ) => {
         const formattedDate = formatDate(event.date);
-        const prevEvent = acc[acc.length - 1];
 
-        if (index === 0 || formattedDate !== formatDate(prevEvent.date)) {
+        if (formattedDate !== lastFormattedDate) {
+          currentGroupIndex++;
+          lastFormattedDate = formattedDate;
           const dayEvents = eventsToProcess.filter(
             (e) => formatDate(e.date) === formattedDate
           );
-          acc.push({ ...event, rowspan: dayEvents.length, isFirstOfDay: true });
+          acc.push({
+            ...event,
+            rowspan: dayEvents.length,
+            isFirstOfDay: true,
+            groupIndex: currentGroupIndex,
+          });
         } else {
-          acc.push({ ...event, isFirstOfDay: false });
+          acc.push({
+            ...event,
+            isFirstOfDay: false,
+            groupIndex: currentGroupIndex,
+          });
         }
         return acc;
       },
@@ -133,6 +153,7 @@ function App() {
     processedEvents: (LiveEvent & {
       rowspan?: number;
       isFirstOfDay?: boolean;
+      groupIndex?: number; // groupIndexを追加
     })[]
   ) => (
     <Table className="border border-gray-200 rounded-lg">
@@ -143,7 +164,7 @@ function App() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {processedEvents.map((event, index) => {
+        {processedEvents.map((event) => {
           const dateObj = new Date(event.date);
           const dayOfWeek = dateObj.getDay(); // 0:日, 1:月, ..., 6:土
           const dateBgColor =
@@ -155,8 +176,10 @@ function App() {
 
           return (
             <TableRow
-              key={index}
-              className={`even:bg-muted cursor-pointer`}
+              key={event.url + event.date + event.content}
+              className={`cursor-pointer ${
+                event.groupIndex! % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+              }`} // groupIndexで色分け
               onClick={() => {
                 if (event.link) {
                   window.open(event.link, '_blank');
