@@ -33,21 +33,21 @@
   --color-radius: 0.5rem;
 
   /* アイドルグループのカラー定義 */
-  --color-mofcro-bg: #003366;
+  --color-mofcro-bg: #0b4f88;
   --color-mofcro-fg: #ffffff;
-  --color-mofcro-text: #003366;
+  --color-mofcro-text: #0b4f88;
 
-  --color-girudoru-bg: #89cff0;
+  --color-girudoru-bg: #aeeeee;
   --color-girudoru-fg: #000000;
-  --color-girudoru-text: #2288cc;
+  --color-girudoru-text: #40bfbf;
 
-  --color-mofrurock-bg: #222222;
+  --color-mofrurock-bg: #1b1b1b;
   --color-mofrurock-fg: #ffffff;
   --color-mofrurock-text: #444444;
 
-  --color-osahoto-bg: #ff6f61;
+  --color-osahoto-bg: #ff7c9c;
   --color-osahoto-fg: #000000;
-  --color-osahoto-text: #ff4f41;
+  --color-osahoto-text: #e84c76;
 }
 
 .dark {
