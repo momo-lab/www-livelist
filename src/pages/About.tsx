@@ -1,4 +1,5 @@
 import React from 'react';
+import { LinkButton } from '@/components/ui/LinkButton';
 
 export const AboutPage: React.FC = () => {
   return (
@@ -13,7 +14,8 @@ export const AboutPage: React.FC = () => {
           <li>「過去の履歴」にはすでに終了したライブ情報が表示されます。</li>
         </ul>
         <p className="mb-2">
-          掲載内容は、各アイドルの lit.link
+          掲載内容は、各アイドルの
+          <LinkButton href="https://lit.link/">lit.link</LinkButton>
           ページに記載されたライブ情報をもとに、自動で収集・整理したものです。
           この情報は定期的に更新されますが、反映までに時間がかかる場合があります。
         </p>
@@ -52,14 +54,7 @@ export const AboutPage: React.FC = () => {
           ご意見・ご要望・削除依頼などは、以下のX(旧Twitter)アカウントまでご連絡ください。
         </p>
         <p className="font-bold flex items-center">
-          <a
-            href="https://x.com/momolab"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-blue-500"
-          >
-            @momolab
-          </a>
+          <LinkButton href="https://x.com/momolab">@momolab</LinkButton>
         </p>
       </section>
     </div>

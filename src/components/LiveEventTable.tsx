@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { LinkButton } from '@/components/ui/LinkButton';
 import { ExternalLink } from 'lucide-react';
 import { formatDate, getBadgeVariant } from '@/lib/utils'; // ヘルパー関数をインポート
 
@@ -75,15 +76,13 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({
                       {event.short_name}
                     </Badge>
                     {event.link && (
-                      <a
+                      <LinkButton
                         href={event.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline ml-auto inline-flex items-center"
+                        className="ml-auto inline-flex items-center"
                       >
-                        <ExternalLink className="h-4 w-4 mr-1" />
+                        <ExternalLink className="h-4 w-4 me-1" />
                         詳細
-                      </a>
+                      </LinkButton>
                     )}
                   </div>
                   <pre className="whitespace-pre-wrap font-sans">
