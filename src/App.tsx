@@ -61,6 +61,20 @@ function App() {
     return <div className="p-4 text-red-500">エラー: {error}</div>;
   }
 
+  // 長押し時のハンドラ
+  const handleLongPressIdol = (idolName: string) => {
+    console.log(`longpress:${idolName}`);
+    setSelectedIdols([idolName]); // 長押しされたアイドルのみを選択
+  };
+
+  if (loading) {
+    return <div className="p-4">読み込み中...</div>;
+  }
+
+  if (error) {
+    return <div className="p-4 text-red-500">エラー: {error}</div>;
+  }
+
   return (
     <>
       <div className="container mx-auto py-4 px-4">
@@ -73,6 +87,7 @@ function App() {
           <IdolFilter
             selectedIdols={selectedIdols}
             onToggleIdol={handleToggleIdol}
+            onLongPressIdol={handleLongPressIdol} // 追加
           />
 
           <TabsContent value="upcoming">

@@ -36,6 +36,19 @@ export const AboutPage: React.FC = () => {
       </section>
 
       <section className="mb-8">
+        <h2 className="text-xl font-semibold mb-2">機能説明</h2>
+        <h3 className="text-lg font-semibold mb-2">アイドルの絞り込み</h3>
+        <p className="mb-2">
+          アイドル名のボタンのON/OFFで、対象のアイドルの表示/非表示を切り替えられます。
+          切り替えた結果はブラウザ上に保存されます。
+        </p>
+        <ul className="list-disc pl-5 mb-2">
+          <li>クリック/タップ: そのアイドルの表示/非表示を切り替えます。</li>
+          <li>長押し/ロングタップ: そのアイドルのみを表示します。</li>
+        </ul>
+      </section>
+
+      <section className="mb-8">
         <h2 className="text-xl font-semibold mb-2">免責事項</h2>
         <p className="mb-2">
           情報の正確性・網羅性には努めていますが、内容の保証はできません。
