@@ -60,7 +60,7 @@ export const Header: React.FC = () => {
   );
 
   return (
-    <header className="p-2 fixed top-0 w-full z-50">
+    <header className="bg-header-bg p-2 fixed top-0 w-full z-50">
       <div className="container mx-auto flex justify-between items-center">
         {/* 左側：スマホはハンバーガー＋タイトル、PCはタイトルのみ */}
         <div className="flex items-center space-x-2">
@@ -72,9 +72,9 @@ export const Header: React.FC = () => {
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-64">
+              <SheetContent side="left" className="bg-header-bg w-64">
                 <SheetHeader>
-                  <SheetTitle>
+                  <SheetTitle onClick={() => setIsOpen(false)}>
                     ルミナス所属アイドル
                     <br />
                     ライブ情報まとめ(非公式)
