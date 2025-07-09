@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, CalendarDays, CalendarCheck, Info } from 'lucide-react';
+import {
+  Menu,
+  CalendarDays,
+  CalendarCheck,
+  Info,
+  ExternalLink,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -16,6 +22,29 @@ const TITLES: Record<string, string> = {
   '/past': '過去のライブ',
   '/about': 'このサイトについて',
 };
+
+const TARGETS = [
+  {
+    id: 'mofcro',
+    name: 'もふる×クロス',
+    short_name: 'もふクロ',
+  },
+  {
+    id: 'girudoru',
+    name: '新世界ギルドール',
+    short_name: '新ギル',
+  },
+  {
+    id: 'mofrurock',
+    name: 'MofruRock',
+    short_name: 'MofruRock',
+  },
+  {
+    id: 'osahoto',
+    name: '推さぬなら推させてみようホトトギス',
+    short_name: '推さホト',
+  },
+];
 
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,6 +85,22 @@ export const Header: React.FC = () => {
           {TITLES['/about']}
         </Link>
       </li>
+      <hr className="my-3 border-gray-300" />
+      <li className="ms-2 mt-2 text-sm text-gray-600">lit.link</li>
+      {TARGETS.map((target) => (
+        <li key={target.id} className="ms-6">
+          <Link
+            to={`https://lit.link/${target.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline flex items-center"
+            onClick={() => setIsOpen(false)}
+          >
+            <ExternalLink className="h-4 w-4 mr-2" />
+            {target.name}
+          </Link>
+        </li>
+      ))}
     </>
   );
 
@@ -72,7 +117,7 @@ export const Header: React.FC = () => {
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="bg-header-bg w-64">
+              <SheetContent side="left" className="bg-header-bg w-72">
                 <SheetHeader>
                   <SheetTitle onClick={() => setIsOpen(false)}>
                     ルミナス所属アイドル
