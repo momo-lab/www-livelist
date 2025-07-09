@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button } from '@/components/ui/button';
+// import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-interface LinkButtonProps extends React.ComponentProps<typeof Button> {
+interface LinkButtonProps extends React.ComponentProps<'a'> {
   // 名前変更
   href: string;
   children: React.ReactNode;

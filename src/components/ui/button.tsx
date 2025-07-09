@@ -20,6 +20,14 @@ const buttonVariants = cva(
         ghost:
           'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
         link: 'text-primary underline-offset-4 hover:underline',
+        mofcro: 'bg-mofcro-bg text-mofcro-fg hover:bg-mofcro-bg/80',
+        'mofcro-outline': 'border border-mofcro-text text-mofcro-text',
+        girudoru: 'bg-girudoru-bg text-girudoru-fg hover:bg-girudoru-bg/80',
+        'girudoru-outline': 'border border-girudoru-text text-girudoru-text',
+        mofrurock: 'bg-mofrurock-bg text-mofrurock-fg hover:bg-mofrurock-bg/80',
+        'mofrurock-outline': 'border border-mofrurock-text text-mofrurock-text',
+        osahoto: 'bg-osahoto-bg text-osahoto-fg hover:bg-osahoto-bg/80',
+        'osahoto-outline': 'border border-osahoto-text text-osahoto-text',
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',

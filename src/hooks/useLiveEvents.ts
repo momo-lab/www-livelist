@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { formatDate } from '@/lib/utils'; // formatDateをインポート
+import { useEffect, useState, useMemo } from 'react'; // useMemoを追加
+import { formatDate } from '@/lib/utils';
 
 // データの型定義
 interface LiveEvent {
@@ -18,10 +18,13 @@ interface ProcessedLiveEvent extends LiveEvent {
   groupIndex?: number;
 }
 
-export const useLiveEvents = () => {
+export const useLiveEvents = (
+  selectedIdols: string[] // フィルタリング対象のアイドル名を受け取る
+) => {
   const [events, setEvents] = useState<LiveEvent[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [uniqueIdolNames, setUniqueIdolNames] = useState<string[]>([]); // ユニークなアイドル名を追加
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -32,6 +35,12 @@ export const useLiveEvents = () => {
         }
         const data: LiveEvent[] = await response.json();
         setEvents(data);
+
+        // ユニークなアイドル名を取得
+        const names = Array.from(
+          new Set(data.map((event) => event.short_name))
+        );
+        setUniqueIdolNames(names);
       } catch (err) {
         setError(
           err instanceof Error ? err.message : '不明なエラーが発生しました。'
@@ -44,14 +53,23 @@ export const useLiveEvents = () => {
     fetchEvents();
   }, []);
 
+  // フィルタリングされたイベントを計算
+  const filteredEvents = useMemo(() => {
+    // selectedIdolsが空の場合は、全てのイベントを返す
+    // App.tsxでselectedIdolsがuniqueIdolNamesで初期化されるため、この条件はselectedIdolsが空の配列として渡された場合にのみ適用される
+    if (selectedIdols.length === 0) {
+      return events;
+    }
+    return events.filter((event) => selectedIdols.includes(event.short_name));
+  }, [events, selectedIdols]);
+
   // イベントを今後の予定と過去の履歴に分類し、過去の履歴をソート
   const now = new Date();
-  // 時刻情報をクリアして日付のみにする
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-  const upcomingEvents = events.filter((event) => {
+  const upcomingEvents = filteredEvents.filter((event) => {
+    // filteredEventsを使用
     const eventDate = new Date(event.date);
-    // イベントの日付も時刻情報をクリアして日付のみにする
     const eventDay = new Date(
       eventDate.getFullYear(),
       eventDate.getMonth(),
@@ -60,7 +78,7 @@ export const useLiveEvents = () => {
     return eventDay >= today;
   });
 
-  const pastEvents = events
+  const pastEvents = filteredEvents // filteredEventsを使用
     .filter((event) => {
       const eventDate = new Date(event.date);
       const eventDay = new Date(
@@ -70,7 +88,7 @@ export const useLiveEvents = () => {
       );
       return eventDay < today;
     })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // 日付の降順でソート
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   // 日付ごとにグループ化し、rowspan情報を付与するヘルパー関数
   const processEventsForTable = (
@@ -111,6 +129,7 @@ export const useLiveEvents = () => {
   return {
     processedUpcomingEvents,
     processedPastEvents,
+    uniqueIdolNames,
     loading,
     error,
   };
