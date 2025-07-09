@@ -53,7 +53,7 @@ export const Header: React.FC = () => {
   const relativePath = location.pathname.replace(new RegExp(`^${base}`), '/');
   const title = TITLES[relativePath];
 
-  const navLinks = (
+  const menuLinks = (
     <>
       <li className="ms-2">
         <Link
@@ -107,10 +107,8 @@ export const Header: React.FC = () => {
   return (
     <header className="bg-header-bg p-2 fixed top-0 w-full z-50">
       <div className="container mx-auto flex justify-between items-center">
-        {/* 左側：スマホはハンバーガー＋タイトル、PCはタイトルのみ */}
         <div className="flex items-center space-x-2">
-          {/* ハンバーガー（モバイルのみ表示） */}
-          <div className="md:hidden">
+          <div>
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -129,22 +127,16 @@ export const Header: React.FC = () => {
                   </SheetDescription>
                 </SheetHeader>
                 <nav className="mt-8">
-                  <ul className="flex flex-col space-y-4">{navLinks}</ul>
+                  <ul className="flex flex-col space-y-4">{menuLinks}</ul>
                 </nav>
               </SheetContent>
             </Sheet>
           </div>
 
-          {/* タイトル */}
           <div className="text-2xl font-semibold whitespace-nowrap">
             {title}
           </div>
         </div>
-
-        {/* 右側：ナビゲーション（PCのみ表示） */}
-        <nav className="hidden md:block">
-          <ul className="flex space-x-4">{navLinks}</ul>
-        </nav>
       </div>
     </header>
   );
