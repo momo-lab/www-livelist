@@ -177,14 +177,9 @@ function App() {
           return (
             <TableRow
               key={event.url + event.date + event.content}
-              className={`cursor-pointer ${
+              className={`${
                 event.groupIndex! % 2 === 0 ? 'bg-gray-50' : 'bg-white'
               }`} // groupIndexで色分け
-              onClick={() => {
-                if (event.link) {
-                  window.open(event.link, '_blank');
-                }
-              }}
             >
               {event.isFirstOfDay && (
                 <TableCell
