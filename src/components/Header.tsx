@@ -1,16 +1,18 @@
-import React, { useState } from 'react'; // useStateをインポート
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, CalendarDays, Info } from 'lucide-react'; // Menu, CalendarDays, Infoアイコンをインポート
-import { Button } from '@/components/ui/button'; // Buttonコンポーネントをインポート
+import { Menu, CalendarDays, Info } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTrigger,
-} from '@/components/ui/sheet'; // Sheetコンポーネントをインポート
+  SheetTitle,
+  SheetDescription,
+} from '@/components/ui/sheet';
 
 export const Header: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false); // Sheetの開閉状態を管理
+  const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = (
     <>
@@ -21,7 +23,17 @@ export const Header: React.FC = () => {
           onClick={() => setIsOpen(false)}
         >
           <CalendarDays className="h-4 w-4 mr-2" />
-          イベント一覧
+          開催予定
+        </Link>
+      </li>
+      <li className="ms-2">
+        <Link
+          to="/past"
+          className="hover:underline flex items-center"
+          onClick={() => setIsOpen(false)}
+        >
+          <CalendarDays className="h-4 w-4 mr-2" />
+          過去の履歴
         </Link>
       </li>
       <li className="ms-2">
@@ -34,38 +46,48 @@ export const Header: React.FC = () => {
           このサイトについて
         </Link>
       </li>
-      {/* 将来的にカレンダーなどのリンクを追加 */}
     </>
   );
 
   return (
-    <header className="bg-blue-500 text-white p-4 fixed top-0 w-full z-50">
+    <header className="p-4 fixed top-0 w-full z-50">
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold">
-          ルミナス所属アイドル ライブ情報まとめ(非公式)
-        </Link>
+        {/* 左側：スマホはハンバーガー＋タイトル、PCはタイトルのみ */}
+        <div className="flex items-center space-x-2">
+          {/* ハンバーガー（モバイルのみ表示） */}
+          <div className="md:hidden">
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-64">
+                <SheetHeader>
+                  <SheetTitle>
+                    ルミナス所属アイドル
+                    <br />
+                    ライブ情報まとめ(非公式)
+                  </SheetTitle>
+                  <SheetDescription className="sr-only">
+                    ルミナス所属のアイドルのライブ情報まとめページです。
+                  </SheetDescription>
+                </SheetHeader>
+                <nav className="mt-8">
+                  <ul className="flex flex-col space-y-4">{navLinks}</ul>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
 
-        {/* PC版ナビゲーション */}
+          {/* タイトル */}
+          <div className="text-lg font-semibold whitespace-nowrap">abc</div>
+        </div>
+
+        {/* 右側：ナビゲーション（PCのみ表示） */}
         <nav className="hidden md:block">
           <ul className="flex space-x-4">{navLinks}</ul>
         </nav>
-
-        {/* スマホ版ハンバーガーメニュー */}
-        <div className="md:hidden">
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-white">
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-64 bg-blue-500 text-white">
-              <SheetHeader></SheetHeader>
-              <nav className="mt-8">
-                <ul className="flex flex-col space-y-4">{navLinks}</ul>
-              </nav>
-            </SheetContent>
-          </Sheet>
-        </div>
       </div>
     </header>
   );

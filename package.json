@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "vite --base=/livelist-test/",
+    "build": "tsc -b && vite build --base=/livelist-test/",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "rsync -avz --delete ./dist/ momo-lab.net:www/livelist-test/"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
