@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
 interface LongPressOptions {
   onLongPress: () => void;
@@ -6,11 +6,7 @@ interface LongPressOptions {
   delay?: number;
 }
 
-export const useLongPress = ({
-  onLongPress,
-  onClick,
-  delay = 500,
-}: LongPressOptions) => {
+export const useLongPress = ({ onLongPress, onClick, delay = 500 }: LongPressOptions) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const isClickable = useRef(false);
 

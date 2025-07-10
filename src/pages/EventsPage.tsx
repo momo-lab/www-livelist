@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useLiveEvents } from '@/hooks/useLiveEvents';
-import { LiveEventTable } from '@/components/LiveEventTable';
 import { IdolFilter } from '@/components/IdolFilter';
+import { LiveEventTable } from '@/components/LiveEventTable';
+import { useLiveEvents } from '@/hooks/useLiveEvents';
+import React, { useEffect, useState } from 'react';
 
 interface EventsPageProps {
   mode: 'upcoming' | 'past';
@@ -20,13 +20,8 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
   }, [selectedIdols]);
 
   // useLiveEventsにselectedIdolsを渡す
-  const {
-    processedUpcomingEvents,
-    processedPastEvents,
-    uniqueIdolNames,
-    loading,
-    error,
-  } = useLiveEvents(selectedIdols);
+  const { processedUpcomingEvents, processedPastEvents, uniqueIdolNames, loading, error } =
+    useLiveEvents(selectedIdols);
 
   // uniqueIdolNamesがロードされた後に、selectedIdolsが空であれば全て選択状態にする
   useEffect(() => {
@@ -40,9 +35,7 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
     setSelectedIdols((prevSelectedIdols) => {
       if (prevSelectedIdols.includes(idolName)) {
         // 既に選択されている場合は削除
-        const newSelected = prevSelectedIdols.filter(
-          (name) => name !== idolName
-        );
+        const newSelected = prevSelectedIdols.filter((name) => name !== idolName);
         // 全て非表示になった場合は、uniqueIdolNamesをセットして全て表示状態にする
         // ここでuniqueIdolNamesを使用することで、全てのアイドルが非表示になるのを防ぐ
         return newSelected.length === 0 && uniqueIdolNames.length > 0
@@ -68,15 +61,12 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
     return <div className="p-4 text-red-500">エラー: {error}</div>;
   }
 
-  const eventsToDisplay =
-    mode === 'upcoming' ? processedUpcomingEvents : processedPastEvents;
+  const eventsToDisplay = mode === 'upcoming' ? processedUpcomingEvents : processedPastEvents;
   const noEventsMessage =
-    mode === 'upcoming'
-      ? '今後のライブ予定はありません。'
-      : '過去のライブ履歴はありません。';
+    mode === 'upcoming' ? '今後のライブ予定はありません。' : '過去のライブ履歴はありません。';
 
   return (
-    <div className="container mx-auto py-4 px-4">
+    <div className="container mx-auto px-4 py-4">
       <IdolFilter
         selectedIdols={selectedIdols}
         onToggleIdol={handleToggleIdol}

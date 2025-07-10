@@ -1,21 +1,15 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  Menu,
-  CalendarDays,
-  CalendarCheck,
-  Info,
-  ExternalLink,
-} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTrigger,
-  SheetTitle,
   SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from '@/components/ui/sheet';
+import { CalendarCheck, CalendarDays, ExternalLink, Info, Menu } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const TITLES: Record<string, string> = {
   '/': '開催予定のライブ',
@@ -56,32 +50,28 @@ export const Header: React.FC = () => {
   const menuLinks = (
     <>
       <li className="mx-2">
-        <Link
-          to="/"
-          className="hover:underline flex items-center"
-          onClick={() => setIsOpen(false)}
-        >
-          <CalendarDays className="h-4 w-4 mr-2" />
+        <Link to="/" className="flex items-center hover:underline" onClick={() => setIsOpen(false)}>
+          <CalendarDays className="mr-2 h-4 w-4" />
           {TITLES['/']}
         </Link>
       </li>
       <li className="mx-2">
         <Link
           to="/past"
-          className="hover:underline flex items-center"
+          className="flex items-center hover:underline"
           onClick={() => setIsOpen(false)}
         >
-          <CalendarCheck className="h-4 w-4 mr-2" />
+          <CalendarCheck className="mr-2 h-4 w-4" />
           {TITLES['/past']}
         </Link>
       </li>
       <li className="mx-2">
         <Link
           to="/about"
-          className="hover:underline flex items-center"
+          className="flex items-center hover:underline"
           onClick={() => setIsOpen(false)}
         >
-          <Info className="h-4 w-4 mr-2" />
+          <Info className="mr-2 h-4 w-4" />
           {TITLES['/about']}
         </Link>
       </li>
@@ -93,10 +83,10 @@ export const Header: React.FC = () => {
             to={`https://lit.link/${target.id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:underline flex items-center"
+            className="flex items-center hover:underline"
             onClick={() => setIsOpen(false)}
           >
-            <ExternalLink className="h-4 w-4 mr-2" />
+            <ExternalLink className="mr-2 h-4 w-4" />
             {target.name}
           </Link>
         </li>
@@ -105,8 +95,8 @@ export const Header: React.FC = () => {
   );
 
   return (
-    <header className="bg-header-bg p-2 fixed top-0 w-full z-50">
-      <div className="container mx-auto flex justify-between items-center">
+    <header className="bg-header-bg fixed top-0 z-50 w-full p-2">
+      <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <div>
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -133,9 +123,7 @@ export const Header: React.FC = () => {
             </Sheet>
           </div>
 
-          <div className="text-2xl font-semibold whitespace-nowrap">
-            {title}
-          </div>
+          <div className="text-2xl font-semibold whitespace-nowrap">{title}</div>
         </div>
       </div>
     </header>

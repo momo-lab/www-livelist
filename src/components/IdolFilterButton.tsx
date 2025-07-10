@@ -1,8 +1,8 @@
-import * as React from 'react';
 import { Button, buttonVariants } from '@/components/ui/button';
+import { useLongPress } from '@/hooks/useLongPress';
 import { cn } from '@/lib/utils';
 import type { VariantProps } from 'class-variance-authority';
-import { useLongPress } from '@/hooks/useLongPress';
+import * as React from 'react';
 
 interface IdolFilterButtonProps {
   filterId: string;
@@ -19,9 +19,9 @@ export const IdolFilterButton: React.FC<IdolFilterButtonProps> = ({
   onToggleIdol,
   onLongPressIdol,
 }) => {
-  const variant = (
-    isSelected ? filterId : `${filterId}-outline`
-  ) as VariantProps<typeof buttonVariants>['variant'];
+  const variant = (isSelected ? filterId : `${filterId}-outline`) as VariantProps<
+    typeof buttonVariants
+  >['variant'];
 
   const longPressEventHandlers = useLongPress({
     onLongPress: () => {
@@ -37,11 +37,7 @@ export const IdolFilterButton: React.FC<IdolFilterButtonProps> = ({
       key={filterName}
       variant={variant}
       size="sm"
-      className={cn(
-        'cursor-pointer',
-        'select-none',
-        !isSelected && 'opacity-70 hover:opacity-100'
-      )}
+      className={cn('cursor-pointer', 'select-none', !isSelected && 'opacity-70 hover:opacity-100')}
       onContextMenu={(e) => e.preventDefault()}
       {...longPressEventHandlers}
     >

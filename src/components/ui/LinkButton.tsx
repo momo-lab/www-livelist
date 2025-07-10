@@ -8,21 +8,13 @@ interface LinkButtonProps extends React.ComponentProps<'a'> {
   children: React.ReactNode;
 }
 
-export const LinkButton: React.FC<LinkButtonProps> = ({
-  href,
-  children,
-  className,
-  ...props
-}) => {
+export const LinkButton: React.FC<LinkButtonProps> = ({ href, children, className, ...props }) => {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={cn(
-        'p-0 h-auto underline text-blue-500 hover:text-blue-600',
-        className
-      )}
+      className={cn('h-auto p-0 text-blue-500 underline hover:text-blue-600', className)}
       {...props}
     >
       {children}

@@ -1909,6 +1909,21 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
+prettier-plugin-organize-imports@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.npmmirror.com/prettier-plugin-organize-imports/-/prettier-plugin-organize-imports-4.1.0.tgz#f3d3764046a8e7ba6491431158b9be6ffd83b90f"
+  integrity sha512-5aWRdCgv645xaa58X8lOxzZoiHAldAPChljr/MT0crXVOWTZ+Svl4hIWlz+niYSlO6ikE5UXkN1JrRvIP2ut0A==
+
+prettier-plugin-sort-package-json@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmmirror.com/prettier-plugin-sort-package-json/-/prettier-plugin-sort-package-json-1.1.0.tgz#b0a32719a533808b1aae6f40ceae98f05dd2c16f"
+  integrity sha512-vbOfkAvNjqbpZT7QdhGS/KE66C8J789zdzJtQvKHuM46+nBz7+A+2DrDuBriVPd9uf3qDRCKxHGKZ31bJQ87tA==
+
+prettier-plugin-tailwindcss@^0.6.14:
+  version "0.6.14"
+  resolved "https://registry.npmmirror.com/prettier-plugin-tailwindcss/-/prettier-plugin-tailwindcss-0.6.14.tgz#06701a580f7104c034ae3b699dbd17a80d67f0cd"
+  integrity sha512-pi2e/+ZygeIqntN+vC573BcW5Cve8zUB0SSAGxqpB4f96boZF4M3phPVoOFCeypwkpRYdi7+jQ5YJJUwrkGUAg==
+
 prettier@^3.6.2:
   version "3.6.2"
   resolved "https://registry.npmmirror.com/prettier/-/prettier-3.6.2.tgz#ccda02a1003ebbb2bfda6f83a074978f608b9393"

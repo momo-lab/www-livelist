@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/badge';
+import { LinkButton } from '@/components/ui/LinkButton';
 import {
   Table,
   TableBody,
@@ -7,9 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { LinkButton } from '@/components/ui/LinkButton';
-import { ExternalLink } from 'lucide-react';
 import { getBadgeVariant } from '@/lib/utils';
+import { ExternalLink } from 'lucide-react';
 
 // LiveEventとProcessedLiveEventの型定義をuseLiveEvents.tsからコピー
 interface LiveEvent {
@@ -33,11 +33,9 @@ interface LiveEventTableProps {
   processedEvents: ProcessedLiveEvent[];
 }
 
-export const LiveEventTable: React.FC<LiveEventTableProps> = ({
-  processedEvents,
-}) => {
+export const LiveEventTable: React.FC<LiveEventTableProps> = ({ processedEvents }) => {
   return (
-    <Table className="border border-gray-200 rounded-lg">
+    <Table className="rounded-lg border border-gray-200">
       <TableHeader>
         <TableRow>
           <TableHead className="w-fit border-r border-gray-200">日付</TableHead>
@@ -48,19 +46,12 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({
         {processedEvents.map((event) => {
           const dateObj = new Date(event.date);
           const dayOfWeek = dateObj.getDay(); // 0:日, 1:月, ..., 6:土
-          const dateBgColor =
-            dayOfWeek === 0
-              ? 'bg-red-100'
-              : dayOfWeek === 6
-                ? 'bg-blue-100'
-                : '';
+          const dateBgColor = dayOfWeek === 0 ? 'bg-red-100' : dayOfWeek === 6 ? 'bg-blue-100' : '';
 
           return (
             <TableRow
               key={event.url + event.date + event.content}
-              className={`${
-                event.groupIndex! % 2 === 0 ? 'bg-gray-50' : 'bg-white'
-              }`} // groupIndexで色分け
+              className={`${event.groupIndex! % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`} // groupIndexで色分け
             >
               {event.isFirstOfDay && (
                 <TableCell
@@ -72,32 +63,25 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({
               )}
               <TableCell>
                 <div className="px-4 py-2">
-                  <div className="flex items-center mb-2">
-                    <Badge variant={getBadgeVariant(event.url)}>
-                      {event.short_name}
-                    </Badge>
+                  <div className="mb-2 flex items-center">
+                    <Badge variant={getBadgeVariant(event.url)}>{event.short_name}</Badge>
                     {event.link && (
-                      <LinkButton
-                        href={event.link}
-                        className="ml-auto inline-flex items-center"
-                      >
-                        <ExternalLink className="h-4 w-4 me-1" />
+                      <LinkButton href={event.link} className="ml-auto inline-flex items-center">
+                        <ExternalLink className="me-1 h-4 w-4" />
                         詳細
                       </LinkButton>
                     )}
                   </div>
-                  <div className="flex item-start gap-2">
+                  <div className="item-start flex gap-2">
                     {event.image ? (
                       <img
                         src={event.image}
-                        className="w-12 h-12 border border-gray-200 rounded-lg"
+                        className="h-12 w-12 rounded-lg border border-gray-200"
                       />
                     ) : (
                       ''
                     )}
-                    <pre className="whitespace-pre-wrap font-sans">
-                      {event.content}
-                    </pre>
+                    <pre className="font-sans whitespace-pre-wrap">{event.content}</pre>
                   </div>
                 </div>
               </TableCell>

@@ -1,5 +1,5 @@
-import { useEffect, useState, useMemo } from 'react'; // useMemoを追加
 import { formatDate } from '@/lib/utils';
+import { useEffect, useMemo, useState } from 'react'; // useMemoを追加
 
 // データの型定義
 interface LiveEvent {
@@ -40,14 +40,10 @@ export const useLiveEvents = (
         setEvents(data);
 
         // ユニークなアイドル名を取得
-        const names = Array.from(
-          new Set(data.map((event) => event.short_name))
-        );
+        const names = Array.from(new Set(data.map((event) => event.short_name)));
         setUniqueIdolNames(names);
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : '不明なエラーが発生しました。'
-        );
+        setError(err instanceof Error ? err.message : '不明なエラーが発生しました。');
       } finally {
         setLoading(false);
       }
@@ -74,11 +70,7 @@ export const useLiveEvents = (
     .filter((event) => {
       // filteredEventsを使用
       const eventDate = new Date(event.date);
-      const eventDay = new Date(
-        eventDate.getFullYear(),
-        eventDate.getMonth(),
-        eventDate.getDate()
-      );
+      const eventDay = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
       return eventDay >= today;
     })
     .map((event) => ({
@@ -89,11 +81,7 @@ export const useLiveEvents = (
   const pastEvents = filteredEvents // filteredEventsを使用
     .filter((event) => {
       const eventDate = new Date(event.date);
-      const eventDay = new Date(
-        eventDate.getFullYear(),
-        eventDate.getMonth(),
-        eventDate.getDate()
-      );
+      const eventDay = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
       return eventDay < today;
     })
     .map(({ image: _, ...event }) => ({
@@ -103,9 +91,7 @@ export const useLiveEvents = (
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   // 日付ごとにグループ化し、rowspan情報を付与するヘルパー関数
-  const processEventsForTable = (
-    eventsToProcess: LiveEvent[]
-  ): ProcessedLiveEvent[] => {
+  const processEventsForTable = (eventsToProcess: LiveEvent[]): ProcessedLiveEvent[] => {
     let currentGroupIndex = -1;
     let lastFormattedDate = '';
 
@@ -113,9 +99,7 @@ export const useLiveEvents = (
       if (event.formatted_date !== lastFormattedDate) {
         currentGroupIndex++;
         lastFormattedDate = event.formatted_date;
-        const dayEvents = eventsToProcess.filter(
-          (e) => e.formatted_date === event.formatted_date
-        );
+        const dayEvents = eventsToProcess.filter((e) => e.formatted_date === event.formatted_date);
         acc.push({
           ...event,
           rowspan: dayEvents.length,

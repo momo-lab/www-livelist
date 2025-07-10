@@ -1,6 +1,6 @@
-import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -9,19 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
+        default: 'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
         destructive:
           'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
         outline:
           'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
-        secondary:
-          'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
-        ghost:
-          'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
+        secondary: 'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
         link: 'text-primary underline-offset-4 hover:underline',
-        mofcro:
-          'border border-mofcro-bg bg-mofcro-bg text-mofcro-fg hover:bg-mofcro-bg/80',
+        mofcro: 'border border-mofcro-bg bg-mofcro-bg text-mofcro-fg hover:bg-mofcro-bg/80',
         'mofcro-outline': 'border border-mofcro-text text-mofcro-text',
         girudoru:
           'border border-girudoru-bg bg-girudoru-bg text-girudoru-fg hover:bg-girudoru-bg/80',
@@ -29,8 +25,7 @@ const buttonVariants = cva(
         mofrurock:
           'border border-mofrurock-bg bg-mofrurock-bg text-mofrurock-fg hover:bg-mofrurock-bg/80',
         'mofrurock-outline': 'border border-mofrurock-text text-mofrurock-text',
-        osahoto:
-          'border border-osahoto-bg bg-osahoto-bg text-osahoto-fg hover:bg-osahoto-bg/80',
+        osahoto: 'border border-osahoto-bg bg-osahoto-bg text-osahoto-fg hover:bg-osahoto-bg/80',
         'osahoto-outline': 'border border-osahoto-text text-osahoto-text',
       },
       size: {
