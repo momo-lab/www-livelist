@@ -115,8 +115,8 @@ export const Header: React.FC = () => {
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="bg-header-bg w-72">
-                <SheetHeader>
+              <SheetContent side="left" className="w-72">
+                <SheetHeader className="bg-header-bg">
                   <SheetTitle onClick={() => setIsOpen(false)}>
                     ルミナス所属アイドル
                     <br />
@@ -126,7 +126,7 @@ export const Header: React.FC = () => {
                     ルミナス所属のアイドルのライブ情報まとめページです。
                   </SheetDescription>
                 </SheetHeader>
-                <nav className="mt-8">
+                <nav>
                   <ul className="flex flex-col space-y-4">{menuLinks}</ul>
                 </nav>
               </SheetContent>
