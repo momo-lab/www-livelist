@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Header } from '@/components/Header';
+import { ScrollToTop } from '@/components/ScrollToTop';
 
 interface AppProps {
   children: ReactNode;
@@ -8,6 +9,7 @@ interface AppProps {
 function App({ children }: AppProps) {
   return (
     <>
+      <ScrollToTop />
       <Header />
       <div className="pt-12">{children}</div>
       <footer className="text-center text-sm text-gray-500 py-2 border-t border-gray-200 mt-2">
