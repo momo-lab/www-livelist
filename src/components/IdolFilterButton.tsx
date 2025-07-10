@@ -39,10 +39,10 @@ export const IdolFilterButton: React.FC<IdolFilterButtonProps> = ({
       size="sm"
       className={cn(
         'cursor-pointer',
-        'select-none', // ここを追加
+        'select-none',
         !isSelected && 'opacity-70 hover:opacity-100'
       )}
-      onContextMenu={(e) => e.preventDefault()} // ここを追加
+      onContextMenu={(e) => e.preventDefault()}
       {...longPressEventHandlers}
     >
       {filterName}

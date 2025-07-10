@@ -1,8 +1,8 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useCallback } from 'react';
 
 interface LongPressOptions {
   onLongPress: () => void;
-  onClick: () => void;
+  onClick?: () => void;
   delay?: number;
 }
 
@@ -12,71 +12,31 @@ export const useLongPress = ({
   delay = 500,
 }: LongPressOptions) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const isLongPressTriggered = useRef(false);
-  const isTouchEvent = useRef(false);
+  const isClickable = useRef(false);
 
-  const start = useCallback(
-    (event: React.MouseEvent | React.TouchEvent) => {
-      if ('touches' in event) {
-        isTouchEvent.current = true;
-      }
+  const start = useCallback(() => {
+    isClickable.current = true;
+    timerRef.current = setTimeout(() => {
+      isClickable.current = false;
+      onLongPress();
+    }, delay);
+  }, [onLongPress, delay]);
 
-      isLongPressTriggered.current = false;
-
-      timerRef.current = setTimeout(() => {
-        onLongPress();
-        isLongPressTriggered.current = true;
-      }, delay);
-    },
-    [onLongPress, delay]
-  );
-
-  const clear = useCallback(
-    (event: React.MouseEvent | React.TouchEvent) => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
-
-      if (!isLongPressTriggered.current && event.type !== 'mouseleave') {
-        onClick();
-      }
-
-      // リセットを少し遅らせる
-      setTimeout(() => {
-        isTouchEvent.current = false;
-      }, 100);
-    },
-    [onClick]
-  );
-
-  // prevent default to suppress mouse events after touch
-  useEffect(() => {
-    const preventMouse = (e: MouseEvent) => {
-      if (isTouchEvent.current) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    };
-
-    document.addEventListener('mousedown', preventMouse, true);
-    document.addEventListener('mouseup', preventMouse, true);
-
-    return () => {
-      document.removeEventListener('mousedown', preventMouse, true);
-      document.removeEventListener('mouseup', preventMouse, true);
-    };
-  }, []);
+  const clear = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    if (isClickable.current && onClick) {
+      onClick();
+      isClickable.current = false;
+    }
+  }, [onClick]);
 
   return {
-    onMouseDown: start,
-    onTouchStart: (e: React.TouchEvent) => {
-      e.preventDefault(); // suppresses mouse event
-      start(e);
-    },
-    onMouseUp: clear,
-    onTouchEnd: clear,
-    onMouseLeave: clear,
-    onTouchCancel: clear,
+    onPointerDown: start,
+    onPointerUp: clear,
+    onPointerLeave: clear,
+    onPointerCancel: clear,
   };
 };
