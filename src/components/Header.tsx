@@ -55,7 +55,7 @@ export const Header: React.FC = () => {
 
   const menuLinks = (
     <>
-      <li className="ms-2">
+      <li className="mx-2">
         <Link
           to="/"
           className="hover:underline flex items-center"
@@ -65,7 +65,7 @@ export const Header: React.FC = () => {
           {TITLES['/']}
         </Link>
       </li>
-      <li className="ms-2">
+      <li className="mx-2">
         <Link
           to="/past"
           className="hover:underline flex items-center"
@@ -75,7 +75,7 @@ export const Header: React.FC = () => {
           {TITLES['/past']}
         </Link>
       </li>
-      <li className="ms-2">
+      <li className="mx-2">
         <Link
           to="/about"
           className="hover:underline flex items-center"
@@ -86,9 +86,9 @@ export const Header: React.FC = () => {
         </Link>
       </li>
       <hr className="my-3 border-gray-300" />
-      <li className="ms-2 mt-2 text-sm text-gray-600">lit.link</li>
+      <li className="mx-2 mt-2 text-sm text-gray-600">lit.link</li>
       {TARGETS.map((target) => (
-        <li key={target.id} className="ms-6">
+        <li key={target.id} className="ms-6 me-2">
           <Link
             to={`https://lit.link/${target.id}`}
             target="_blank"
@@ -115,7 +115,7 @@ export const Header: React.FC = () => {
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-72">
+              <SheetContent side="left" className="w-64">
                 <SheetHeader className="bg-header-bg">
                   <SheetTitle onClick={() => setIsOpen(false)}>
                     ルミナス所属アイドル
