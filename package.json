@@ -1,12 +1,13 @@
 {
-  "name": "temp-vite-project",
+  "name": "www-livelist",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite --base=/livelist-test/",
     "build": "tsc -b && vite build --base=/livelist-test/",
     "deploy": "rsync -avz --delete --exclude=\"*.json\" ./dist/ momo-lab.net:www/livelist-test/",
+    "full-deploy": "yarn lint && yarn format && yarn build && yarn deploy",
     "lint": "eslint .",
     "format": "prettier --write .",
     "preview": "vite preview"
