@@ -9,7 +9,7 @@ interface LiveEvent {
   date: string;
   formatted_date: string;
   content: string;
-  image: string;
+  image?: string;
   link: string;
 }
 
@@ -96,7 +96,7 @@ export const useLiveEvents = (
       );
       return eventDay < today;
     })
-    .map((event) => ({
+    .map(({ image: _, ...event }) => ({
       ...event,
       formatted_date: formatDate(event.date, 'past'),
     }))

@@ -23,6 +23,13 @@ export default tseslint.config([
     },
     rules: {
       'react-refresh/only-export-components': 'off', // このルールを無効化
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
     },
   },
 ]);

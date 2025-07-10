@@ -19,7 +19,7 @@ interface LiveEvent {
   date: string;
   formatted_date: string;
   content: string;
-  image: string;
+  image?: string;
   link: string;
 }
 
@@ -86,9 +86,19 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({
                       </LinkButton>
                     )}
                   </div>
-                  <pre className="whitespace-pre-wrap font-sans">
-                    {event.content}
-                  </pre>
+                  <div className="flex item-start gap-2">
+                    {event.image ? (
+                      <img
+                        src={event.image}
+                        className="w-12 h-12 border border-gray-200 rounded-lg"
+                      />
+                    ) : (
+                      ''
+                    )}
+                    <pre className="whitespace-pre-wrap font-sans">
+                      {event.content}
+                    </pre>
+                  </div>
                 </div>
               </TableCell>
             </TableRow>
