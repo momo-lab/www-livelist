@@ -7,6 +7,7 @@ interface LiveEvent {
   name: string;
   short_name: string;
   date: string;
+  formatted_date: string;
   content: string;
   image: string;
   link: string;
@@ -69,16 +70,21 @@ export const useLiveEvents = (
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-  const upcomingEvents = filteredEvents.filter((event) => {
-    // filteredEventsを使用
-    const eventDate = new Date(event.date);
-    const eventDay = new Date(
-      eventDate.getFullYear(),
-      eventDate.getMonth(),
-      eventDate.getDate()
-    );
-    return eventDay >= today;
-  });
+  const upcomingEvents = filteredEvents
+    .filter((event) => {
+      // filteredEventsを使用
+      const eventDate = new Date(event.date);
+      const eventDay = new Date(
+        eventDate.getFullYear(),
+        eventDate.getMonth(),
+        eventDate.getDate()
+      );
+      return eventDay >= today;
+    })
+    .map((event) => ({
+      ...event,
+      formatted_date: formatDate(event.date, 'upcoming'),
+    }));
 
   const pastEvents = filteredEvents // filteredEventsを使用
     .filter((event) => {
@@ -90,6 +96,10 @@ export const useLiveEvents = (
       );
       return eventDay < today;
     })
+    .map((event) => ({
+      ...event,
+      formatted_date: formatDate(event.date, 'past'),
+    }))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   // 日付ごとにグループ化し、rowspan情報を付与するヘルパー関数
@@ -100,13 +110,11 @@ export const useLiveEvents = (
     let lastFormattedDate = '';
 
     return eventsToProcess.reduce((acc: ProcessedLiveEvent[], event) => {
-      const formattedDate = formatDate(event.date);
-
-      if (formattedDate !== lastFormattedDate) {
+      if (event.formatted_date !== lastFormattedDate) {
         currentGroupIndex++;
-        lastFormattedDate = formattedDate;
+        lastFormattedDate = event.formatted_date;
         const dayEvents = eventsToProcess.filter(
-          (e) => formatDate(e.date) === formattedDate
+          (e) => e.formatted_date === event.formatted_date
         );
         acc.push({
           ...event,

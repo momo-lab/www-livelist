@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/table';
 import { LinkButton } from '@/components/ui/LinkButton';
 import { ExternalLink } from 'lucide-react';
-import { formatDate, getBadgeVariant } from '@/lib/utils'; // ヘルパー関数をインポート
+import { getBadgeVariant } from '@/lib/utils';
 
 // LiveEventとProcessedLiveEventの型定義をuseLiveEvents.tsからコピー
 interface LiveEvent {
@@ -17,6 +17,7 @@ interface LiveEvent {
   name: string;
   short_name: string;
   date: string;
+  formatted_date: string;
   content: string;
   image: string;
   link: string;
@@ -66,7 +67,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({
                   rowSpan={event.rowspan}
                   className={`font-medium ${dateBgColor} w-fit border-r border-gray-200`}
                 >
-                  <div className="px-4 py-2">{formatDate(event.date)}</div>
+                  <div className="px-4 py-2">{event.formatted_date}</div>
                 </TableCell>
               )}
               <TableCell>
