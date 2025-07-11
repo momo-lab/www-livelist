@@ -10,7 +10,7 @@ import {
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { CalendarCheck, CalendarDays, ExternalLink, Info, Menu } from 'lucide-react';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const TITLES: Record<string, string> = {
   '/': '開催予定のライブ',
@@ -21,6 +21,7 @@ const TITLES: Record<string, string> = {
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { idols } = useLiveEvents(); // idolsを取得
+  const location = useLocation();
 
   const base = import.meta.env.BASE_URL; // 例: "/app/"
   const relativePath = location.pathname.replace(new RegExp(`^${base}`), '/');
@@ -103,6 +104,18 @@ export const Header: React.FC = () => {
           </div>
 
           <div className="text-2xl font-semibold whitespace-nowrap">{title}</div>
+        </div>
+        <div>
+          {relativePath === '/' && (
+            <Button asChild variant="secondary" className="w-20">
+              <Link to="/past">過去分</Link>
+            </Button>
+          )}
+          {relativePath === '/past' && (
+            <Button asChild variant="secondary" className="w-20">
+              <Link to="/">開催予定</Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>
