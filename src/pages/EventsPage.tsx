@@ -20,37 +20,35 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
   }, [selectedIdols]);
 
   // useLiveEventsにselectedIdolsを渡す
-  const { processedUpcomingEvents, processedPastEvents, uniqueIdolNames, loading, error } =
+  const { processedUpcomingEvents, processedPastEvents, idols, loading, error } =
     useLiveEvents(selectedIdols);
 
   // uniqueIdolNamesがロードされた後に、selectedIdolsが空であれば全て選択状態にする
   useEffect(() => {
-    if (uniqueIdolNames.length > 0 && selectedIdols.length === 0) {
-      setSelectedIdols(uniqueIdolNames);
+    if (idols.length > 0 && selectedIdols.length === 0) {
+      setSelectedIdols(idols.map((v) => v.id));
     }
-  }, [uniqueIdolNames, selectedIdols]);
+  }, [idols, selectedIdols]);
 
   // トグルボタンのクリックハンドラ
-  const handleToggleIdol = (idolName: string) => {
+  const handleToggleIdol = (id: string) => {
     setSelectedIdols((prevSelectedIdols) => {
-      if (prevSelectedIdols.includes(idolName)) {
+      if (prevSelectedIdols.includes(id)) {
         // 既に選択されている場合は削除
-        const newSelected = prevSelectedIdols.filter((name) => name !== idolName);
+        const newSelected = prevSelectedIdols.filter((v) => v !== id);
         // 全て非表示になった場合は、uniqueIdolNamesをセットして全て表示状態にする
         // ここでuniqueIdolNamesを使用することで、全てのアイドルが非表示になるのを防ぐ
-        return newSelected.length === 0 && uniqueIdolNames.length > 0
-          ? uniqueIdolNames
-          : newSelected;
+        return newSelected.length === 0 && idols.length > 0 ? idols.map((v) => v.id) : newSelected;
       } else {
         // 選択されていない場合は追加
-        return [...prevSelectedIdols, idolName];
+        return [...prevSelectedIdols, id];
       }
     });
   };
 
   // 長押し時のハンドラ
-  const handleLongPressIdol = (idolName: string) => {
-    setSelectedIdols([idolName]); // 長押しされたアイドルのみを選択
+  const handleLongPressIdol = (id: string) => {
+    setSelectedIdols([id]); // 長押しされたアイドルのみを選択
   };
 
   if (loading) {
@@ -74,7 +72,7 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
       />
 
       {eventsToDisplay.length > 0 ? (
-        <LiveEventTable processedEvents={eventsToDisplay} />
+        <LiveEventTable processedEvents={eventsToDisplay} idols={idols} />
       ) : (
         <p className="p-4 text-center">{noEventsMessage}</p>
       )}

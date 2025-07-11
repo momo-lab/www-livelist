@@ -1,11 +1,11 @@
-import { IDOLS } from '@/lib/constants';
+import { useLiveEvents } from '@/hooks/useLiveEvents';
 import * as React from 'react';
 import { IdolFilterButton } from './IdolFilterButton';
 
 interface IdolFilterProps {
   selectedIdols: string[];
-  onToggleIdol: (idolName: string) => void;
-  onLongPressIdol: (idolName: string) => void;
+  onToggleIdol: (id: string) => void;
+  onLongPressIdol: (id: string) => void;
 }
 
 export const IdolFilter: React.FC<IdolFilterProps> = ({
@@ -13,18 +13,21 @@ export const IdolFilter: React.FC<IdolFilterProps> = ({
   onToggleIdol,
   onLongPressIdol,
 }) => {
+  const { idols } = useLiveEvents([]);
+
   return (
     <div className="my-2 flex flex-wrap gap-2">
-      {IDOLS.map((filter) => {
-        const isSelected = selectedIdols.includes(filter.name);
+      {idols.map((idol) => {
+        const isSelected = selectedIdols.includes(idol.id);
         return (
           <IdolFilterButton
-            key={filter.name}
-            filterId={filter.id}
-            filterName={filter.name}
+            key={idol.id}
+            id={idol.id}
+            name={idol.short_name}
             isSelected={isSelected}
             onToggleIdol={onToggleIdol}
             onLongPressIdol={onLongPressIdol}
+            idolColors={idol.colors}
           />
         );
       })}

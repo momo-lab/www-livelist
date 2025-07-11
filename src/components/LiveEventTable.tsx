@@ -8,15 +8,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { getBadgeVariant } from '@/lib/utils';
+import type { Idol, ProcessedLiveEvent } from '@/types';
 import { ExternalLink } from 'lucide-react';
-import type { LiveEvent, ProcessedLiveEvent } from '@/types';
 
 interface LiveEventTableProps {
   processedEvents: ProcessedLiveEvent[];
+  idols: Idol[];
 }
 
-export const LiveEventTable: React.FC<LiveEventTableProps> = ({ processedEvents }) => {
+export const LiveEventTable: React.FC<LiveEventTableProps> = ({ processedEvents, idols }) => {
   return (
     <Table className="rounded-lg border border-gray-200">
       <TableHeader>
@@ -30,6 +30,15 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ processedEvents 
           const dateObj = new Date(event.date);
           const dayOfWeek = dateObj.getDay(); // 0:日, 1:月, ..., 6:土
           const dateBgColor = dayOfWeek === 0 ? 'bg-red-100' : dayOfWeek === 6 ? 'bg-blue-100' : '';
+
+          const idol = idols.find((i) => i.id === event.id);
+          const badgeStyle = idol
+            ? {
+                backgroundColor: idol.colors.background,
+                color: idol.colors.foreground,
+                borderColor: idol.colors.text,
+              }
+            : {};
 
           return (
             <TableRow
@@ -47,7 +56,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ processedEvents 
               <TableCell>
                 <div className="px-4 py-2">
                   <div className="mb-2 flex items-center">
-                    <Badge variant={getBadgeVariant(event.url)}>{event.short_name}</Badge>
+                    <Badge style={badgeStyle}>{event.short_name}</Badge>
                     {event.link && (
                       <LinkButton href={event.link} className="ml-auto inline-flex items-center">
                         <ExternalLink className="me-1 h-4 w-4" />

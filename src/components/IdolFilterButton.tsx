@@ -1,47 +1,63 @@
 import { Button, buttonVariants } from '@/components/ui/button';
 import { useLongPress } from '@/hooks/useLongPress';
 import { cn } from '@/lib/utils';
+import type { Idol } from '@/types';
 import type { VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 
 interface IdolFilterButtonProps {
-  filterId: string;
-  filterName: string;
+  id: string;
+  name: string;
   isSelected: boolean;
-  onToggleIdol: (idolName: string) => void;
-  onLongPressIdol: (idolName: string) => void;
+  onToggleIdol: (id: string) => void;
+  onLongPressIdol: (id: string) => void;
+  idolColors: Idol['colors'];
 }
 
 export const IdolFilterButton: React.FC<IdolFilterButtonProps> = ({
-  filterId,
-  filterName,
+  id,
+  name,
   isSelected,
   onToggleIdol,
   onLongPressIdol,
+  idolColors,
 }) => {
-  const variant = (isSelected ? filterId : `${filterId}-outline`) as VariantProps<
+  const variant = (isSelected ? id : `${id}-outline`) as VariantProps<
     typeof buttonVariants
   >['variant'];
 
   const longPressEventHandlers = useLongPress({
     onLongPress: () => {
-      onLongPressIdol(filterName);
+      onLongPressIdol(id);
     },
     onClick: () => {
-      onToggleIdol(filterName);
+      onToggleIdol(id);
     },
   });
 
+  const style = isSelected
+    ? {
+        backgroundColor: idolColors.background,
+        color: idolColors.foreground,
+        borderColor: idolColors.text,
+      }
+    : {
+        backgroundColor: 'transparent',
+        color: idolColors.text,
+        borderColor: idolColors.text,
+      };
+
   return (
     <Button
-      key={filterName}
+      key={id}
       variant={variant}
       size="sm"
       className={cn('cursor-pointer', 'select-none', !isSelected && 'opacity-70 hover:opacity-100')}
       onContextMenu={(e) => e.preventDefault()}
+      style={style}
       {...longPressEventHandlers}
     >
-      {filterName}
+      {name}
     </Button>
   );
 };

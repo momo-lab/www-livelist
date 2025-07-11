@@ -7,7 +7,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { IDOLS } from '@/lib/constants';
+import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { CalendarCheck, CalendarDays, ExternalLink, Info, Menu } from 'lucide-react';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -20,6 +20,7 @@ const TITLES: Record<string, string> = {
 
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { idols } = useLiveEvents([]); // idolsを取得
 
   const base = import.meta.env.BASE_URL; // 例: "/app/"
   const relativePath = location.pathname.replace(new RegExp(`^${base}`), '/');
@@ -55,17 +56,17 @@ export const Header: React.FC = () => {
       </li>
       <hr className="my-3 border-gray-300" />
       <li className="mx-2 mt-2 text-sm text-gray-600">lit.link</li>
-      {IDOLS.map((target) => (
-        <li key={target.id} className="ms-6 me-2">
+      {idols.map((idol) => (
+        <li key={idol.id} className="ms-6 me-2">
           <Link
-            to={`https://lit.link/${target.id}`}
+            to={`https://lit.link/${idol.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center hover:underline"
             onClick={() => setIsOpen(false)}
           >
             <ExternalLink className="mr-2 h-4 w-4" />
-            {target.name}
+            {idol.name}
           </Link>
         </li>
       ))}

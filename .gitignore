@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+public/idols.json
+public/data.json
+
 
 # Editor directories and files
 .vscode/*

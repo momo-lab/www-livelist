@@ -1,6 +1,6 @@
 import { formatDate } from '@/lib/utils';
-import { useEffect, useMemo, useState } from 'react'; // useMemoを追加
-import type { LiveEvent, ProcessedLiveEvent } from '@/types';
+import type { Idol, LiveEvent, ProcessedLiveEvent } from '@/types';
+import { useEffect, useMemo, useState } from 'react';
 
 export const useLiveEvents = (
   selectedIdols: string[] // フィルタリング対象のアイドル名を受け取る
@@ -8,23 +8,27 @@ export const useLiveEvents = (
   const [events, setEvents] = useState<LiveEvent[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [uniqueIdolNames, setUniqueIdolNames] = useState<string[]>([]); // ユニークなアイドル名を追加
+  const [idols, setIdols] = useState<Idol[]>([]); // アイドルデータを保持するstate
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.BASE_URL}data.json?cachebuster=${new Date().getTime()}`
-        );
-        if (!response.ok) {
-          throw new Error('データの取得に失敗しました。');
-        }
-        const data: LiveEvent[] = await response.json();
-        setEvents(data);
+        const [eventsResponse, idolsResponse] = await Promise.all([
+          fetch(`${import.meta.env.BASE_URL}data.json?cachebuster=${new Date().getTime()}`),
+          fetch(`${import.meta.env.BASE_URL}idols.json?cachebuster=${new Date().getTime()}`),
+        ]);
 
-        // ユニークなアイドル名を取得
-        const names = Array.from(new Set(data.map((event) => event.short_name)));
-        setUniqueIdolNames(names);
+        if (!eventsResponse.ok) {
+          throw new Error('イベントデータの取得に失敗しました。');
+        }
+        const eventsData: LiveEvent[] = await eventsResponse.json();
+        setEvents(eventsData);
+
+        if (!idolsResponse.ok) {
+          throw new Error('アイドルデータの取得に失敗しました。');
+        }
+        const idolsData: Idol[] = await idolsResponse.json();
+        setIdols(idolsData);
       } catch (err) {
         setError(err instanceof Error ? err.message : '不明なエラーが発生しました。');
       } finally {
@@ -32,17 +36,15 @@ export const useLiveEvents = (
       }
     };
 
-    fetchEvents();
+    fetchData();
   }, []);
 
   // フィルタリングされたイベントを計算
   const filteredEvents = useMemo(() => {
-    // selectedIdolsが空の場合は、全てのイベントを返す
-    // App.tsxでselectedIdolsがuniqueIdolNamesで初期化されるため、この条件はselectedIdolsが空の配列として渡された場合にのみ適用される
     if (selectedIdols.length === 0) {
       return events;
     }
-    return events.filter((event) => selectedIdols.includes(event.short_name));
+    return events.filter((event) => selectedIdols.includes(event.id));
   }, [events, selectedIdols]);
 
   // イベントを今後の予定と過去の履歴に分類し、過去の履歴をソート
@@ -51,7 +53,6 @@ export const useLiveEvents = (
 
   const upcomingEvents = filteredEvents
     .filter((event) => {
-      // filteredEventsを使用
       const eventDate = new Date(event.date);
       const eventDay = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
       return eventDay >= today;
@@ -61,7 +62,7 @@ export const useLiveEvents = (
       formatted_date: formatDate(event.date, 'upcoming'),
     }));
 
-  const pastEvents = filteredEvents // filteredEventsを使用
+  const pastEvents = filteredEvents
     .filter((event) => {
       const eventDate = new Date(event.date);
       const eventDay = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
@@ -106,7 +107,7 @@ export const useLiveEvents = (
   return {
     processedUpcomingEvents,
     processedPastEvents,
-    uniqueIdolNames,
+    idols, // フェッチしたアイドルデータを返す
     loading,
     error,
   };
