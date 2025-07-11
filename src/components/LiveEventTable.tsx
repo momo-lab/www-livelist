@@ -10,24 +10,7 @@ import {
 } from '@/components/ui/table';
 import { getBadgeVariant } from '@/lib/utils';
 import { ExternalLink } from 'lucide-react';
-
-// LiveEventとProcessedLiveEventの型定義をuseLiveEvents.tsからコピー
-interface LiveEvent {
-  url: string;
-  name: string;
-  short_name: string;
-  date: string;
-  formatted_date: string;
-  content: string;
-  image?: string;
-  link: string;
-}
-
-interface ProcessedLiveEvent extends LiveEvent {
-  rowspan?: number;
-  isFirstOfDay?: boolean;
-  groupIndex?: number;
-}
+import type { LiveEvent, ProcessedLiveEvent } from '@/types';
 
 interface LiveEventTableProps {
   processedEvents: ProcessedLiveEvent[];

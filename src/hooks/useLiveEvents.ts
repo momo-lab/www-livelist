@@ -1,23 +1,6 @@
 import { formatDate } from '@/lib/utils';
 import { useEffect, useMemo, useState } from 'react'; // useMemoを追加
-
-// データの型定義
-interface LiveEvent {
-  url: string;
-  name: string;
-  short_name: string;
-  date: string;
-  formatted_date: string;
-  content: string;
-  image?: string;
-  link: string;
-}
-
-interface ProcessedLiveEvent extends LiveEvent {
-  rowspan?: number;
-  isFirstOfDay?: boolean;
-  groupIndex?: number;
-}
+import type { LiveEvent, ProcessedLiveEvent } from '@/types';
 
 export const useLiveEvents = (
   selectedIdols: string[] // フィルタリング対象のアイドル名を受け取る
