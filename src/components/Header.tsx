@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
-import { CalendarCheck, CalendarDays, ExternalLink, Info, Menu } from 'lucide-react';
+import { Archive, CalendarCheck, CalendarDays, ExternalLink, Info, Menu } from 'lucide-react';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -71,6 +71,19 @@ export const Header: React.FC = () => {
           </Link>
         </li>
       ))}
+      <hr className="my-3 border-gray-300" />
+      <li className="mx-2">
+        <Link
+          to="https://docs.google.com/spreadsheets/d/e/2PACX-1vSeF4PaaPYeT1TNHS6Yoc2p2-8e8g-pMNSOq-n0OKhr9on10lLdB3ybte0i_iNCKjpbKB0WELg190-2/pubhtml"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center hover:underline"
+          onClick={() => setIsOpen(false)}
+        >
+          <Archive className="mr-2 h-4 w-4" />
+          旧サイト(削除予定)
+        </Link>
+      </li>
     </>
   );
 
