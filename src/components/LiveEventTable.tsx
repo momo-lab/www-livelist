@@ -36,7 +36,6 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ processedEvents,
             ? {
                 backgroundColor: idol.colors.background,
                 color: idol.colors.foreground,
-                borderColor: idol.colors.text,
               }
             : {};
 

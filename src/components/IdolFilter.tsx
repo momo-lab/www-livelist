@@ -1,6 +1,6 @@
-import { useLiveEvents } from '@/hooks/useLiveEvents';
 import * as React from 'react';
-import { IdolFilterButton } from './IdolFilterButton';
+import { ToggleButton } from './ToggleButton';
+import { useLiveEvents } from '@/hooks/useLiveEvents';
 
 interface IdolFilterProps {
   selectedIdols: string[];
@@ -19,15 +19,25 @@ export const IdolFilter: React.FC<IdolFilterProps> = ({
     <div className="my-2 flex flex-wrap gap-2">
       {idols.map((idol) => {
         const isSelected = selectedIdols.includes(idol.id);
+        const style = isSelected ? {
+          backgroundColor: idol.colors.background,
+          color: idol.colors.foreground,
+          borderColor: idol.colors.text,
+        } : {
+          backgroundColor: 'transparent',
+          color: idol.colors.text,
+          borderColor: idol.colors.text,
+        };
+
         return (
-          <IdolFilterButton
+          <ToggleButton
             key={idol.id}
-            id={idol.id}
-            name={idol.short_name}
+            value={idol.id}
+            label={idol.short_name}
             isSelected={isSelected}
-            onToggleIdol={onToggleIdol}
-            onLongPressIdol={onLongPressIdol}
-            idolColors={idol.colors}
+            onToggle={onToggleIdol}
+            onLongPress={onLongPressIdol}
+            style={style}
           />
         );
       })}
