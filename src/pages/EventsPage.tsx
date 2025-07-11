@@ -23,32 +23,9 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
   const { processedUpcomingEvents, processedPastEvents, idols, loading, error } =
     useLiveEvents(selectedIdols);
 
-  // uniqueIdolNamesがロードされた後に、selectedIdolsが空であれば全て選択状態にする
-  useEffect(() => {
-    if (idols.length > 0 && selectedIdols.length === 0) {
-      setSelectedIdols(idols.map((v) => v.id));
-    }
-  }, [idols, selectedIdols]);
-
-  // トグルボタンのクリックハンドラ
-  const handleToggleIdol = (id: string) => {
-    setSelectedIdols((prevSelectedIdols) => {
-      if (prevSelectedIdols.includes(id)) {
-        // 既に選択されている場合は削除
-        const newSelected = prevSelectedIdols.filter((v) => v !== id);
-        // 全て非表示になった場合は、uniqueIdolNamesをセットして全て表示状態にする
-        // ここでuniqueIdolNamesを使用することで、全てのアイドルが非表示になるのを防ぐ
-        return newSelected.length === 0 && idols.length > 0 ? idols.map((v) => v.id) : newSelected;
-      } else {
-        // 選択されていない場合は追加
-        return [...prevSelectedIdols, id];
-      }
-    });
-  };
-
-  // 長押し時のハンドラ
-  const handleLongPressIdol = (id: string) => {
-    setSelectedIdols([id]); // 長押しされたアイドルのみを選択
+  // IdolFilterから選択されたアイドルリストを受け取るハンドラ
+  const handleSelectedIdolsChange = (newSelectedIdols: string[]) => {
+    setSelectedIdols(newSelectedIdols);
   };
 
   if (loading) {
@@ -66,9 +43,8 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
   return (
     <div className="container mx-auto px-4 py-4">
       <IdolFilter
-        selectedIdols={selectedIdols}
-        onToggleIdol={handleToggleIdol}
-        onLongPressIdol={handleLongPressIdol}
+        initialSelectedIdols={selectedIdols}
+        onSelectedIdolsChange={handleSelectedIdolsChange}
       />
 
       {eventsToDisplay.length > 0 ? (
