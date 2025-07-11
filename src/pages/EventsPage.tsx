@@ -2,7 +2,7 @@ import { IdolFilter } from '@/components/IdolFilter';
 import { LiveEventTable } from '@/components/LiveEventTable';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { formatDate } from '@/lib/utils';
-import type { ProcessedLiveEvent, LiveEvent } from '@/types';
+import type { LiveEvent, ProcessedLiveEvent } from '@/types';
 import React, { useEffect, useMemo, useState } from 'react';
 
 interface EventsPageProps {
@@ -35,17 +35,15 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
 
   const events = useMemo(() => {
     let events = allEvents
-      .filter((e) => mode == 'upcoming'
-        ? toDate(e.date) >= today
-        : toDate(e.date) < today)
-      .map(e => ({
+      .filter((e) => (mode == 'upcoming' ? toDate(e.date) >= today : toDate(e.date) < today))
+      .map((e) => ({
         ...e,
-        formatted_date: formatDate(e.date, mode)
+        formatted_date: formatDate(e.date, mode),
       }));
     if (mode == 'past') {
       // 過去履歴なら画像は不要で逆順
       events = events
-        .map(({image: _, ...e}) => e)
+        .map(({ image: _, ...e }) => e)
         .sort((a, b) => b.date.getTime() - a.date.getTime());
     }
     return events;
@@ -54,7 +52,7 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
   // フィルタ
   const filteredEvents = useMemo(() => {
     if (selectedIdols.length === 0) {
-      return allEvents;
+      return events;
     }
     return events.filter((event) => selectedIdols.includes(event.id));
   }, [events, selectedIdols]);
