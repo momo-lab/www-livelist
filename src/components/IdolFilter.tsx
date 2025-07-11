@@ -1,6 +1,6 @@
+import { ToggleButton } from '@/components/ui/ToggleButton';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import * as React from 'react';
-import { ToggleButton } from './ToggleButton';
 
 interface IdolFilterProps {
   selectedIdols: string[];
