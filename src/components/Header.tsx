@@ -7,6 +7,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import { IDOLS } from '@/lib/constants';
 import { CalendarCheck, CalendarDays, ExternalLink, Info, Menu } from 'lucide-react';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -16,29 +17,6 @@ const TITLES: Record<string, string> = {
   '/past': '過去のライブ',
   '/about': 'このサイトについて',
 };
-
-const TARGETS = [
-  {
-    id: 'mofcro',
-    name: 'もふる×クロス',
-    short_name: 'もふクロ',
-  },
-  {
-    id: 'girudoru',
-    name: '新世界ギルドール',
-    short_name: '新ギル',
-  },
-  {
-    id: 'mofrurock',
-    name: 'MofruRock',
-    short_name: 'MofruRock',
-  },
-  {
-    id: 'osahoto',
-    name: '推さぬなら推させてみようホトトギス',
-    short_name: '推さホト',
-  },
-];
 
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -77,7 +55,7 @@ export const Header: React.FC = () => {
       </li>
       <hr className="my-3 border-gray-300" />
       <li className="mx-2 mt-2 text-sm text-gray-600">lit.link</li>
-      {TARGETS.map((target) => (
+      {IDOLS.map((target) => (
         <li key={target.id} className="ms-6 me-2">
           <Link
             to={`https://lit.link/${target.id}`}
