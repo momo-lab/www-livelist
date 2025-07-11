@@ -26,7 +26,6 @@ export const IdolFilter: React.FC<IdolFilterProps> = ({
   }, [idols, selectedIdols]);
 
   useEffect(() => {
-    console.log(selectedIdols);
     onSelectedIdolsChange(selectedIdols);
   }, [selectedIdols, onSelectedIdolsChange]);
 

@@ -16,7 +16,7 @@ export interface LiveEvent {
   url: string;
   name: string;
   short_name: string;
-  date: string;
+  date: Date;
   formatted_date: string;
   content: string;
   image?: string;

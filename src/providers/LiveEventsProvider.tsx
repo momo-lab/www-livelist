@@ -15,7 +15,6 @@ export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('fetch start');
         const [eventsResponse, idolsResponse] = await Promise.all([
           fetch(`${import.meta.env.BASE_URL}data.json?cachebuster=${new Date().getTime()}`),
           fetch(`${import.meta.env.BASE_URL}idols.json?cachebuster=${new Date().getTime()}`),
@@ -24,7 +23,11 @@ export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children
         if (!eventsResponse.ok) {
           throw new Error('イベントデータの取得に失敗しました。');
         }
-        const eventsData: LiveEvent[] = await eventsResponse.json();
+        const eventsData: LiveEvent[] = (await eventsResponse.json())
+        .map(({date, ...event}: {date: string}) => ({
+          ...event,
+          date: new Date(date),
+        }));
         setAllEvents(eventsData);
 
         if (!idolsResponse.ok) {

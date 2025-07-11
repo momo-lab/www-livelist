@@ -6,8 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // 日付を「6/1(月)」形式にフォーマットする関数
-export const formatDate = (dateString: string, mode: string): string => {
-  const date = new Date(dateString);
+export const formatDate = (date: Date, mode: string): string => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();

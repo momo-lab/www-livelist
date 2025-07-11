@@ -29,39 +29,35 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
     setSelectedIdols(newSelectedIdols);
   };
 
-  // イベントを今後の予定と過去の履歴に分類し、過去の履歴をソート
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  // 表示範囲のイベントのみ抽出
+  const toDate = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const today = toDate(new Date());
 
+  const events = useMemo(() => {
+    let events = allEvents
+      .filter((e) => mode == 'upcoming'
+        ? toDate(e.date) >= today
+        : toDate(e.date) < today)
+      .map(e => ({
+        ...e,
+        formatted_date: formatDate(e.date, mode)
+      }));
+    if (mode == 'past') {
+      // 過去履歴なら画像は不要で逆順
+      events = events
+        .map(({image: _, ...e}) => e)
+        .sort((a, b) => b.date.getTime() - a.date.getTime());
+    }
+    return events;
+  }, [allEvents, mode, today]);
+
+  // フィルタ
   const filteredEvents = useMemo(() => {
     if (selectedIdols.length === 0) {
       return allEvents;
     }
-    return allEvents.filter((event) => selectedIdols.includes(event.id));
-  }, [allEvents, selectedIdols]);
-
-  const upcomingEvents = filteredEvents
-    .filter((event) => {
-      const eventDate = new Date(event.date);
-      const eventDay = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
-      return eventDay >= today;
-    })
-    .map((event) => ({
-      ...event,
-      formatted_date: formatDate(event.date, 'upcoming'),
-    }));
-
-  const pastEvents = filteredEvents
-    .filter((event) => {
-      const eventDate = new Date(event.date);
-      const eventDay = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
-      return eventDay < today;
-    })
-    .map(({ image: _, ...event }) => ({
-      ...event,
-      formatted_date: formatDate(event.date, 'past'),
-    }))
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return events.filter((event) => selectedIdols.includes(event.id));
+  }, [events, selectedIdols]);
 
   // 日付ごとにグループ化し、rowspan情報を付与するヘルパー関数
   const processEventsForTable = (eventsToProcess: LiveEvent[]): ProcessedLiveEvent[] => {
@@ -89,9 +85,7 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
       return acc;
     }, []);
   };
-
-  const processedUpcomingEvents = processEventsForTable(upcomingEvents);
-  const processedPastEvents = processEventsForTable(pastEvents);
+  const eventsToDisplay = processEventsForTable(filteredEvents);
 
   if (loading) {
     return <div className="p-4">読み込み中...</div>;
@@ -101,7 +95,6 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
     return <div className="p-4 text-red-500">エラー: {error}</div>;
   }
 
-  const eventsToDisplay = mode === 'upcoming' ? processedUpcomingEvents : processedPastEvents;
   const noEventsMessage =
     mode === 'upcoming' ? '今後のライブ予定はありません。' : '過去のライブ履歴はありません。';
 
