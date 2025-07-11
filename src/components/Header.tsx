@@ -20,7 +20,7 @@ const TITLES: Record<string, string> = {
 
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { idols } = useLiveEvents([]); // idolsを取得
+  const { idols } = useLiveEvents(); // idolsを取得
 
   const base = import.meta.env.BASE_URL; // 例: "/app/"
   const relativePath = location.pathname.replace(new RegExp(`^${base}`), '/');

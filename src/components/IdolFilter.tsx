@@ -12,7 +12,7 @@ export const IdolFilter: React.FC<IdolFilterProps> = ({
   initialSelectedIdols,
   onSelectedIdolsChange,
 }) => {
-  const { idols } = useLiveEvents([]);
+  const { idols } = useLiveEvents();
   const [selectedIdols, setSelectedIdols] = useState<string[]>(initialSelectedIdols);
 
   useEffect(() => {
@@ -26,6 +26,7 @@ export const IdolFilter: React.FC<IdolFilterProps> = ({
   }, [idols, selectedIdols]);
 
   useEffect(() => {
+    console.log(selectedIdols);
     onSelectedIdolsChange(selectedIdols);
   }, [selectedIdols, onSelectedIdolsChange]);
 

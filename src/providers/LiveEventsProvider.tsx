@@ -1,0 +1,64 @@
+import { LiveEventsContext } from '@/contexts/LiveEventsContext';
+import type { Idol, LiveEvent } from '@/types';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+
+interface LiveEventsProviderProps {
+  children: React.ReactNode;
+}
+
+export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children }) => {
+  const [allEvents, setAllEvents] = useState<LiveEvent[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [idols, setIdols] = useState<Idol[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log('fetch start');
+        const [eventsResponse, idolsResponse] = await Promise.all([
+          fetch(`${import.meta.env.BASE_URL}data.json?cachebuster=${new Date().getTime()}`),
+          fetch(`${import.meta.env.BASE_URL}idols.json?cachebuster=${new Date().getTime()}`),
+        ]);
+
+        if (!eventsResponse.ok) {
+          throw new Error('イベントデータの取得に失敗しました。');
+        }
+        const eventsData: LiveEvent[] = await eventsResponse.json();
+        setAllEvents(eventsData);
+
+        if (!idolsResponse.ok) {
+          throw new Error('アイドルデータの取得に失敗しました。');
+        }
+        const idolsData: Idol[] = await idolsResponse.json();
+        setIdols(idolsData);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : '不明なエラーが発生しました。');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({
+      idols,
+      allEvents,
+      loading,
+      error,
+    }),
+    [idols, allEvents, loading, error]
+  );
+
+  return <LiveEventsContext.Provider value={contextValue}>{children}</LiveEventsContext.Provider>;
+};
+
+export const useLiveEventsContext = () => {
+  const context = useContext(LiveEventsContext);
+  if (context === undefined) {
+    throw new Error('useLiveEventsContext must be used within a LiveEventsProvider');
+  }
+  return context;
+};
