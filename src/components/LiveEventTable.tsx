@@ -8,15 +8,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import type { Idol, ProcessedLiveEvent } from '@/types';
+import type { TableEvent } from '@/types';
 import { ExternalLink } from 'lucide-react';
 
 interface LiveEventTableProps {
-  processedEvents: ProcessedLiveEvent[];
-  idols: Idol[];
+  tableData: TableEvent[];
 }
 
-export const LiveEventTable: React.FC<LiveEventTableProps> = ({ processedEvents, idols }) => {
+export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => {
   return (
     <Table className="rounded-lg border border-gray-200">
       <TableHeader>
@@ -26,16 +25,15 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ processedEvents,
         </TableRow>
       </TableHeader>
       <TableBody>
-        {processedEvents.map((event) => {
+        {tableData.map((event) => {
           const dateObj = new Date(event.date);
           const dayOfWeek = dateObj.getDay(); // 0:日, 1:月, ..., 6:土
           const dateBgColor = dayOfWeek === 0 ? 'bg-red-100' : dayOfWeek === 6 ? 'bg-blue-100' : '';
 
-          const idol = idols.find((i) => i.id === event.id);
-          const badgeStyle = idol
+          const badgeStyle = event.colors
             ? {
-                backgroundColor: idol.colors.background,
-                color: idol.colors.foreground,
+                backgroundColor: event.colors.background,
+                color: event.colors.foreground,
               }
             : {};
 
@@ -64,13 +62,11 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ processedEvents,
                     )}
                   </div>
                   <div className="item-start flex gap-2">
-                    {event.image ? (
+                    {event.image && (
                       <img
                         src={event.image}
                         className="h-12 w-12 rounded-lg border border-gray-200"
                       />
-                    ) : (
-                      ''
                     )}
                     <pre className="font-sans whitespace-pre-wrap">{event.content}</pre>
                   </div>

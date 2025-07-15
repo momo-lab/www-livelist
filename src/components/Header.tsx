@@ -25,6 +25,7 @@ export const Header: React.FC = () => {
 
   const base = import.meta.env.BASE_URL; // 例: "/app/"
   const relativePath = location.pathname.replace(new RegExp(`^${base}`), '/');
+  const isUpcoming = relativePath === '/';
   const title = TITLES[relativePath];
 
   const menuLinks = (
@@ -119,16 +120,9 @@ export const Header: React.FC = () => {
           <div className="text-2xl font-semibold whitespace-nowrap">{title}</div>
         </div>
         <div>
-          {relativePath === '/' && (
-            <Button asChild variant="secondary" className="w-20">
-              <Link to="/past">過去分</Link>
-            </Button>
-          )}
-          {relativePath === '/past' && (
-            <Button asChild variant="secondary" className="w-20">
-              <Link to="/">開催予定</Link>
-            </Button>
-          )}
+          <Button asChild variant="secondary" className="w-20">
+            <Link to={isUpcoming ? '/past' : '/'}>{isUpcoming ? '過去分' : '開催予定'}</Link>
+          </Button>
         </div>
       </div>
     </header>

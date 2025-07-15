@@ -23,8 +23,9 @@ export interface LiveEvent {
   link: string;
 }
 
-export interface ProcessedLiveEvent extends LiveEvent {
+export interface TableEvent extends LiveEvent {
   rowspan?: number;
   isFirstOfDay?: boolean;
   groupIndex?: number;
+  colors?: IdolColors;
 }
