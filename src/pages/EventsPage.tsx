@@ -37,7 +37,7 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
     mode === 'upcoming' ? '今後のライブ予定はありません。' : '過去のライブ履歴はありません。';
 
   return (
-    <div className="container mx-auto px-4 py-4">
+    <div className="container mx-auto px-4 pb-4">
       <IdolFilter selectedIdols={selectedIdols} onSelectedIdolsChange={handleSelectedIdolsChange} />
 
       {eventTableData.length > 0 ? (

@@ -7,7 +7,7 @@ export function Layout() {
     <>
       <ScrollToTop />
       <Header />
-      <div className="bg-background text-foreground pt-12 pb-2">
+      <div className="bg-background text-foreground pt-13 pb-2">
         <Outlet />
       </div>
       <footer className="bg-background text-foreground/50 border-t border-border py-2 text-center text-sm">
