@@ -8,6 +8,7 @@ export interface Idol {
   id: string;
   name: string;
   short_name: string;
+  twitter_id: string;
   colors: IdolColors;
 }
 

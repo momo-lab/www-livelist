@@ -78,6 +78,22 @@ export const Header: React.FC = () => {
         </li>
       ))}
       <hr className="my-3 border-border" />
+      <li className="mx-2 mt-2 text-sm text-muted-foreground">X.com</li>
+      {idols.map((idol) => (
+        <li key={idol.id} className="ms-6 me-2">
+          <Link
+            to={`https://x.com/${idol.twitter_id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground flex items-center hover:underline"
+            onClick={() => setIsOpen(false)}
+          >
+            <ExternalLink className="mr-2 h-4 w-4" />
+            {idol.name}
+          </Link>
+        </li>
+      ))}
+      <hr className="my-3 border-border" />
       <li className="mx-2">
         <Link
           to="https://docs.google.com/spreadsheets/d/e/2PACX-1vSeF4PaaPYeT1TNHS6Yoc2p2-8e8g-pMNSOq-n0OKhr9on10lLdB3ybte0i_iNCKjpbKB0WELg190-2/pubhtml"
@@ -100,7 +116,7 @@ export const Header: React.FC = () => {
           <div>
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Toggle menu">
+                <Button variant="ghost" size="icon" aria-label="Menu">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>

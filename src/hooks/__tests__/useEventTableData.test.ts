@@ -76,18 +76,21 @@ describe('useEventTableData', () => {
       id: 'idol1',
       name: 'Idol A',
       short_name: 'Idol A',
+      twitter_id: 'idol1_x',
       colors: { background: '#FF0000', foreground: '#FFFFFF', text: '#000000' },
     },
     {
       id: 'idol2',
       name: 'Idol B',
       short_name: 'Idol B',
+      twitter_id: 'idol2_x',
       colors: { background: '#00FF00', foreground: '#000000', text: '#000000' },
     },
     {
       id: 'idol3',
       name: 'Idol C',
       short_name: 'Idol C',
+      twitter_id: 'idol3_x',
       colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' },
     },
   ];

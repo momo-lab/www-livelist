@@ -19,6 +19,7 @@ describe('useLiveEvents', () => {
           id: '1',
           name: 'Idol 1',
           short_name: 'Idol 1',
+          twitter_id: 'idol1_x',
           colors: { background: '#000', foreground: '#fff', text: '#000' },
         },
       ],
