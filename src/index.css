@@ -58,41 +58,41 @@
   --radius: 0.625rem;
 
   /* 基本 */
-  --background: oklch(0.98 0.002 142.5);
-  --foreground: oklch(0.33 0.04 258);
+  --background: oklch(0.985 0.001 150); /* ごくわずかにミントがかった白 */
+  --foreground: oklch(0.35 0.02 260); /* グレーに近いネイビー */
 
   /* ヘッダー */
-  --header: oklch(0.8 0.04 142.5);
+  --header: oklch(0.92 0.01 145); /* ほんのりミントグレー */
 
-  /* カード */
-  --card: oklch(0.97 0.01 160); /* 背景よりわずかに明るい中間層 */
+  /* カード（背景よりわずかに強調） */
+  --card: oklch(0.96 0.003 150);
   --card-foreground: var(--foreground);
 
-  /* ポップオーバー */
-  --popover: oklch(1 0 0); /* ホワイトに維持：明快なUIを意識 */
+  /* ポップオーバー（背景とほぼ同じトーン） */
+  --popover: oklch(1 0 0);
   --popover-foreground: var(--foreground);
 
-  /* プライマリ・セカンダリ */
-  --primary: oklch(0.64 0.08 141);
-  --primary-foreground: oklch(0.94 0.01 250);
+  /* プライマリ・セカンダリ（淡いが少しだけ差をつける） */
+  --primary: oklch(0.7 0.05 145);
+  --primary-foreground: oklch(0.985 0.001 250);
 
-  --secondary: oklch(0.6 0.06 160);
-  --secondary-foreground: oklch(0.94 0.01 250);
+  --secondary: oklch(0.65 0.03 160);
+  --secondary-foreground: oklch(0.985 0.001 250);
 
-  /* ミュートカラー */
-  --muted: oklch(0.95 0.01 160); /* 背景に溶け込むような淡さ */
-  --muted-foreground: oklch(0.45 0.02 260);
+  /* ミュート系（境界線や背景と溶け込む） */
+  --muted: oklch(0.96 0.005 150);
+  --muted-foreground: oklch(0.5 0.01 260);
 
-  /* アクセント（強調要素） */
-  --accent: oklch(0.85 0.05 150);
+  /* アクセント（非優先情報用） */
+  --accent: oklch(0.85 0.02 150);
   --accent-foreground: var(--foreground);
 
-  /* 警告・エラー（くすみ系を避け、鮮明に） */
+  /* エラー系（わかりやすく明度高め） */
   --destructive: oklch(0.69 0.23 27);
   --destructive-foreground: oklch(1 0 0);
 
-  /* 枠線など */
-  --border: oklch(0.7 0.04 142.5);
+  /* 枠線・フォーム・フォーカス */
+  --border: oklch(0.85 0.01 150);
   --input: var(--border);
   --ring: var(--primary);
 }
