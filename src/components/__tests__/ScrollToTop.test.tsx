@@ -5,10 +5,12 @@ import { ScrollToTop } from '../ScrollToTop';
 
 // useLocationをモック化
 const mockUseLocationValue = { pathname: '/' };
-vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = await importOriginal();
+vi.mock('react-router-dom', async () => {
+  const originalModule = await vi.importActual<typeof import('react-router-dom')>(
+    'react-router-dom'
+  );
   return {
-    ...actual,
+    ...originalModule,
     useLocation: vi.fn(() => mockUseLocationValue),
   };
 });

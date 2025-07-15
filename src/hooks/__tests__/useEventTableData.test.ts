@@ -7,10 +7,10 @@ import { useLiveEvents } from '../useLiveEvents';
 vi.mock('../useLiveEvents');
 
 // Mock formatDate utility (already tested, but for isolation)
-vi.mock('@/lib/utils', async (importOriginal) => {
-  const actual = await importOriginal();
+vi.mock('@/lib/utils', async () => {
+  const originalModule = await vi.importActual<typeof import('@/lib/utils')>('@/lib/utils');
   return {
-    ...actual,
+    ...originalModule,
     formatDate: vi.fn((date: Date, mode: string) => {
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
