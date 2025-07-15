@@ -1,69 +1,78 @@
-# React + TypeScript + Vite
+# www-livelist
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+アイドルのライブ情報を一覧表示するWebサイトです。
 
-Currently, two official plugins are available:
+## プロジェクト概要
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+このプロジェクトは、[アイドルのライブ一覧を表示するサイト]を目的としています。
 
-## Expanding the ESLint configuration
+## 技術スタック
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **フロントエンド**: React, Vite
+- **スタイリング**: Tailwind CSS
+- **UIコンポーネント**: shadcn/ui
+- **パッケージ管理**: yarn
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 開発環境のセットアップ
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+1.  リポジトリをクローンします。
+    ```bash
+    git clone https://github.com/momo-lab/www-livelist.git
+    cd www-livelist
+    ```
+2.  依存関係をインストールします。
+    ```bash
+    yarn install
+    ```
+3.  開発サーバーを起動します。
+    ```bash
+    yarn dev
+    ```
+    開発サーバーは通常 `http://localhost:5173` で起動します。
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+## ビルドとデプロイ
+
+### 本番環境向けビルド
+
+```bash
+yarn build:prod
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 本番環境へのデプロイ
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+yarn deploy:prod
 ```
+
+### テスト環境向けビルド
+
+```bash
+yarn build:test
+```
+
+### テスト環境へのデプロイ
+
+```bash
+yarn deploy:test
+```
+
+## テスト
+
+ユニットテストを実行します。
+
+```bash
+yarn test
+```
+
+## コード品質
+
+コードの整形とリンティングを実行します。
+
+```bash
+yarn format
+yarn lint
+```
+
+## その他の情報
+
+- **コミットメッセージ**: コミットメッセージは日本語で記述してください。
