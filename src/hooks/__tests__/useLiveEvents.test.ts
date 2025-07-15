@@ -14,7 +14,7 @@ describe('useLiveEvents', () => {
 
   it('returns context value when used inside LiveEventsProvider', () => {
     const mockContextValue = {
-      idols: [{ id: '1', short_name: 'Idol 1', colors: { background: '#000', foreground: '#fff', text: '#000' } }],
+      idols: [{ id: '1', name: 'Idol 1', short_name: 'Idol 1', colors: { background: '#000', foreground: '#fff', text: '#000' } }],
       allEvents: [],
       loading: false,
       error: null,

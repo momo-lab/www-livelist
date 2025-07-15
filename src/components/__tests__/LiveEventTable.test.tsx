@@ -10,6 +10,7 @@ vi.mock('lucide-react', () => ({
 
 const mockTableData: TableEvent[] = [
   {
+    name: 'Event 1 Content',
     url: 'http://example.com/event1',
     date: new Date('2025-07-15T10:00:00Z'),
     content: 'Event 1 Content',
@@ -24,6 +25,7 @@ const mockTableData: TableEvent[] = [
     colors: { background: '#FF0000', foreground: '#FFFFFF', text: '#000000' },
   },
   {
+    name: 'Event 2 Content',
     url: 'http://example.com/event2',
     date: new Date('2025-07-15T12:00:00Z'),
     content: 'Event 2 Content',
@@ -38,6 +40,7 @@ const mockTableData: TableEvent[] = [
     colors: { background: '#00FF00', foreground: '#000000', text: '#000000' },
   },
   {
+    name: 'Event 3 Content',
     url: 'http://example.com/event3',
     date: new Date('2025-07-16T14:00:00Z'),
     content: 'Event 3 Content',
@@ -123,6 +126,7 @@ describe('LiveEventTable', () => {
 
   it('applies correct background color to date cell for Sunday', () => {
     const sundayEvent: TableEvent = {
+      name: 'Sunday Event',
       url: 'http://example.com/sunday',
       date: new Date('2025-07-13T10:00:00Z'), // Sunday
       content: 'Sunday Event',
@@ -143,6 +147,7 @@ describe('LiveEventTable', () => {
 
   it('applies correct background color to date cell for Saturday', () => {
     const saturdayEvent: TableEvent = {
+      name: 'Saturday Event',
       url: 'http://example.com/saturday',
       date: new Date('2025-07-12T10:00:00Z'), // Saturday
       content: 'Saturday Event',

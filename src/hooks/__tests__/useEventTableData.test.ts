@@ -25,39 +25,47 @@ describe('useEventTableData', () => {
   const mockAllEvents = [
     {
       id: 'idol1',
+      name: 'Event 1',
       date: new Date('2025-07-15T10:00:00Z'),
       content: 'Event 1',
       url: 'url1',
       short_name: 'Idol A',
       link: 'link1',
       image: 'image1',
+      formatted_date: '',
     },
     {
       id: 'idol2',
+      name: 'Event 2',
       date: new Date('2025-07-15T12:00:00Z'),
       content: 'Event 2',
       url: 'url2',
       short_name: 'Idol B',
       link: 'link2',
       image: 'image2',
+      formatted_date: '',
     },
     {
       id: 'idol1',
+      name: 'Event 3',
       date: new Date('2025-07-16T10:00:00Z'),
       content: 'Event 3',
       url: 'url3',
       short_name: 'Idol A',
       link: 'link3',
       image: 'image3',
+      formatted_date: '',
     },
     {
       id: 'idol3',
+      name: 'Event 4',
       date: new Date('2025-07-14T10:00:00Z'), // Past event
       content: 'Event 4',
       url: 'url4',
       short_name: 'Idol C',
       link: 'link4',
       image: 'image4',
+      formatted_date: '',
     },
   ];
 

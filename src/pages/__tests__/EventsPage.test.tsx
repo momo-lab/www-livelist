@@ -85,7 +85,18 @@ describe('EventsPage', () => {
 
   it('renders LiveEventTable when data is available', () => {
     vi.mocked(useEventTableData).mockReturnValue({
-      eventTableData: [{ id: 'event1', content: 'Test Event' }],
+      eventTableData: [
+        {
+          id: 'event1',
+          content: 'Test Event',
+          url: '',
+          name: 'Test Event',
+          short_name: '',
+          date: new Date(),
+          formatted_date: '',
+          link: '',
+        },
+      ],
     });
 
     render(<EventsPage mode="upcoming" />);
