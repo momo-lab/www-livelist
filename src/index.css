@@ -24,24 +24,13 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 
   /* 独自定義 */
-  --color-header-bg: #eeeeee;
+  --color-header-bg: var(--header);
+  --color-header-fg: var(--foreground);
 }
 
+/*
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -62,17 +51,48 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+}
+*/
+
+:root {
+  --radius: 0.625rem;
+
+  /* 基本 */
+  --background: oklch(0.94 0.01 142.5);
+  --foreground: oklch(0.33 0.04 258);
+
+  /* ヘッダー */
+  --header: oklch(0.8 0.04 142.5);
+
+  /* カード */
+  --card: oklch(0.97 0.01 160); /* 背景よりわずかに明るい中間層 */
+  --card-foreground: var(--foreground);
+
+  /* ポップオーバー */
+  --popover: oklch(1 0 0); /* ホワイトに維持：明快なUIを意識 */
+  --popover-foreground: var(--foreground);
+
+  /* プライマリ・セカンダリ */
+  --primary: oklch(0.64 0.08 141);
+  --primary-foreground: oklch(0.94 0.01 250);
+
+  --secondary: oklch(0.6 0.06 160);
+  --secondary-foreground: oklch(0.94 0.01 250);
+
+  /* ミュートカラー */
+  --muted: oklch(0.95 0.01 160); /* 背景に溶け込むような淡さ */
+  --muted-foreground: oklch(0.45 0.02 260);
+
+  /* アクセント（強調要素） */
+  --accent: oklch(0.85 0.05 150);
+  --accent-foreground: var(--foreground);
+
+  /* 警告・エラー（くすみ系を避け、鮮明に） */
+  --destructive: oklch(0.69 0.23 27);
+  --destructive-foreground: oklch(1 0 0);
+
+  /* 枠線など */
+  --border: #ff0000; /*oklch(0.79 0.04 132);*/
+  --input: var(--border);
+  --ring: var(--primary);
 }

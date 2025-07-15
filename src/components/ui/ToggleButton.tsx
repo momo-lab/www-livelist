@@ -34,7 +34,12 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({
       key={value}
       variant={isSelected ? 'default' : 'outline'}
       size="sm"
-      className={cn('cursor-pointer', 'select-none', !isSelected && 'opacity-70 hover:opacity-100')}
+      className={cn(
+        'border',
+        'cursor-pointer',
+        'select-none',
+        !isSelected && 'opacity-70 hover:opacity-100'
+      )}
       onContextMenu={(e) => e.preventDefault()}
       style={style}
       {...longPressEventHandlers}

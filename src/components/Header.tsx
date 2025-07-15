@@ -89,7 +89,7 @@ export const Header: React.FC = () => {
   );
 
   return (
-    <header className="bg-header-bg fixed top-0 z-50 w-full p-2">
+    <header className="bg-header-bg text-header-fg fixed top-0 z-50 w-full p-2">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <div>
@@ -100,7 +100,7 @@ export const Header: React.FC = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-64">
-                <SheetHeader className="bg-header-bg">
+                <SheetHeader className="bg-header-bg text-header-fg">
                   <SheetTitle onClick={() => setIsOpen(false)}>
                     ルミナス所属アイドル
                     <br />
@@ -120,7 +120,7 @@ export const Header: React.FC = () => {
           <div className="text-2xl font-semibold whitespace-nowrap">{title}</div>
         </div>
         <div>
-          <Button asChild variant="secondary" className="w-20">
+          <Button asChild className="w-20">
             <Link to={isUpcoming ? '/past' : '/'}>{isUpcoming ? '過去分' : '開催予定'}</Link>
           </Button>
         </div>
