@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterAll, beforeAll } from 'vitest';
+import type { Mock } from 'vitest';
 import { useLocation } from 'react-router-dom';
 import { ScrollToTop } from '../ScrollToTop';
 
@@ -38,7 +39,7 @@ describe('ScrollToTop', () => {
   });
 
   it('scrolls to top when pathname changes', () => {
-    const mockUseLocation = useLocation as vi.Mock;
+    const mockUseLocation = useLocation as Mock;
 
     const { rerender } = render(<ScrollToTop />);
     expect(scrollToSpy).toHaveBeenCalledWith(0, 0);

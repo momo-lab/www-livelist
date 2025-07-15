@@ -1,10 +1,11 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import type { Mock } from 'vitest';
 import { useLongPress } from '../useLongPress';
 
 describe('useLongPress', () => {
-  let onLongPressMock: vi.Mock;
-  let onClickMock: vi.Mock;
+  let onLongPressMock: Mock;
+  let onClickMock: Mock;
 
   beforeEach(() => {
     onLongPressMock = vi.fn();
