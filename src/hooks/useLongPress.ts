@@ -23,15 +23,19 @@ export const useLongPress = ({ onLongPress, onClick, delay = 500 }: LongPressOpt
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
+    isClickable.current = false; // clearが呼ばれたら常にfalseにする
+  }, []); // onClickへの依存を削除
+
+  const handlePointerUp = useCallback(() => {
     if (isClickable.current && onClick) {
       onClick();
-      isClickable.current = false;
     }
-  }, [onClick]);
+    clear();
+  }, [onClick, clear]);
 
   return {
     onPointerDown: start,
-    onPointerUp: clear,
+    onPointerUp: handlePointerUp,
     onPointerLeave: clear,
     onPointerCancel: clear,
   };
