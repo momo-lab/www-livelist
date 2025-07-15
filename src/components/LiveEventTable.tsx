@@ -61,7 +61,10 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
                   </div>
                   <div className="item-start flex gap-2">
                     {event.image && (
-                      <img src={event.image} className="h-12 w-12 rounded-lg border" />
+                      <img
+                        src={event.image}
+                        className="h-12 w-12 rounded-lg border border-border"
+                      />
                     )}
                     <pre className="font-sans whitespace-pre-wrap">{event.content}</pre>
                   </div>
