@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useEventTableData } from '../useEventTableData';
 import { useLiveEvents } from '../useLiveEvents';
 
@@ -16,7 +16,9 @@ vi.mock('@/lib/utils', async () => {
       const month = date.getMonth() + 1;
       const day = date.getDate();
       const dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()];
-      return mode === 'past' ? `${year}/${month}/${day}(${dayOfWeek})` : `${month}/${day}(${dayOfWeek})`;
+      return mode === 'past'
+        ? `${year}/${month}/${day}(${dayOfWeek})`
+        : `${month}/${day}(${dayOfWeek})`;
     }),
   };
 });
@@ -70,9 +72,24 @@ describe('useEventTableData', () => {
   ];
 
   const mockIdols = [
-    { id: 'idol1', name: 'Idol A', short_name: 'Idol A', colors: { background: '#FF0000', foreground: '#FFFFFF', text: '#000000' } },
-    { id: 'idol2', name: 'Idol B', short_name: 'Idol B', colors: { background: '#00FF00', foreground: '#000000', text: '#000000' } },
-    { id: 'idol3', name: 'Idol C', short_name: 'Idol C', colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' } },
+    {
+      id: 'idol1',
+      name: 'Idol A',
+      short_name: 'Idol A',
+      colors: { background: '#FF0000', foreground: '#FFFFFF', text: '#000000' },
+    },
+    {
+      id: 'idol2',
+      name: 'Idol B',
+      short_name: 'Idol B',
+      colors: { background: '#00FF00', foreground: '#000000', text: '#000000' },
+    },
+    {
+      id: 'idol3',
+      name: 'Idol C',
+      short_name: 'Idol C',
+      colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' },
+    },
   ];
 
   beforeEach(() => {

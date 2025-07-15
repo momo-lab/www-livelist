@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { describe, expect, it, vi } from 'vitest';
 import { Layout } from '../Layout';
 
 // HeaderとScrollToTopをモック化

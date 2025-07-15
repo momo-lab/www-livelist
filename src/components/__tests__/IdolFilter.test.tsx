@@ -1,13 +1,25 @@
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { IdolFilter } from '../IdolFilter';
 import { LiveEventsProvider } from '@/providers/LiveEventsProvider';
+import { render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { IdolFilter } from '../IdolFilter';
 
 // useLiveEventsフックをモック化
 const mockIdols = [
-  { id: 'idol1', short_name: 'Idol A', colors: { background: '#FF0000', foreground: '#FFFFFF', text: '#000000' } },
-  { id: 'idol2', short_name: 'Idol B', colors: { background: '#00FF00', foreground: '#000000', text: '#000000' } },
-  { id: 'idol3', short_name: 'Idol C', colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' } },
+  {
+    id: 'idol1',
+    short_name: 'Idol A',
+    colors: { background: '#FF0000', foreground: '#FFFFFF', text: '#000000' },
+  },
+  {
+    id: 'idol2',
+    short_name: 'Idol B',
+    colors: { background: '#00FF00', foreground: '#000000', text: '#000000' },
+  },
+  {
+    id: 'idol3',
+    short_name: 'Idol C',
+    colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' },
+  },
 ];
 
 vi.mock('@/hooks/useLiveEvents', () => ({
@@ -25,7 +37,9 @@ vi.mock('@/components/ui/ToggleButton', () => ({
     <button
       data-testid={`toggle-button-${label}`}
       data-is-selected={isSelected}
-      onClick={() => onToggle(label === 'Idol A' ? 'idol1' : label === 'Idol B' ? 'idol2' : 'idol3')}
+      onClick={() =>
+        onToggle(label === 'Idol A' ? 'idol1' : label === 'Idol B' ? 'idol2' : 'idol3')
+      }
       onContextMenu={(e) => {
         e.preventDefault();
         onLongPress(label === 'Idol A' ? 'idol1' : label === 'Idol B' ? 'idol2' : 'idol3');
@@ -70,7 +84,10 @@ describe('IdolFilter', () => {
   it('calls onSelectedIdolsChange with updated selected idols when a selected idol is clicked', () => {
     render(
       <LiveEventsProvider>
-        <IdolFilter selectedIdols={['idol1', 'idol2']} onSelectedIdolsChange={mockOnSelectedIdolsChange} />
+        <IdolFilter
+          selectedIdols={['idol1', 'idol2']}
+          onSelectedIdolsChange={mockOnSelectedIdolsChange}
+        />
       </LiveEventsProvider>
     );
 
@@ -94,7 +111,10 @@ describe('IdolFilter', () => {
   it('calls onSelectedIdolsChange with only the long-pressed idol', () => {
     render(
       <LiveEventsProvider>
-        <IdolFilter selectedIdols={['idol1', 'idol2']} onSelectedIdolsChange={mockOnSelectedIdolsChange} />
+        <IdolFilter
+          selectedIdols={['idol1', 'idol2']}
+          onSelectedIdolsChange={mockOnSelectedIdolsChange}
+        />
       </LiveEventsProvider>
     );
 

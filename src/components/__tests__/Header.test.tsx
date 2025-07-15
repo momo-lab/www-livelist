@@ -1,8 +1,8 @@
+import { LiveEventsProvider } from '@/providers/LiveEventsProvider';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { Header } from '../Header';
-import { LiveEventsProvider } from '@/providers/LiveEventsProvider';
 
 describe('Header', () => {
   it('renders header with title', () => {

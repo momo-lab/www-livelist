@@ -1,15 +1,14 @@
 import { render } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, afterAll, beforeAll } from 'vitest';
-import type { Mock } from 'vitest';
 import { useLocation } from 'react-router-dom';
+import type { Mock } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ScrollToTop } from '../ScrollToTop';
 
 // useLocationをモック化
 const mockUseLocationValue = { pathname: '/' };
 vi.mock('react-router-dom', async () => {
-  const originalModule = await vi.importActual<typeof import('react-router-dom')>(
-    'react-router-dom'
-  );
+  const originalModule =
+    await vi.importActual<typeof import('react-router-dom')>('react-router-dom');
   return {
     ...originalModule,
     useLocation: vi.fn(() => mockUseLocationValue),
@@ -51,5 +50,4 @@ describe('ScrollToTop', () => {
 
     expect(scrollToSpy).toHaveBeenCalledWith(0, 0);
   });
-
-  });
+});

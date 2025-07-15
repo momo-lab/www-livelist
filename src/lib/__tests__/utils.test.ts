@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { cn, formatDate } from '../utils';
 
 describe('cn', () => {
@@ -7,7 +7,7 @@ describe('cn', () => {
   });
 
   it('handles conditional class names', () => {
-    expect(cn('class1', true && 'class2', false && 'class3')).toBe('class1 class2');
+    expect(cn('class1', 'class2', null)).toBe('class1 class2');
   });
 
   it('merges Tailwind CSS classes correctly', () => {
@@ -16,7 +16,9 @@ describe('cn', () => {
   });
 
   it('handles mixed inputs', () => {
-    expect(cn('font-bold', { 'text-lg': true, 'text-sm': false }, 'p-4', 'px-2')).toBe('font-bold text-lg p-4 px-2');
+    expect(cn('font-bold', { 'text-lg': true, 'text-sm': false }, 'p-4', 'px-2')).toBe(
+      'font-bold text-lg p-4 px-2'
+    );
   });
 });
 

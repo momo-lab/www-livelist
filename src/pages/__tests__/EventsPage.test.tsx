@@ -1,12 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { EventsPage } from '../EventsPage';
 
 // Import the actual modules to be mocked
-import { useLiveEvents } from '@/hooks/useLiveEvents';
-import { useEventTableData } from '@/hooks/useEventTableData';
 import { IdolFilter } from '@/components/IdolFilter';
 import { LiveEventTable } from '@/components/LiveEventTable';
+import { useEventTableData } from '@/hooks/useEventTableData';
+import { useLiveEvents } from '@/hooks/useLiveEvents';
 
 // Mock dependencies at the top level
 vi.mock('@/hooks/useLiveEvents');
@@ -132,7 +132,10 @@ describe('EventsPage', () => {
     idolFilterButton.click();
 
     await waitFor(() => {
-      expect(localStorageMock.setItem).toHaveBeenCalledWith('selectedIdols', JSON.stringify(['mockIdol1']));
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        'selectedIdols',
+        JSON.stringify(['mockIdol1'])
+      );
     });
 
     const idolFilter = screen.getByTestId('mock-idol-filter');

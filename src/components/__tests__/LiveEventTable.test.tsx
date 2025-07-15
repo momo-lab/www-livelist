@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import { LiveEventTable } from '../LiveEventTable';
 import type { TableEvent } from '@/types';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+import { LiveEventTable } from '../LiveEventTable';
 
 // Keep mock for ExternalLink as it's from a third-party icon library
 vi.mock('lucide-react', () => ({
