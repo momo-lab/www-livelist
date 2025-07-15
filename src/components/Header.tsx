@@ -10,7 +10,10 @@ import {
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { Archive, CalendarCheck, CalendarDays, ExternalLink, Info, Menu } from 'lucide-react';
 import React, { useState } from 'react';
+import { FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6';
 import { Link, useLocation } from 'react-router-dom';
+
+import { SocialLinkItem } from './SocialLinkItem';
 
 const TITLES: Record<string, string> = {
   '/': '開催予定のライブ',
@@ -62,35 +65,35 @@ export const Header: React.FC = () => {
         </Link>
       </li>
       <hr className="my-3 border-border" />
-      <li className="mx-2 mt-2 text-sm text-muted-foreground">lit.link</li>
       {idols.map((idol) => (
-        <li key={idol.id} className="ms-6 me-2">
-          <Link
-            to={`https://lit.link/${idol.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-foreground flex items-center hover:underline"
-            onClick={() => setIsOpen(false)}
-          >
-            <ExternalLink className="mr-2 h-4 w-4" />
-            {idol.name}
-          </Link>
-        </li>
-      ))}
-      <hr className="my-3 border-border" />
-      <li className="mx-2 mt-2 text-sm text-muted-foreground">X.com</li>
-      {idols.map((idol) => (
-        <li key={idol.id} className="ms-6 me-2">
-          <Link
-            to={`https://x.com/${idol.twitter_id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-foreground flex items-center hover:underline"
-            onClick={() => setIsOpen(false)}
-          >
-            <ExternalLink className="mr-2 h-4 w-4" />
-            {idol.name}
-          </Link>
+        <li key={idol.id} className="px-2 flex flex-col items-start">
+          <span className="text-foreground mb-2">{idol.name}</span>
+          <div className="flex gap-4 ps-4">
+            <SocialLinkItem
+              to={`https://lit.link/${idol.id}`}
+              icon={ExternalLink}
+              siteName="lit.link"
+              onClick={() => setIsOpen(false)}
+            />
+            <SocialLinkItem
+              to={idol.twitter_id && `https://x.com/${idol.twitter_id}`}
+              icon={FaXTwitter}
+              siteName="X.com"
+              onClick={() => setIsOpen(false)}
+            />
+            <SocialLinkItem
+              to={idol.tiktok_id && `https://www.tiktok.com/@${idol.tiktok_id}`}
+              icon={FaTiktok}
+              siteName="TikTok"
+              onClick={() => setIsOpen(false)}
+            />
+            <SocialLinkItem
+              to={idol.instagram_id && `https://www.instagram.com/${idol.instagram_id}/`}
+              icon={FaInstagram}
+              siteName="Instagram"
+              onClick={() => setIsOpen(false)}
+            />
+          </div>
         </li>
       ))}
       <hr className="my-3 border-border" />

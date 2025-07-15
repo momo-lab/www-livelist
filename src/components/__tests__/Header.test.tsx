@@ -20,8 +20,8 @@ vi.mock('@/providers/LiveEventsProvider', () => ({
 vi.mock('@/hooks/useLiveEvents', () => ({
   useLiveEvents: () => ({
     idols: [
-      { id: 'idol1', name: 'アイドルA', twitter_id: 'idol1_x' },
-      { id: 'idol2', name: 'アイドルB', twitter_id: 'idol2_x' },
+      { id: 'idol1', name: 'アイドルA', twitter_id: 'idol1_x', instagram_id: 'idol1_inst' },
+      { id: 'idol2', name: 'アイドルB', twitter_id: 'idol2_x', tiktok_id: 'idol2_tiktok' },
     ],
     error: null,
   }),
@@ -106,7 +106,7 @@ describe('Header', () => {
     expect(screen.queryByRole('link', { name: '開催予定' })).not.toBeInTheDocument();
   });
 
-  it('displays idol x.com items when menu is open', async () => {
+  it('displays idol SNS items when menu is open', async () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <LiveEventsProvider>
@@ -119,23 +119,25 @@ describe('Header', () => {
     fireEvent.click(menuButton);
 
     await waitFor(() => {
-      expect(screen.getByText('X.com')).toBeInTheDocument();
+      // X.comのテキストが少なくとも1つ存在することを確認
+      expect(screen.getAllByText('X.com').length).toBeGreaterThan(0);
 
-      // アイドルAのX.comリンクを確認
-      const idolAXcomLinks = screen.getAllByRole('link', { name: 'アイドルA' });
-      const idolAXcomLink = idolAXcomLinks.find(
-        (link) => link.getAttribute('href') === 'https://x.com/idol1_x'
-      );
-      expect(idolAXcomLink).toBeInTheDocument();
-      expect(idolAXcomLink).toHaveAttribute('href', 'https://x.com/idol1_x');
+      const findSNSLink = (name: string, href: string) =>
+        screen
+          .getAllByRole('link', { name: name })
+          .find((link) => link.getAttribute('href') === href);
 
-      // アイドルBのX.comリンクを確認
-      const idolBXcomLinks = screen.getAllByRole('link', { name: 'アイドルB' });
-      const idolBXcomLink = idolBXcomLinks.find(
-        (link) => link.getAttribute('href') === 'https://x.com/idol2_x'
-      );
-      expect(idolBXcomLink).toBeInTheDocument();
-      expect(idolBXcomLink).toHaveAttribute('href', 'https://x.com/idol2_x');
+      // アイドルAのSNSリンクを確認
+      expect(findSNSLink('lit.link', 'https://lit.link/idol1')).toBeInTheDocument();
+      expect(findSNSLink('X.com', 'https://x.com/idol1_x')).toBeInTheDocument();
+      expect(findSNSLink('TikTok', 'https://www.tiktok.com/@idol1_tiktok')).toBeUndefined();
+      expect(findSNSLink('Instagram', 'https://www.instagram.com/idol1_inst/')).toBeInTheDocument();
+
+      // アイドルBのSNSリンクを確認
+      expect(findSNSLink('lit.link', 'https://lit.link/idol2')).toBeInTheDocument();
+      expect(findSNSLink('X.com', 'https://x.com/idol2_x')).toBeInTheDocument();
+      expect(findSNSLink('TikTok', 'https://www.tiktok.com/@idol2_tiktok')).toBeInTheDocument();
+      expect(findSNSLink('Instagram', 'https://www.instagram.com/idol2_inst/')).toBeUndefined();
     });
   });
 
@@ -152,23 +154,8 @@ describe('Header', () => {
     fireEvent.click(menuButton);
 
     await waitFor(() => {
-      expect(screen.getByText('lit.link')).toBeInTheDocument();
-
-      // アイドルAのlit.linkを確認
-      const idolALitLinkLinks = screen.getAllByRole('link', { name: 'アイドルA' });
-      const idolALitLink = idolALitLinkLinks.find(
-        (link) => link.getAttribute('href') === 'https://lit.link/idol1'
-      );
-      expect(idolALitLink).toBeInTheDocument();
-      expect(idolALitLink).toHaveAttribute('href', 'https://lit.link/idol1');
-
-      // アイドルBのlit.linkを確認
-      const idolBLitLinkLinks = screen.getAllByRole('link', { name: 'アイドルB' });
-      const idolBLitLink = idolBLitLinkLinks.find(
-        (link) => link.getAttribute('href') === 'https://lit.link/idol2'
-      );
-      expect(idolBLitLink).toBeInTheDocument();
-      expect(idolBLitLink).toHaveAttribute('href', 'https://lit.link/idol2');
+      // lit.linkのテキストが少なくとも1つ存在することを確認
+      expect(screen.getAllByText('lit.link').length).toBeGreaterThan(0);
     });
   });
 });
