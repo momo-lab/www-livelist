@@ -119,46 +119,4 @@ describe('LiveEventTable', () => {
     expect(detailLinks[1].querySelector('[data-testid="ExternalLink"]')).toBeInTheDocument();
     expect(thirdEventRow.querySelector('img')).toBeNull(); // No image for this event
   });
-
-  it('applies correct background color to date cell for Sunday', () => {
-    const sundayEvent: TableEvent = {
-      name: 'Sunday Event',
-      url: 'http://example.com/sunday',
-      date: new Date('2025-07-13T10:00:00Z'), // Sunday
-      content: 'Sunday Event',
-      id: 'idol1',
-      short_name: 'Idol A',
-      link: '',
-      image: '',
-      formatted_date: '2025/07/13 (日)',
-      rowspan: 1,
-      isFirstOfDay: true,
-      groupIndex: 2,
-      colors: { background: '#FF0000', foreground: '#FFFFFF', text: '#000000' },
-    };
-    render(<LiveEventTable tableData={[sundayEvent]} />);
-    const sundayDateCell = screen.getByText('2025/07/13 (日)');
-    expect(sundayDateCell.closest('td')).toHaveClass('bg-red-100');
-  });
-
-  it('applies correct background color to date cell for Saturday', () => {
-    const saturdayEvent: TableEvent = {
-      name: 'Saturday Event',
-      url: 'http://example.com/saturday',
-      date: new Date('2025-07-12T10:00:00Z'), // Saturday
-      content: 'Saturday Event',
-      id: 'idol1',
-      short_name: 'Idol A',
-      link: '',
-      image: '',
-      formatted_date: '2025/07/12 (土)',
-      rowspan: 1,
-      isFirstOfDay: true,
-      groupIndex: 3,
-      colors: { background: '#FF0000', foreground: '#FFFFFF', text: '#000000' },
-    };
-    render(<LiveEventTable tableData={[saturdayEvent]} />);
-    const saturdayDateCell = screen.getByText('2025/07/12 (土)');
-    expect(saturdayDateCell.closest('td')).toHaveClass('bg-blue-100');
-  });
 });

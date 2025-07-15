@@ -26,6 +26,7 @@ export const Header: React.FC = () => {
   const base = import.meta.env.BASE_URL; // 例: "/app/"
   const relativePath = location.pathname.replace(new RegExp(`^${base}`), '/');
   const isUpcoming = relativePath === '/';
+  const isPast = relativePath === '/past';
   const title = TITLES[relativePath];
 
   const menuLinks = (
@@ -61,7 +62,7 @@ export const Header: React.FC = () => {
         </Link>
       </li>
       <hr className="my-3 border-border" />
-      <li className="mx-2 mt-2 text-sm text-foreground/80">lit.link</li>
+      <li className="mx-2 mt-2 text-sm text-muted-foreground">lit.link</li>
       {idols.map((idol) => (
         <li key={idol.id} className="ms-6 me-2">
           <Link
@@ -99,7 +100,7 @@ export const Header: React.FC = () => {
           <div>
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" aria-label="Toggle menu">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
@@ -124,9 +125,11 @@ export const Header: React.FC = () => {
           <div className="text-2xl font-semibold whitespace-nowrap">{title}</div>
         </div>
         <div>
-          <Button asChild className="w-20">
-            <Link to={isUpcoming ? '/past' : '/'}>{isUpcoming ? '過去分' : '開催予定'}</Link>
-          </Button>
+          {(isUpcoming || isPast) && (
+            <Button asChild className="w-20">
+              <Link to={isUpcoming ? '/past' : '/'}>{isUpcoming ? '過去分' : '開催予定'}</Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>
