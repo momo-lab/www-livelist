@@ -1,9 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { useEventTableData } from '../useEventTableData';
 import { useLiveEvents } from '../useLiveEvents';
-import { LiveEventsProvider } from '@/providers/LiveEventsProvider';
-import React from 'react';
 
 // Mock useLiveEvents hook
 vi.mock('../useLiveEvents');
