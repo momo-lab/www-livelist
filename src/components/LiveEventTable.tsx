@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
 import type { TableEvent } from '@/types';
 import { ExternalLink } from 'lucide-react';
 
@@ -17,10 +18,10 @@ interface LiveEventTableProps {
 
 export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => {
   return (
-    <Table className="rounded-lg border border-gray-200">
-      <TableHeader>
+    <Table className="rounded-lg border border-border">
+      <TableHeader className={cn('bg-header-bg', 'text-header-fg')}>
         <TableRow>
-          <TableHead className="w-fit border-r border-gray-200">日付</TableHead>
+          <TableHead className="w-fit border-r border-border">日付</TableHead>
           <TableHead>イベント内容</TableHead>
         </TableRow>
       </TableHeader>
@@ -38,14 +39,11 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
             : {};
 
           return (
-            <TableRow
-              key={event.url + event.date + event.content}
-              className={`${event.groupIndex! % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`} // groupIndexで色分け
-            >
+            <TableRow key={event.url + event.date + event.content}>
               {event.isFirstOfDay && (
                 <TableCell
                   rowSpan={event.rowspan}
-                  className={`font-medium ${dateBgColor} w-fit border-r border-gray-200`}
+                  className={`font-medium ${dateBgColor} w-fit border-r border-border`}
                 >
                   <div className="px-4 py-2">{event.formatted_date}</div>
                 </TableCell>
@@ -63,10 +61,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
                   </div>
                   <div className="item-start flex gap-2">
                     {event.image && (
-                      <img
-                        src={event.image}
-                        className="h-12 w-12 rounded-lg border border-gray-200"
-                      />
+                      <img src={event.image} className="h-12 w-12 rounded-lg border" />
                     )}
                     <pre className="font-sans whitespace-pre-wrap">{event.content}</pre>
                   </div>

@@ -58,7 +58,7 @@
   --radius: 0.625rem;
 
   /* 基本 */
-  --background: oklch(0.94 0.01 142.5);
+  --background: oklch(0.98 0.002 142.5);
   --foreground: oklch(0.33 0.04 258);
 
   /* ヘッダー */
@@ -92,7 +92,7 @@
   --destructive-foreground: oklch(1 0 0);
 
   /* 枠線など */
-  --border: #ff0000; /*oklch(0.79 0.04 132);*/
+  --border: oklch(0.7 0.04 142.5);
   --input: var(--border);
   --ring: var(--primary);
 }

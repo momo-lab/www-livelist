@@ -7,10 +7,10 @@ export function Layout() {
     <>
       <ScrollToTop />
       <Header />
-      <div className="pt-12">
+      <div className="bg-background text-foreground pt-12">
         <Outlet />
       </div>
-      <footer className="mt-2 border-t border-gray-200 py-2 text-center text-sm text-gray-500">
+      <footer className="bg-background text-foreground/50 mt-2 border-t border-border py-2 text-center text-sm">
         Created by{' '}
         <a
           href="https://x.com/momolab"

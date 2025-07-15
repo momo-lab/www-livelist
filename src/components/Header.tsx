@@ -31,7 +31,11 @@ export const Header: React.FC = () => {
   const menuLinks = (
     <>
       <li className="mx-2">
-        <Link to="/" className="flex items-center hover:underline" onClick={() => setIsOpen(false)}>
+        <Link
+          to="/"
+          className="text-foreground flex items-center hover:underline"
+          onClick={() => setIsOpen(false)}
+        >
           <CalendarDays className="mr-2 h-4 w-4" />
           {TITLES['/']}
         </Link>
@@ -39,7 +43,7 @@ export const Header: React.FC = () => {
       <li className="mx-2">
         <Link
           to="/past"
-          className="flex items-center hover:underline"
+          className="text-foreground flex items-center hover:underline"
           onClick={() => setIsOpen(false)}
         >
           <CalendarCheck className="mr-2 h-4 w-4" />
@@ -49,22 +53,22 @@ export const Header: React.FC = () => {
       <li className="mx-2">
         <Link
           to="/about"
-          className="flex items-center hover:underline"
+          className="text-foreground flex items-center hover:underline"
           onClick={() => setIsOpen(false)}
         >
           <Info className="mr-2 h-4 w-4" />
           {TITLES['/about']}
         </Link>
       </li>
-      <hr className="my-3 border-gray-300" />
-      <li className="mx-2 mt-2 text-sm text-gray-600">lit.link</li>
+      <hr className="my-3 border-border" />
+      <li className="mx-2 mt-2 text-sm text-foreground/80">lit.link</li>
       {idols.map((idol) => (
         <li key={idol.id} className="ms-6 me-2">
           <Link
             to={`https://lit.link/${idol.id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center hover:underline"
+            className="text-foreground flex items-center hover:underline"
             onClick={() => setIsOpen(false)}
           >
             <ExternalLink className="mr-2 h-4 w-4" />
@@ -72,13 +76,13 @@ export const Header: React.FC = () => {
           </Link>
         </li>
       ))}
-      <hr className="my-3 border-gray-300" />
+      <hr className="my-3 border-border" />
       <li className="mx-2">
         <Link
           to="https://docs.google.com/spreadsheets/d/e/2PACX-1vSeF4PaaPYeT1TNHS6Yoc2p2-8e8g-pMNSOq-n0OKhr9on10lLdB3ybte0i_iNCKjpbKB0WELg190-2/pubhtml"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center hover:underline"
+          className="text-foreground flex items-center hover:underline"
           onClick={() => setIsOpen(false)}
         >
           <Archive className="mr-2 h-4 w-4" />

@@ -73,12 +73,10 @@ describe('LiveEventTable', () => {
   it('renders first event of the day correctly with rowspan and date', () => {
     render(<LiveEventTable tableData={mockTableData} />);
     // Get all rows, skip the header row
-    const firstEventRow = screen.getAllByRole('row')[1]; // Index 1 for the first data row
     const dateCell = screen.getByText('2025/07/15 (火)');
     expect(dateCell).toBeInTheDocument();
     // Check the actual td element for rowspan
     expect(dateCell.closest('td')).toHaveAttribute('rowspan', '2');
-    expect(firstEventRow).toHaveClass('bg-gray-50'); // groupIndex 0
 
     expect(screen.getByText('Event 1 Content')).toBeInTheDocument();
     expect(screen.getByText('Idol A')).toBeInTheDocument();
@@ -98,7 +96,6 @@ describe('LiveEventTable', () => {
     const secondEventRow = screen.getAllByRole('row')[2]; // Index 2 for the second data row
     // Ensure no date cell for the second event by checking for a td with rowspan
     expect(secondEventRow.querySelector('td[rowspan]')).toBeNull();
-    expect(secondEventRow).toHaveClass('bg-gray-50'); // groupIndex 0
 
     expect(screen.getByText('Event 2 Content')).toBeInTheDocument();
     expect(screen.getByText('Idol B')).toBeInTheDocument();
@@ -113,7 +110,6 @@ describe('LiveEventTable', () => {
     const dateCell = screen.getByText('2025/07/16 (水)');
     expect(dateCell).toBeInTheDocument();
     expect(dateCell.closest('td')).toHaveAttribute('rowspan', '1');
-    expect(thirdEventRow).toHaveClass('bg-white'); // groupIndex 1
 
     expect(screen.getByText('Event 3 Content')).toBeInTheDocument();
     expect(screen.getByText('Idol C')).toBeInTheDocument();
