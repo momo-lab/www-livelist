@@ -5,7 +5,8 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.css';
 import { AboutPage } from './pages/About';
-import { EventsPage } from './pages/EventsPage';
+import { PastEventsPage } from './pages/PastEventsPage';
+import { UpcomingEventsPage } from './pages/UpcomingEventsPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -13,8 +14,8 @@ createRoot(document.getElementById('root')!).render(
       <LiveEventsProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<EventsPage mode="upcoming" />} />
-            <Route path="past" element={<EventsPage mode="past" />} />
+            <Route index element={<UpcomingEventsPage />} />
+            <Route path="past" element={<PastEventsPage />} />
             <Route path="about" element={<AboutPage />} />
           </Route>
         </Routes>

@@ -2,24 +2,14 @@ import { IdolFilter } from '@/components/IdolFilter';
 import { LiveEventTable } from '@/components/LiveEventTable';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
-import React, { useEffect, useState } from 'react';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import React from 'react';
 
-interface EventsPageProps {
-  mode: 'upcoming' | 'past';
-}
-
-export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
-  const [selectedIdols, setSelectedIdols] = useState<string[]>(() => {
-    const storedSelectedIdols = localStorage.getItem('selectedIdols');
-    return storedSelectedIdols ? JSON.parse(storedSelectedIdols) : [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem('selectedIdols', JSON.stringify(selectedIdols));
-  }, [selectedIdols]);
+export const PastEventsPage: React.FC = () => {
+  const [selectedIdols, setSelectedIdols] = useLocalStorage<string[]>('selectedIdols', []);
 
   const { loading, error } = useLiveEvents();
-  const { eventTableData } = useEventTableData(mode, selectedIdols);
+  const { eventTableData } = useEventTableData('past', selectedIdols);
 
   const handleSelectedIdolsChange = (newSelectedIdols: string[]) => {
     setSelectedIdols(newSelectedIdols);
@@ -33,9 +23,6 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
     return <div className="p-4 text-red-500">エラー: {error}</div>;
   }
 
-  const noEventsMessage =
-    mode === 'upcoming' ? '今後のライブ予定はありません。' : '過去のライブ履歴はありません。';
-
   return (
     <div className="container mx-auto px-4 pb-4">
       <IdolFilter selectedIdols={selectedIdols} onSelectedIdolsChange={handleSelectedIdolsChange} />
@@ -43,7 +30,7 @@ export const EventsPage: React.FC<EventsPageProps> = ({ mode }) => {
       {eventTableData.length > 0 ? (
         <LiveEventTable tableData={eventTableData} />
       ) : (
-        <p className="p-4 text-center">{noEventsMessage}</p>
+        <p className="p-4 text-center">過去のライブ履歴はありません。</p>
       )}
     </div>
   );

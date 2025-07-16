@@ -1,41 +1,24 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { EventsPage } from '../EventsPage';
+import { UpcomingEventsPage } from '../UpcomingEventsPage';
 
 // Import the actual modules to be mocked
 import { IdolFilter } from '@/components/IdolFilter';
 import { LiveEventTable } from '@/components/LiveEventTable';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 // Mock dependencies at the top level
 vi.mock('@/hooks/useLiveEvents');
 vi.mock('@/hooks/useEventTableData');
 vi.mock('@/components/IdolFilter');
 vi.mock('@/components/LiveEventTable');
+vi.mock('@/hooks/useLocalStorage');
 
-// Mock localStorage
-const localStorageMock = (() => {
-  let store: { [key: string]: string } = {};
-  return {
-    getItem: vi.fn((key: string) => store[key] || null),
-    setItem: vi.fn((key: string, value: string) => {
-      store[key] = value;
-    }),
-    clear: vi.fn(() => {
-      store = {};
-    }),
-  };
-})();
-
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
-});
-
-describe('EventsPage', () => {
+describe('UpcomingEventsPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    localStorageMock.clear();
 
     // Reset mocks for each test
     vi.mocked(useLiveEvents).mockReturnValue({
@@ -57,6 +40,7 @@ describe('EventsPage', () => {
         Mock Live Event Table
       </div>
     ));
+    vi.mocked(useLocalStorage).mockReturnValue([[], vi.fn()]);
   });
 
   it('renders loading state initially', () => {
@@ -67,7 +51,7 @@ describe('EventsPage', () => {
       allEvents: [],
     });
 
-    render(<EventsPage mode="upcoming" />);
+    render(<UpcomingEventsPage />);
     expect(screen.getByText('読み込み中...')).toBeInTheDocument();
   });
 
@@ -79,7 +63,7 @@ describe('EventsPage', () => {
       allEvents: [],
     });
 
-    render(<EventsPage mode="upcoming" />);
+    render(<UpcomingEventsPage />);
     expect(screen.getByText('エラー: Test Error')).toBeInTheDocument();
   });
 
@@ -99,46 +83,40 @@ describe('EventsPage', () => {
       ],
     });
 
-    render(<EventsPage mode="upcoming" />);
+    render(<UpcomingEventsPage />);
     expect(screen.getByTestId('mock-live-event-table')).toBeInTheDocument();
     expect(screen.queryByText('今後のライブ予定はありません。')).not.toBeInTheDocument();
   });
 
   it('renders no events message when eventTableData is empty for upcoming mode', () => {
-    render(<EventsPage mode="upcoming" />);
+    render(<UpcomingEventsPage />);
     expect(screen.getByText('今後のライブ予定はありません。')).toBeInTheDocument();
     expect(screen.queryByTestId('mock-live-event-table')).not.toBeInTheDocument();
   });
 
-  it('renders no events message when eventTableData is empty for past mode', () => {
-    render(<EventsPage mode="past" />);
-    expect(screen.getByText('過去のライブ履歴はありません。')).toBeInTheDocument();
-    expect(screen.queryByTestId('mock-live-event-table')).not.toBeInTheDocument();
-  });
+  it('loads selectedIdols from useLocalStorage on initial render', () => {
+    vi.mocked(useLocalStorage).mockReturnValue([['storedIdol'], vi.fn()]);
 
-  it('loads selectedIdols from localStorage on initial render', () => {
-    localStorageMock.setItem('selectedIdols', JSON.stringify(['storedIdol']));
-
-    render(<EventsPage mode="upcoming" />);
+    render(<UpcomingEventsPage />);
 
     const idolFilter = screen.getByTestId('mock-idol-filter');
     expect(idolFilter).toHaveAttribute('data-selected-idols', JSON.stringify(['storedIdol']));
   });
 
-  it('updates selectedIdols and localStorage when IdolFilter changes selection', async () => {
-    render(<EventsPage mode="upcoming" />);
+  it('updates selectedIdols and useLocalStorage when IdolFilter changes selection', async () => {
+    const mockSetSelectedIdols = vi.fn();
+    vi.mocked(useLocalStorage).mockReturnValue([[], mockSetSelectedIdols]);
+
+    render(<UpcomingEventsPage />);
 
     const idolFilterButton = screen.getByText('Change Idols');
     idolFilterButton.click();
 
     await waitFor(() => {
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        'selectedIdols',
-        JSON.stringify(['mockIdol1'])
-      );
+      expect(mockSetSelectedIdols).toHaveBeenCalledWith(['mockIdol1']);
     });
 
     const idolFilter = screen.getByTestId('mock-idol-filter');
-    expect(idolFilter).toHaveAttribute('data-selected-idols', JSON.stringify(['mockIdol1']));
+    expect(idolFilter).toHaveAttribute('data-selected-idols', JSON.stringify([]));
   });
 });
