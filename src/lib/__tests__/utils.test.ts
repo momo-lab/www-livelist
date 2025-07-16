@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cn, formatDate } from '../utils';
+import { cn, formatDate, getToday, toDate } from '../utils';
 
 describe('cn', () => {
   it('combines class names correctly', () => {
@@ -53,5 +53,43 @@ describe('formatDate', () => {
     const date = new Date('2025-12-25T10:00:00Z'); // December 25, 2025, Thursday
     expect(formatDate(date, 'upcoming')).toBe('12/25(木)');
     expect(formatDate(date, 'past')).toBe('2025/12/25(木)');
+  });
+});
+
+describe('toDate', () => {
+  it('should return a new Date object with time set to 00:00:00', () => {
+    const originalDate = new Date('2023-01-15T10:30:00Z');
+    const expectedDate = new Date(
+      originalDate.getFullYear(),
+      originalDate.getMonth(),
+      originalDate.getDate()
+    );
+    const result = toDate(originalDate);
+    expect(result.toISOString().split('T')[0]).toBe(expectedDate.toISOString().split('T')[0]);
+    expect(result.getHours()).toBe(0);
+    expect(result.getMinutes()).toBe(0);
+    expect(result.getSeconds()).toBe(0);
+    expect(result.getMilliseconds()).toBe(0);
+  });
+
+  it('should not modify the original Date object', () => {
+    const originalDate = new Date('2023-01-15T10:30:00Z');
+    const originalDateCopy = new Date(originalDate.getTime());
+    toDate(originalDate);
+    expect(originalDate.getTime()).toBe(originalDateCopy.getTime());
+  });
+});
+
+describe('getToday', () => {
+  it(`should return today's date with time set to 00:00:00`, () => {
+    const today = new Date();
+    const result = getToday();
+    expect(result.getFullYear()).toBe(today.getFullYear());
+    expect(result.getMonth()).toBe(today.getMonth());
+    expect(result.getDate()).toBe(today.getDate());
+    expect(result.getHours()).toBe(0);
+    expect(result.getMinutes()).toBe(0);
+    expect(result.getSeconds()).toBe(0);
+    expect(result.getMilliseconds()).toBe(0);
   });
 });

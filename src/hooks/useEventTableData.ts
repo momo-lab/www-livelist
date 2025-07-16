@@ -1,13 +1,12 @@
 import { useLiveEvents } from '@/hooks/useLiveEvents';
-import { formatDate } from '@/lib/utils';
+import { formatDate, getToday, toDate } from '@/lib/utils';
 import type { LiveEvent, TableEvent } from '@/types';
 import { useMemo } from 'react';
 
 export const useEventTableData = (mode: 'upcoming' | 'past', selectedIdols: string[]) => {
   const { allEvents, idols } = useLiveEvents();
 
-  const toDate = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  const today = toDate(new Date());
+  const today = getToday();
 
   const enrichedEvents = useMemo(() => {
     let result = allEvents

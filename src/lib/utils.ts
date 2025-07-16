@@ -13,3 +13,7 @@ export const formatDate = (date: Date, mode: string): string => {
   const dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()];
   return mode == 'past' ? `${year}/${month}/${day}(${dayOfWeek})` : `${month}/${day}(${dayOfWeek})`;
 };
+
+export const toDate = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+export const getToday = () => toDate(new Date());
