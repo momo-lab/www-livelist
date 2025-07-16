@@ -4,12 +4,18 @@ import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import React from 'react';
+import { YearFilter } from '@/components/YearFilter';
 
 export const PastEventsPage: React.FC = () => {
   const [selectedIdols, setSelectedIdols] = useLocalStorage<string[]>('selectedIdols', []);
+  const [selectedYear, setSelectedYear] = useLocalStorage<number | null>('selectedYear', null);
 
   const { loading, error } = useLiveEvents();
-  const { eventTableData } = useEventTableData('past', selectedIdols);
+  const { eventTableData: allEventTableData } = useEventTableData('past', selectedIdols);
+  
+  const eventTableData = selectedYear
+    ? allEventTableData.filter((event) => new Date(event.date).getFullYear() === selectedYear)
+    : allEventTableData;
 
   const handleSelectedIdolsChange = (newSelectedIdols: string[]) => {
     setSelectedIdols(newSelectedIdols);
@@ -25,7 +31,14 @@ export const PastEventsPage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 pb-4">
-      <IdolFilter selectedIdols={selectedIdols} onSelectedIdolsChange={handleSelectedIdolsChange} />
+      <div className="space-y-4">
+        <IdolFilter selectedIdols={selectedIdols} onSelectedIdolsChange={handleSelectedIdolsChange} />
+        <YearFilter
+          selectedYear={selectedYear}
+          onSelectedYearChange={setSelectedYear}
+          events={allEventTableData}
+        />
+      </div>
 
       {eventTableData.length > 0 ? (
         <LiveEventTable tableData={eventTableData} />

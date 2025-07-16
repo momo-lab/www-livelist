@@ -5,6 +5,7 @@ import { PastEventsPage } from '../PastEventsPage';
 // Import the actual modules to be mocked
 import { IdolFilter } from '@/components/IdolFilter';
 import { LiveEventTable } from '@/components/LiveEventTable';
+import { YearFilter } from '@/components/YearFilter';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -14,6 +15,7 @@ vi.mock('@/hooks/useLiveEvents');
 vi.mock('@/hooks/useEventTableData');
 vi.mock('@/components/IdolFilter');
 vi.mock('@/components/LiveEventTable');
+vi.mock('@/components/YearFilter');
 vi.mock('@/hooks/useLocalStorage');
 
 describe('PastEventsPage', () => {
@@ -27,6 +29,7 @@ describe('PastEventsPage', () => {
       idols: [],
       allEvents: [],
     });
+
     vi.mocked(useEventTableData).mockReturnValue({
       eventTableData: [],
     });
@@ -38,6 +41,12 @@ describe('PastEventsPage', () => {
     vi.mocked(LiveEventTable).mockImplementation(({ tableData }) => (
       <div data-testid="mock-live-event-table" data-table-data={JSON.stringify(tableData)}>
         Mock Live Event Table
+      </div>
+    ));
+    vi.mocked(YearFilter).mockImplementation(({ selectedYear, onSelectedYearChange }) => (
+      <div data-testid="mock-year-filter" data-selected-year={selectedYear}>
+        <button onClick={() => onSelectedYearChange(2024)}>Select 2024</button>
+        <button onClick={() => onSelectedYearChange(null)}>Clear Year</button>
       </div>
     ));
     vi.mocked(useLocalStorage).mockReturnValue([[], vi.fn()]);
@@ -68,6 +77,10 @@ describe('PastEventsPage', () => {
   });
 
   it('renders LiveEventTable when data is available', () => {
+    vi.mocked(useLocalStorage)
+      .mockReturnValueOnce([[], vi.fn()]) // selectedIdols
+      .mockReturnValueOnce([null, vi.fn()]); // selectedYear
+
     vi.mocked(useEventTableData).mockReturnValue({
       eventTableData: [
         {
@@ -89,13 +102,22 @@ describe('PastEventsPage', () => {
   });
 
   it('renders no events message when eventTableData is empty for past mode', () => {
+    vi.mocked(useLocalStorage)
+      .mockReturnValueOnce([[], vi.fn()]) // selectedIdols
+      .mockReturnValueOnce([null, vi.fn()]); // selectedYear
+
+    vi.mocked(useEventTableData).mockReturnValue({
+      eventTableData: [],
+    });
     render(<PastEventsPage />);
     expect(screen.getByText('過去のライブ履歴はありません。')).toBeInTheDocument();
     expect(screen.queryByTestId('mock-live-event-table')).not.toBeInTheDocument();
   });
 
   it('loads selectedIdols from useLocalStorage on initial render', () => {
-    vi.mocked(useLocalStorage).mockReturnValue([['storedIdol'], vi.fn()]);
+    vi.mocked(useLocalStorage)
+      .mockReturnValueOnce([['storedIdol'], vi.fn()]) // selectedIdols
+      .mockReturnValueOnce([null, vi.fn()]); // selectedYear
 
     render(<PastEventsPage />);
 
@@ -105,7 +127,9 @@ describe('PastEventsPage', () => {
 
   it('updates selectedIdols and useLocalStorage when IdolFilter changes selection', async () => {
     const mockSetSelectedIdols = vi.fn();
-    vi.mocked(useLocalStorage).mockReturnValue([[], mockSetSelectedIdols]);
+    vi.mocked(useLocalStorage)
+      .mockReturnValueOnce([[], mockSetSelectedIdols]) // selectedIdols
+      .mockReturnValueOnce([null, vi.fn()]); // selectedYear
 
     render(<PastEventsPage />);
 
@@ -118,5 +142,36 @@ describe('PastEventsPage', () => {
 
     const idolFilter = screen.getByTestId('mock-idol-filter');
     expect(idolFilter).toHaveAttribute('data-selected-idols', JSON.stringify([]));
+  });
+
+  it('updates selectedYear and filters events when YearFilter changes selection', async () => {
+    const mockSetSelectedYear = vi.fn();
+    vi.mocked(useLocalStorage)
+      .mockReturnValueOnce([[], vi.fn()]) // selectedIdols
+      .mockReturnValueOnce([null, mockSetSelectedYear]); // selectedYear
+
+    const mockEventTableData = [
+      { date: '2024-01-01', id: 'event1' },
+      { date: '2023-01-01', id: 'event2' },
+    ];
+    vi.mocked(useEventTableData).mockReturnValue({
+      eventTableData: mockEventTableData,
+    });
+
+    render(<PastEventsPage />);
+
+    const selectYearButton = screen.getByText('Select 2024');
+    selectYearButton.click();
+
+    await waitFor(() => {
+      expect(mockSetSelectedYear).toHaveBeenCalledWith(2024);
+    });
+
+    const clearYearButton = screen.getByText('Clear Year');
+    clearYearButton.click();
+
+    await waitFor(() => {
+      expect(mockSetSelectedYear).toHaveBeenCalledWith(null);
+    });
   });
 });
