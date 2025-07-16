@@ -6,11 +6,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import type { TableEvent } from '@/types';
 
 interface YearFilterProps {
   selectedYear: number | null;
   onSelectedYearChange: (year: number | null) => void;
-  events: { date: string }[];
+  events: TableEvent[];
 }
 
 export const YearFilter: React.FC<YearFilterProps> = ({
