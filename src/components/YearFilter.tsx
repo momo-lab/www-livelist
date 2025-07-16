@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -7,6 +6,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import type { TableEvent } from '@/types';
+import { useEffect, useState } from 'react';
 
 interface YearFilterProps {
   selectedYear: number | null;
@@ -23,22 +23,27 @@ export const YearFilter: React.FC<YearFilterProps> = ({
 
   useEffect(() => {
     const uniqueYears = Array.from(
-      new Set(events.map((event) => new Date(event.date).getFullYear())),
+      new Set(events.map((event) => new Date(event.date).getFullYear()))
     ).sort((a, b) => b - a);
     setYears(uniqueYears);
   }, [events]);
 
+  useEffect(() => {
+    if (selectedYear === null && years.length > 0) {
+      onSelectedYearChange(years[0]);
+    }
+  }, [selectedYear, years, onSelectedYearChange]);
+
   return (
-    <div className="w-[180px]">
+    <div>
       <Select
-        value={selectedYear?.toString() ?? "all"}
-        onValueChange={(value) => onSelectedYearChange(value === "all" ? null : Number(value))}
+        value={selectedYear?.toString() ?? ''}
+        onValueChange={(value) => onSelectedYearChange(value === 'all' ? null : Number(value))}
       >
         <SelectTrigger>
           <SelectValue placeholder="年で絞り込み" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">全ての年</SelectItem>
           {years.map((year) => (
             <SelectItem key={year} value={year.toString()}>
               {year}年

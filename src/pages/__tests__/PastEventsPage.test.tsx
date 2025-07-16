@@ -1,7 +1,7 @@
+import type { TableEvent } from '@/types';
 import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { PastEventsPage } from '../PastEventsPage';
-import type { TableEvent } from '@/types';
 
 // Import the actual modules to be mocked
 import { IdolFilter } from '@/components/IdolFilter';
@@ -152,8 +152,26 @@ describe('PastEventsPage', () => {
       .mockReturnValueOnce([null, mockSetSelectedYear]); // selectedYear
 
     const mockEventTableData: TableEvent[] = [
-      { date: new Date('2024-01-01'), id: 'event1', url: '', name: 'Event 1', short_name: 'E1', formatted_date: '2024-01-01', content: '', link: '' },
-      { date: new Date('2023-01-01'), id: 'event2', url: '', name: 'Event 2', short_name: 'E2', formatted_date: '2023-01-01', content: '', link: '' },
+      {
+        date: new Date('2024-01-01'),
+        id: 'event1',
+        url: '',
+        name: 'Event 1',
+        short_name: 'E1',
+        formatted_date: '2024-01-01',
+        content: '',
+        link: '',
+      },
+      {
+        date: new Date('2023-01-01'),
+        id: 'event2',
+        url: '',
+        name: 'Event 2',
+        short_name: 'E2',
+        formatted_date: '2023-01-01',
+        content: '',
+        link: '',
+      },
     ];
     vi.mocked(useEventTableData).mockReturnValue({
       eventTableData: mockEventTableData,

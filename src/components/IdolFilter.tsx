@@ -28,7 +28,7 @@ export const IdolFilter: React.FC<IdolFilterProps> = ({ selectedIdols, onSelecte
   };
 
   return (
-    <div className="my-2 flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2">
       {idols.map((idol) => {
         const isSelected = selectedIdols.includes(idol.id);
         const style = isSelected

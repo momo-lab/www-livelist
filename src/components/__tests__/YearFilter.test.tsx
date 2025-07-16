@@ -1,20 +1,54 @@
-import { render, screen, cleanup } from '@testing-library/react';
-import { YearFilter } from '../YearFilter';
 import type { TableEvent } from '@/types';
+import { cleanup, render, screen } from '@testing-library/react';
+import { YearFilter } from '../YearFilter';
 
 describe('YearFilter', () => {
   const mockEvents: TableEvent[] = [
-    { id: '1', url: '', name: 'Event 1', short_name: 'E1', date: new Date('2024-01-01'), formatted_date: '2024-01-01', content: '', link: '' },
-    { id: '2', url: '', name: 'Event 2', short_name: 'E2', date: new Date('2024-02-01'), formatted_date: '2024-02-01', content: '', link: '' },
-    { id: '3', url: '', name: 'Event 3', short_name: 'E3', date: new Date('2023-12-31'), formatted_date: '2023-12-31', content: '', link: '' },
-    { id: '4', url: '', name: 'Event 4', short_name: 'E4', date: new Date('2023-01-01'), formatted_date: '2023-01-01', content: '', link: '' },
+    {
+      id: '1',
+      url: '',
+      name: 'Event 1',
+      short_name: 'E1',
+      date: new Date('2024-01-01'),
+      formatted_date: '2024-01-01',
+      content: '',
+      link: '',
+    },
+    {
+      id: '2',
+      url: '',
+      name: 'Event 2',
+      short_name: 'E2',
+      date: new Date('2024-02-01'),
+      formatted_date: '2024-02-01',
+      content: '',
+      link: '',
+    },
+    {
+      id: '3',
+      url: '',
+      name: 'Event 3',
+      short_name: 'E3',
+      date: new Date('2023-12-31'),
+      formatted_date: '2023-12-31',
+      content: '',
+      link: '',
+    },
+    {
+      id: '4',
+      url: '',
+      name: 'Event 4',
+      short_name: 'E4',
+      date: new Date('2023-01-01'),
+      formatted_date: '2023-01-01',
+      content: '',
+      link: '',
+    },
   ];
 
   it('初期選択値が正しく表示される', () => {
     // 選択値なし
-    render(
-      <YearFilter selectedYear={null} onSelectedYearChange={() => {}} events={mockEvents} />,
-    );
+    render(<YearFilter selectedYear={null} onSelectedYearChange={() => {}} events={mockEvents} />);
     const trigger = screen.getByRole('combobox');
     expect(trigger.textContent).toContain('全ての年');
 
@@ -22,9 +56,7 @@ describe('YearFilter', () => {
     cleanup();
 
     // 2024年が選択されている
-    render(
-      <YearFilter selectedYear={2024} onSelectedYearChange={() => {}} events={mockEvents} />,
-    );
+    render(<YearFilter selectedYear={2024} onSelectedYearChange={() => {}} events={mockEvents} />);
     const triggerWithYear = screen.getByRole('combobox');
     expect(triggerWithYear.textContent).toContain('2024年');
   });

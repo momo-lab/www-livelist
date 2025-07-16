@@ -123,14 +123,14 @@ describe('LiveEventTable', () => {
     expect(thirdEventRow.querySelector('img')).toBeNull(); // No image for this event
   });
 
-  it("displays \"本日\" badge for events on today's date", () => {
+  it('displays "本日" badge for events on today\'s date', () => {
     render(<LiveEventTable tableData={mockTableData} />);
     const todayBadges = screen.getAllByText('本日');
     expect(todayBadges.length).toBe(1); // Only one "本日" badge for the first event of the day
     expect(todayBadges[0]).toBeInTheDocument();
   });
 
-  it("does not display \"本日\" badge for events not on today's date", () => {
+  it('does not display "本日" badge for events not on today\'s date', () => {
     // Create test data with only non-today events
     const nonTodayData: TableEvent[] = [
       {
@@ -150,7 +150,7 @@ describe('LiveEventTable', () => {
         isToday: false,
       },
     ];
-    
+
     render(<LiveEventTable tableData={nonTodayData} />);
     expect(screen.queryByText('本日')).not.toBeInTheDocument();
   });

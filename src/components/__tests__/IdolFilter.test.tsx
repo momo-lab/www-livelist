@@ -65,7 +65,9 @@ describe('IdolFilter', () => {
   });
 
   it('calls onSelectedIdolsChange with updated selected idols when an unselected idol is clicked', () => {
-    render(<IdolFilter selectedIdols={['idol1']} onSelectedIdolsChange={mockOnSelectedIdolsChange} />);
+    render(
+      <IdolFilter selectedIdols={['idol1']} onSelectedIdolsChange={mockOnSelectedIdolsChange} />
+    );
 
     // Idol Bのボタンをクリック（モックされたToggleButtonのonClickを直接呼び出す）
     screen.getByText('Idol B').click();
@@ -86,7 +88,9 @@ describe('IdolFilter', () => {
   });
 
   it('re-selects all idols when all are deselected', () => {
-    render(<IdolFilter selectedIdols={['idol1']} onSelectedIdolsChange={mockOnSelectedIdolsChange} />);
+    render(
+      <IdolFilter selectedIdols={['idol1']} onSelectedIdolsChange={mockOnSelectedIdolsChange} />
+    );
 
     // Idol Aのボタンをクリック（モックされたToggleButtonのonClickを直接呼び出す）
     screen.getByText('Idol A').click();
