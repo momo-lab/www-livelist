@@ -23,21 +23,21 @@ vi.mock('@/hooks/useLocalStorage');
 // 状態管理用のグローバル変数と関数を定義
 let mockSelectedIdols: string[];
 let mockSetSelectedIdols: ReturnType<typeof vi.fn>;
-let mockSelectedYear: number | null;
-let mockSetSelectedYear: ReturnType<typeof vi.fn>;
+let mockSelectedPeriod: { year?: number; month?: number };
+let mockSetSelectedPeriod: (period: { year?: number; month?: number }) => void;
 
 describe('PastEventsPage', () => {
   // 各テスト前のセットアップ
   const setupMocks = () => {
     mockSelectedIdols = [];
-    mockSelectedYear = null;
+    mockSelectedPeriod = {};
 
     mockSetSelectedIdols = vi.fn((newIdols: string[]) => {
       mockSelectedIdols = newIdols;
     });
 
-    mockSetSelectedYear = vi.fn((newYear: number | null) => {
-      mockSelectedYear = newYear;
+    mockSetSelectedPeriod = vi.fn((period: { year?: number; month?: number }) => {
+      mockSelectedPeriod = period;
     });
 
     // Reactのモック
@@ -50,8 +50,12 @@ describe('PastEventsPage', () => {
       return {
         ...mod,
         useState: vi.fn((initialState: unknown) => {
-          if (initialState === null) {
-            return [mockSelectedYear, mockSetSelectedYear];
+          if (
+            typeof initialState === 'object' &&
+            initialState !== null &&
+            !Array.isArray(initialState)
+          ) {
+            return [mockSelectedPeriod, mockSetSelectedPeriod];
           }
           if (Array.isArray(initialState) && initialState.length === 0) {
             return [mockSelectedIdols, mockSetSelectedIdols];
@@ -91,17 +95,20 @@ describe('PastEventsPage', () => {
       </div>
     ));
 
-    vi.mocked(PeriodFilter).mockImplementation(({ selectedPeriod, onSelectedPeriodChange }) => (
-      <div data-testid="mock-period-filter" data-selected-period={selectedPeriod}>
-        <button onClick={() => onSelectedPeriodChange({ year: 2024 })}>Select 2024</button>
-      </div>
-    ));
+    vi.mocked(PeriodFilter).mockImplementation(({ selectedPeriod, onSelectedPeriodChange }) => {
+      const handlePeriodChange = () => {
+        onSelectedPeriodChange({ year: 2024, month: undefined });
+      };
+      return (
+        <div data-testid="mock-period-filter" data-selected-period={selectedPeriod}>
+          <button onClick={handlePeriodChange}>Select 2024</button>
+        </div>
+      );
+    });
 
     vi.mocked(useLocalStorage).mockImplementation((key, initialValue) => {
       if (key === 'selectedIdols') {
         return [mockSelectedIdols, mockSetSelectedIdols];
-      } else if (key === 'selectedYear') {
-        return [mockSelectedYear, mockSetSelectedYear];
       }
       return [initialValue, vi.fn()];
     });
@@ -196,7 +203,7 @@ describe('PastEventsPage', () => {
     expect(idolFilter).toHaveAttribute('data-selected-idols', JSON.stringify(['mockIdol1']));
   });
 
-  it('updates selectedYear and filters events when PeriodFilter changes selection', async () => {
+  it('updates selectedPeriod and filters events when PeriodFilter changes selection', async () => {
     const mockEventTableData: TableEvent[] = [
       {
         date: new Date('2024-01-01'),
@@ -223,7 +230,7 @@ describe('PastEventsPage', () => {
       eventTableData: mockEventTableData,
     });
 
-    mockSelectedYear = null;
+    mockSelectedPeriod = {};
 
     render(<PastEventsPage />);
 
@@ -233,10 +240,7 @@ describe('PastEventsPage', () => {
       selectYearButton.click();
     });
 
-    expect(mockSetSelectedYear).toHaveBeenCalledWith(2024);
-    expect(mockSelectedYear).toBe(2024);
-
-    // 年のクリアのテストケースを削除
-    // nullは許容しないため、このテストは不要
+    expect(mockSetSelectedPeriod).toHaveBeenCalledWith({ year: 2024, month: undefined });
+    expect(mockSelectedPeriod).toEqual({ year: 2024, month: undefined });
   });
 });

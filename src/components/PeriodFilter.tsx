@@ -35,7 +35,6 @@ export const PeriodFilter: React.FC<PeriodFilterProps> = ({
   });
 
   useEffect(() => {
-    console.log(`useEffect: ${events.length}`);
     const yearMonths = events.reduce((acc: YearMonthGroup[], event) => {
       const date = new Date(event.date);
       const year = date.getFullYear();
@@ -62,7 +61,7 @@ export const PeriodFilter: React.FC<PeriodFilterProps> = ({
       onSelectedPeriodChange({ year });
       setSelectedValue(year.toString());
     }
-  }, [events]);
+  }, [events, onSelectedPeriodChange, selectedValue]);
 
   const handleValueChange = (value: string) => {
     setSelectedValue(value);
@@ -77,8 +76,6 @@ export const PeriodFilter: React.FC<PeriodFilterProps> = ({
       onSelectedPeriodChange({ year, month: undefined });
     }
   };
-
-  console.log(selectedValue, selectedPeriod);
 
   const getDisplayValue = () => {
     if (selectedValue.includes('-')) {
