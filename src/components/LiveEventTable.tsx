@@ -27,8 +27,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
       </TableHeader>
       <TableBody>
         {tableData.map((event) => {
-          const dateObj = new Date(event.date);
-          const dayOfWeek = dateObj.getDay(); // 0:日, 1:月, ..., 6:土
+          const dayOfWeek = event.date.getDay(); // 0:日, 1:月, ..., 6:土
           const dateBgColor = dayOfWeek === 0 ? 'bg-red-100' : dayOfWeek === 6 ? 'bg-blue-100' : '';
 
           const badgeStyle = event.colors
