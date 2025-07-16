@@ -167,4 +167,19 @@ describe('useEventTableData', () => {
     // Only Event 4 is a past event in mockAllEvents
     expect(tableData[0].content).toBe('Event 4');
   });
+
+  it('sets isToday correctly for events on the current date', () => {
+    // Event 1 and Event 2 are on 2025-07-15, which is the mocked current date
+    const { result } = renderHook(() => useEventTableData('upcoming', []));
+    const tableData = result.current.eventTableData;
+
+    expect(tableData[0].content).toBe('Event 1');
+    expect(tableData[0].isToday).toBe(true);
+
+    expect(tableData[1].content).toBe('Event 2');
+    expect(tableData[1].isToday).toBe(true);
+
+    expect(tableData[2].content).toBe('Event 3'); // Event 3 is on 2025-07-16
+    expect(tableData[2].isToday).toBe(false);
+  });
 });

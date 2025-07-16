@@ -1,5 +1,4 @@
-import { LiveEventsProvider } from '@/providers/LiveEventsProvider';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { IdolFilter } from '../IdolFilter';
 
@@ -58,11 +57,7 @@ describe('IdolFilter', () => {
   });
 
   it('renders all idol buttons', () => {
-    render(
-      <LiveEventsProvider>
-        <IdolFilter selectedIdols={[]} onSelectedIdolsChange={mockOnSelectedIdolsChange} />
-      </LiveEventsProvider>
-    );
+    render(<IdolFilter selectedIdols={[]} onSelectedIdolsChange={mockOnSelectedIdolsChange} />);
 
     mockIdols.forEach((idol) => {
       expect(screen.getByText(idol.short_name)).toBeInTheDocument();
@@ -70,11 +65,7 @@ describe('IdolFilter', () => {
   });
 
   it('calls onSelectedIdolsChange with updated selected idols when an unselected idol is clicked', () => {
-    render(
-      <LiveEventsProvider>
-        <IdolFilter selectedIdols={['idol1']} onSelectedIdolsChange={mockOnSelectedIdolsChange} />
-      </LiveEventsProvider>
-    );
+    render(<IdolFilter selectedIdols={['idol1']} onSelectedIdolsChange={mockOnSelectedIdolsChange} />);
 
     // Idol Bのボタンをクリック（モックされたToggleButtonのonClickを直接呼び出す）
     screen.getByText('Idol B').click();
@@ -83,12 +74,10 @@ describe('IdolFilter', () => {
 
   it('calls onSelectedIdolsChange with updated selected idols when a selected idol is clicked', () => {
     render(
-      <LiveEventsProvider>
-        <IdolFilter
-          selectedIdols={['idol1', 'idol2']}
-          onSelectedIdolsChange={mockOnSelectedIdolsChange}
-        />
-      </LiveEventsProvider>
+      <IdolFilter
+        selectedIdols={['idol1', 'idol2']}
+        onSelectedIdolsChange={mockOnSelectedIdolsChange}
+      />
     );
 
     // Idol Bのボタンをクリック（モックされたToggleButtonのonClickを直接呼び出す）
@@ -97,11 +86,7 @@ describe('IdolFilter', () => {
   });
 
   it('re-selects all idols when all are deselected', () => {
-    render(
-      <LiveEventsProvider>
-        <IdolFilter selectedIdols={['idol1']} onSelectedIdolsChange={mockOnSelectedIdolsChange} />
-      </LiveEventsProvider>
-    );
+    render(<IdolFilter selectedIdols={['idol1']} onSelectedIdolsChange={mockOnSelectedIdolsChange} />);
 
     // Idol Aのボタンをクリック（モックされたToggleButtonのonClickを直接呼び出す）
     screen.getByText('Idol A').click();
@@ -110,12 +95,10 @@ describe('IdolFilter', () => {
 
   it('calls onSelectedIdolsChange with only the long-pressed idol', () => {
     render(
-      <LiveEventsProvider>
-        <IdolFilter
-          selectedIdols={['idol1', 'idol2']}
-          onSelectedIdolsChange={mockOnSelectedIdolsChange}
-        />
-      </LiveEventsProvider>
+      <IdolFilter
+        selectedIdols={['idol1', 'idol2']}
+        onSelectedIdolsChange={mockOnSelectedIdolsChange}
+      />
     );
 
     // Idol Cのボタンを長押し（モックされたToggleButtonのonContextMenuを直接呼び出す）

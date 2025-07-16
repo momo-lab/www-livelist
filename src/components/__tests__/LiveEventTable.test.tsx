@@ -23,6 +23,7 @@ const mockTableData: TableEvent[] = [
     isFirstOfDay: true,
     groupIndex: 0,
     colors: { background: '#FF0000', foreground: '#FFFFFF', text: '#000000' },
+    isToday: true,
   },
   {
     name: 'Event 2 Content',
@@ -38,6 +39,7 @@ const mockTableData: TableEvent[] = [
     isFirstOfDay: false,
     groupIndex: 0,
     colors: { background: '#00FF00', foreground: '#000000', text: '#000000' },
+    isToday: true,
   },
   {
     name: 'Event 3 Content',
@@ -53,6 +55,7 @@ const mockTableData: TableEvent[] = [
     isFirstOfDay: true,
     groupIndex: 1,
     colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' },
+    isToday: false,
   },
 ];
 
@@ -118,5 +121,37 @@ describe('LiveEventTable', () => {
     expect(detailLinks[1]).toHaveAttribute('href', 'http://example.com/link3');
     expect(detailLinks[1].querySelector('[data-testid="ExternalLink"]')).toBeInTheDocument();
     expect(thirdEventRow.querySelector('img')).toBeNull(); // No image for this event
+  });
+
+  it("displays \"本日\" badge for events on today's date", () => {
+    render(<LiveEventTable tableData={mockTableData} />);
+    const todayBadges = screen.getAllByText('本日');
+    expect(todayBadges.length).toBe(1); // Only one "本日" badge for the first event of the day
+    expect(todayBadges[0]).toBeInTheDocument();
+  });
+
+  it("does not display \"本日\" badge for events not on today's date", () => {
+    // Create test data with only non-today events
+    const nonTodayData: TableEvent[] = [
+      {
+        name: 'Event 3 Content',
+        url: 'http://example.com/event3',
+        date: new Date('2025-07-16T14:00:00Z'),
+        content: 'Event 3 Content',
+        id: 'idol3',
+        short_name: 'Idol C',
+        link: 'http://example.com/link3',
+        image: '',
+        formatted_date: '2025/07/16 (水)',
+        rowspan: 1,
+        isFirstOfDay: true,
+        groupIndex: 1,
+        colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' },
+        isToday: false,
+      },
+    ];
+    
+    render(<LiveEventTable tableData={nonTodayData} />);
+    expect(screen.queryByText('本日')).not.toBeInTheDocument();
   });
 });
