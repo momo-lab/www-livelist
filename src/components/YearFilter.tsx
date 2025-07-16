@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 
 interface YearFilterProps {
   selectedYear: number | null;
-  onSelectedYearChange: (year: number | null) => void;
+  onSelectedYearChange: (year: number) => void;
   events: TableEvent[];
 }
 
@@ -29,19 +29,26 @@ export const YearFilter: React.FC<YearFilterProps> = ({
   }, [events]);
 
   useEffect(() => {
-    if (selectedYear === null && years.length > 0) {
+    // 初期状態で最初の年を自動選択
+    if (years.length > 0 && selectedYear === null) {
       onSelectedYearChange(years[0]);
     }
-  }, [selectedYear, years, onSelectedYearChange]);
+  }, [years, selectedYear, onSelectedYearChange]);
 
   return (
     <div>
       <Select
-        value={selectedYear?.toString() ?? ''}
-        onValueChange={(value) => onSelectedYearChange(value === 'all' ? null : Number(value))}
+        value={selectedYear?.toString() ?? (years.length > 0 ? years[0].toString() : '')}
+        onValueChange={(value) => onSelectedYearChange(Number(value))}
       >
         <SelectTrigger>
-          <SelectValue placeholder="年で絞り込み" />
+          <SelectValue placeholder="年で絞り込み">
+            {selectedYear && years.includes(selectedYear)
+              ? `${selectedYear}年`
+              : years.length > 0
+                ? `${years[0]}年`
+                : undefined}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
           {years.map((year) => (

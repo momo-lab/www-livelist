@@ -1,5 +1,6 @@
 import type { TableEvent } from '@/types';
-import { cleanup, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
 import { YearFilter } from '../YearFilter';
 
 describe('YearFilter', () => {
@@ -47,16 +48,27 @@ describe('YearFilter', () => {
   ];
 
   it('初期選択値が正しく表示される', () => {
-    // 選択値なし
-    render(<YearFilter selectedYear={null} onSelectedYearChange={() => {}} events={mockEvents} />);
-    const trigger = screen.getByRole('combobox');
-    expect(trigger.textContent).toContain('全ての年');
+    const mockOnSelectedYearChange = vi.fn();
 
-    // クリーンアップ
-    cleanup();
+    const { rerender } = render(
+      <YearFilter
+        selectedYear={null}
+        onSelectedYearChange={mockOnSelectedYearChange}
+        events={mockEvents}
+      />
+    );
 
-    // 2024年が選択されている
-    render(<YearFilter selectedYear={2024} onSelectedYearChange={() => {}} events={mockEvents} />);
+    expect(mockOnSelectedYearChange).toHaveBeenCalledWith(2024);
+
+    // 2024年が選択されている状態で再レンダリング
+    rerender(
+      <YearFilter
+        selectedYear={2024}
+        onSelectedYearChange={mockOnSelectedYearChange}
+        events={mockEvents}
+      />
+    );
+
     const triggerWithYear = screen.getByRole('combobox');
     expect(triggerWithYear.textContent).toContain('2024年');
   });
