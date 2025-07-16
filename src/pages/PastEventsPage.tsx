@@ -1,6 +1,6 @@
 import { IdolFilter } from '@/components/IdolFilter';
 import { LiveEventTable } from '@/components/LiveEventTable';
-import { YearFilter } from '@/components/YearFilter';
+import { PeriodFilter } from '@/components/PeriodFilter';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -44,7 +44,7 @@ export const PastEventsPage: React.FC = () => {
           selectedIdols={selectedIdols}
           onSelectedIdolsChange={handleSelectedIdolsChange}
         />
-        <YearFilter
+        <PeriodFilter
           selectedYear={selectedYear}
           onSelectedYearChange={setSelectedYear}
           onSelectedMonthChange={setSelectedMonth}

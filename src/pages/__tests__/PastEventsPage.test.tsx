@@ -7,7 +7,7 @@ import { PastEventsPage } from '../PastEventsPage';
 // Import the actual modules to be mocked
 import { IdolFilter } from '@/components/IdolFilter';
 import { LiveEventTable } from '@/components/LiveEventTable';
-import { YearFilter } from '@/components/YearFilter';
+import { PeriodFilter } from '@/components/PeriodFilter';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -17,7 +17,7 @@ vi.mock('@/hooks/useLiveEvents');
 vi.mock('@/hooks/useEventTableData');
 vi.mock('@/components/IdolFilter');
 vi.mock('@/components/LiveEventTable');
-vi.mock('@/components/YearFilter');
+vi.mock('@/components/PeriodFilter');
 vi.mock('@/hooks/useLocalStorage');
 
 // 状態管理用のグローバル変数と関数を定義
@@ -91,8 +91,8 @@ describe('PastEventsPage', () => {
       </div>
     ));
 
-    vi.mocked(YearFilter).mockImplementation(({ selectedYear, onSelectedYearChange }) => (
-      <div data-testid="mock-year-filter" data-selected-year={selectedYear}>
+    vi.mocked(PeriodFilter).mockImplementation(({ selectedYear, onSelectedYearChange }) => (
+      <div data-testid="mock-period-filter" data-selected-year={selectedYear}>
         <button onClick={() => onSelectedYearChange(2024)}>Select 2024</button>
       </div>
     ));
@@ -196,7 +196,7 @@ describe('PastEventsPage', () => {
     expect(idolFilter).toHaveAttribute('data-selected-idols', JSON.stringify(['mockIdol1']));
   });
 
-  it('updates selectedYear and filters events when YearFilter changes selection', async () => {
+  it('updates selectedYear and filters events when PeriodFilter changes selection', async () => {
     const mockEventTableData: TableEvent[] = [
       {
         date: new Date('2024-01-01'),

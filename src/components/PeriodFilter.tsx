@@ -8,14 +8,14 @@ import {
 import type { TableEvent } from '@/types';
 import { useEffect, useState } from 'react';
 
-interface YearFilterProps {
+interface PeriodFilterProps {
   selectedYear: number | null;
   onSelectedYearChange: (year: number) => void;
   onSelectedMonthChange?: (month: number | null) => void;
   events: TableEvent[];
 }
 
-export const YearFilter: React.FC<YearFilterProps> = ({
+export const PeriodFilter: React.FC<PeriodFilterProps> = ({
   selectedYear,
   onSelectedYearChange,
   onSelectedMonthChange,

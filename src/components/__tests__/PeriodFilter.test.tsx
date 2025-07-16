@@ -1,9 +1,9 @@
 import type { TableEvent } from '@/types';
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
-import { YearFilter } from '../YearFilter';
+import { PeriodFilter } from '../PeriodFilter';
 
-describe('YearFilter', () => {
+describe('PeriodFilter', () => {
   const mockEvents: TableEvent[] = [
     {
       id: '1',
@@ -51,7 +51,7 @@ describe('YearFilter', () => {
     const mockOnSelectedYearChange = vi.fn();
 
     const { rerender } = render(
-      <YearFilter
+      <PeriodFilter
         selectedYear={null}
         onSelectedYearChange={mockOnSelectedYearChange}
         events={mockEvents}
@@ -62,7 +62,7 @@ describe('YearFilter', () => {
 
     // 2024年が選択されている状態で再レンダリング
     rerender(
-      <YearFilter
+      <PeriodFilter
         selectedYear={2024}
         onSelectedYearChange={mockOnSelectedYearChange}
         events={mockEvents}
