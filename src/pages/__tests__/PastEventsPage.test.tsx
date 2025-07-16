@@ -91,9 +91,9 @@ describe('PastEventsPage', () => {
       </div>
     ));
 
-    vi.mocked(PeriodFilter).mockImplementation(({ selectedYear, onSelectedYearChange }) => (
-      <div data-testid="mock-period-filter" data-selected-year={selectedYear}>
-        <button onClick={() => onSelectedYearChange(2024)}>Select 2024</button>
+    vi.mocked(PeriodFilter).mockImplementation(({ selectedPeriod, onSelectedPeriodChange }) => (
+      <div data-testid="mock-period-filter" data-selected-period={selectedPeriod}>
+        <button onClick={() => onSelectedPeriodChange({ year: 2024 })}>Select 2024</button>
       </div>
     ));
 

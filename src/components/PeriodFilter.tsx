@@ -9,60 +9,60 @@ import type { TableEvent } from '@/types';
 import { useEffect, useState } from 'react';
 
 interface PeriodFilterProps {
-  selectedYear: number | null;
-  onSelectedYearChange: (year: number) => void;
-  onSelectedMonthChange?: (month: number | null) => void;
+  selectedPeriod?: { year?: number; month?: number };
+  onSelectedPeriodChange: (period: { year?: number; month?: number }) => void;
   events: TableEvent[];
 }
 
+type YearMonthGroup = {
+  year: number;
+  months: number[];
+};
+
 export const PeriodFilter: React.FC<PeriodFilterProps> = ({
-  selectedYear,
-  onSelectedYearChange,
-  onSelectedMonthChange,
+  selectedPeriod,
+  onSelectedPeriodChange,
   events,
 }) => {
-  const [yearMonths, setYearMonths] = useState<{ [year: number]: number[] }>({});
-  const [selectedValue, setSelectedValue] = useState<string>('');
+  const [yearMonths, setYearMonths] = useState<YearMonthGroup[]>([]);
+  const [selectedValue, setSelectedValue] = useState<string>(() => {
+    if (selectedPeriod?.year && selectedPeriod?.month) {
+      return `${selectedPeriod.year}-${selectedPeriod.month}`;
+    } else if (selectedPeriod?.year) {
+      return `${selectedPeriod.year}`;
+    }
+    return '';
+  });
 
   useEffect(() => {
-    const yearMonthMap: { [year: number]: number[] } = {};
-
-    events.forEach((event) => {
+    console.log(`useEffect: ${events.length}`);
+    const yearMonths = events.reduce((acc: YearMonthGroup[], event) => {
       const date = new Date(event.date);
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
 
-      if (!yearMonthMap[year]) {
-        yearMonthMap[year] = [];
+      const group = acc.find((g) => g.year === year);
+
+      if (group) {
+        if (!group.months.includes(month)) {
+          group.months.push(month);
+        }
+      } else {
+        acc.push({ year, months: [month] });
       }
 
-      if (!yearMonthMap[year].includes(month)) {
-        yearMonthMap[year].push(month);
-      }
-    });
+      return acc;
+    }, []);
 
-    // 各年の月をソート（降順）
-    Object.keys(yearMonthMap).forEach((year) => {
-      yearMonthMap[Number(year)].sort((a, b) => b - a);
-    });
+    setYearMonths(yearMonths);
 
-    setYearMonths(yearMonthMap);
-  }, [events]);
-
-  useEffect(() => {
     // 初期状態で最初の年を自動選択
-    const years = Object.keys(yearMonths)
-      .map(Number)
-      .sort((a, b) => b - a);
-    if (years.length > 0 && selectedYear === null) {
-      onSelectedYearChange(years[0]);
-      setSelectedValue(years[0].toString());
+    if (yearMonths.length > 0 && selectedValue === '') {
+      const year = yearMonths[0].year;
+      onSelectedPeriodChange({ year });
+      setSelectedValue(year.toString());
     }
-  }, [yearMonths, selectedYear, onSelectedYearChange]);
-
-  const availableYears = Object.keys(yearMonths)
-    .map(Number)
-    .sort((a, b) => b - a);
+  }, [events]);
 
   const handleValueChange = (value: string) => {
     setSelectedValue(value);
@@ -70,15 +70,15 @@ export const PeriodFilter: React.FC<PeriodFilterProps> = ({
     if (value.includes('-')) {
       // 年月選択の場合
       const [year, month] = value.split('-').map(Number);
-      onSelectedYearChange(year);
-      onSelectedMonthChange?.(month);
+      onSelectedPeriodChange({ year, month });
     } else {
       // 年のみ選択の場合
       const year = Number(value);
-      onSelectedYearChange(year);
-      onSelectedMonthChange?.(null);
+      onSelectedPeriodChange({ year, month: undefined });
     }
   };
+
+  console.log(selectedValue, selectedPeriod);
 
   const getDisplayValue = () => {
     if (selectedValue.includes('-')) {
@@ -97,12 +97,16 @@ export const PeriodFilter: React.FC<PeriodFilterProps> = ({
           <SelectValue placeholder="年月で絞り込み">{getDisplayValue()}</SelectValue>
         </SelectTrigger>
         <SelectContent>
-          {availableYears.map((year) => [
-            <SelectItem key={year} value={year.toString()}>
-              {year}年
+          {yearMonths.map((ym) => [
+            <SelectItem key={ym.year} value={ym.year.toString()}>
+              {ym.year}年
             </SelectItem>,
-            ...yearMonths[year].map((month) => (
-              <SelectItem key={`${year}-${month}`} value={`${year}-${month}`} className="pl-6">
+            ...ym.months.map((month) => (
+              <SelectItem
+                key={`${ym.year}-${month}`}
+                value={`${ym.year}-${month}`}
+                className="pl-6"
+              >
                 {month}月
               </SelectItem>
             )),
