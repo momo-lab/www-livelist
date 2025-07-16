@@ -42,9 +42,18 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
               {event.isFirstOfDay && (
                 <TableCell
                   rowSpan={event.rowspan}
-                  className={`font-medium ${dateBgColor} w-fit border-r border-border`}
+                  className={`font-medium ${dateBgColor} px-1 border-r border-border text-center align-middle`}
                 >
-                  <div className="px-4 py-2">{event.formatted_date}</div>
+                  <div className="inline-flex items-center justify-center w-full">
+                    <div>
+                      {event.formatted_date}
+                      {event.isToday && (
+                        <Badge className="px-1 py-0.5 text-xs font-normal bg-amber-100 text-amber-800">
+                          本日
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
                 </TableCell>
               )}
               <TableCell>

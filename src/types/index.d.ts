@@ -31,4 +31,5 @@ export interface TableEvent extends LiveEvent {
   isFirstOfDay?: boolean;
   groupIndex?: number;
   colors?: IdolColors;
+  isToday?: boolean;
 }
