@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge';
 import { LinkButton } from '@/components/ui/LinkButton';
 import React from 'react';
 
@@ -51,6 +52,56 @@ export const AboutPage: React.FC = () => {
           このページの利用により生じたいかなる損害・トラブルに対しても、制作者は責任を負いません。
         </p>
         <p>著作権やプライバシーに配慮していますが、問題がある場合は速やかに対応します。</p>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="mb-2 text-xl font-semibold">更新履歴</h2>
+        <div className="mb-4">
+          <h3 className="mb-1 font-semibold">2025-07-16</h3>
+          <ul className="list-disc pl-8">
+            <li>過去のライブのページで期間の絞り込み機能を追加しました。</li>
+            <li>
+              今日の日付の欄に「
+              <Badge className="px-1 py-0.5 text-xs font-normal bg-amber-100 text-amber-800">
+                本日
+              </Badge>
+              」と出すようにしました。
+            </li>
+            <li>更新履歴(これ)を追加しました。</li>
+          </ul>
+        </div>
+        <div className="mb-4">
+          <h3 className="mb-1 font-semibold">2025-07-15</h3>
+          <ul className="list-disc pl-8">
+            <li>デザインを調整し、ほんのり色を付けました。</li>
+            <li>各種SNSのリンクを追加しました。</li>
+          </ul>
+        </div>
+        <div className="mb-4">
+          <h3 className="mb-1 font-semibold">2025-07-11</h3>
+          <ul className="list-disc pl-8">
+            <li>ちゃんとサイトを作成してある意味正式に公開しました。</li>
+            <li>アイドルの絞り込み機能を追加しました。</li>
+          </ul>
+        </div>
+        <div className="mb-4">
+          <h3 className="mb-1 font-semibold">2025-07-01</h3>
+          <ul className="list-disc pl-8">
+            <li>Google Spreadsheet版の旧サイトを公開しました。</li>
+          </ul>
+        </div>
+        <div className="mb-4">
+          <h3 className="mb-1 font-semibold">2025-06-25</h3>
+          <ul className="list-disc pl-8">
+            <li>lit.linkからの定期的なデータ収集を始めました。</li>
+          </ul>
+        </div>
+        <div className="mb-4">
+          <h3 className="mb-1 font-semibold">2025-06-24</h3>
+          <ul className="list-disc pl-8">
+            <li>lit.linkのライブ情報が収集可能と気づき、このサイトを作り始めました。</li>
+          </ul>
+        </div>
       </section>
 
       <section>
