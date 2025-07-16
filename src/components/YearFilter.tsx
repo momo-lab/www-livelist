@@ -35,7 +35,7 @@ export const YearFilter: React.FC<YearFilterProps> = ({
       if (!yearMonthMap[year]) {
         yearMonthMap[year] = [];
       }
-      
+
       if (!yearMonthMap[year].includes(month)) {
         yearMonthMap[year].push(month);
       }
@@ -51,7 +51,9 @@ export const YearFilter: React.FC<YearFilterProps> = ({
 
   useEffect(() => {
     // 初期状態で最初の年を自動選択
-    const years = Object.keys(yearMonths).map(Number).sort((a, b) => b - a);
+    const years = Object.keys(yearMonths)
+      .map(Number)
+      .sort((a, b) => b - a);
     if (years.length > 0 && selectedYear === null) {
       onSelectedYearChange(years[0]);
       setSelectedValue(years[0].toString());
@@ -64,7 +66,7 @@ export const YearFilter: React.FC<YearFilterProps> = ({
 
   const handleValueChange = (value: string) => {
     setSelectedValue(value);
-    
+
     if (value.includes('-')) {
       // 年月選択の場合
       const [year, month] = value.split('-').map(Number);
@@ -90,14 +92,9 @@ export const YearFilter: React.FC<YearFilterProps> = ({
 
   return (
     <div>
-      <Select
-        value={selectedValue}
-        onValueChange={handleValueChange}
-      >
+      <Select value={selectedValue} onValueChange={handleValueChange}>
         <SelectTrigger>
-          <SelectValue placeholder="年月で絞り込み">
-            {getDisplayValue()}
-          </SelectValue>
+          <SelectValue placeholder="年月で絞り込み">{getDisplayValue()}</SelectValue>
         </SelectTrigger>
         <SelectContent>
           {availableYears.map((year) => [
@@ -108,7 +105,7 @@ export const YearFilter: React.FC<YearFilterProps> = ({
               <SelectItem key={`${year}-${month}`} value={`${year}-${month}`} className="pl-6">
                 {month}月
               </SelectItem>
-            ))
+            )),
           ])}
         </SelectContent>
       </Select>

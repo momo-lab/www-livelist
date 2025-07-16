@@ -25,34 +25,34 @@ describe('cn', () => {
 describe('formatDate', () => {
   it('formats date for upcoming mode correctly', () => {
     const date = new Date('2025-07-15T10:00:00Z'); // July 15, 2025, Tuesday
-    expect(formatDate(date, 'upcoming')).toBe('7/15(火)');
+    expect(formatDate(date)).toBe('7/15(火)');
   });
 
   it('formats date for past mode correctly', () => {
     const date = new Date('2025-07-15T10:00:00Z'); // July 15, 2025, Tuesday
-    expect(formatDate(date, 'past')).toBe('2025/7/15(火)');
+    expect(formatDate(date)).toBe('7/15(火)');
   });
 
   it('handles different days of the week', () => {
     // Sunday
     const sunday = new Date('2025-07-13T10:00:00Z');
-    expect(formatDate(sunday, 'upcoming')).toBe('7/13(日)');
+    expect(formatDate(sunday)).toBe('7/13(日)');
 
     // Saturday
     const saturday = new Date('2025-07-12T10:00:00Z');
-    expect(formatDate(saturday, 'upcoming')).toBe('7/12(土)');
+    expect(formatDate(saturday)).toBe('7/12(土)');
   });
 
   it('handles single digit month and day', () => {
     const date = new Date('2025-01-01T10:00:00Z'); // January 1, 2025, Wednesday
-    expect(formatDate(date, 'upcoming')).toBe('1/1(水)');
-    expect(formatDate(date, 'past')).toBe('2025/1/1(水)');
+    expect(formatDate(date)).toBe('1/1(水)');
+    expect(formatDate(date)).toBe('1/1(水)');
   });
 
   it('handles double digit month and day', () => {
     const date = new Date('2025-12-25T10:00:00Z'); // December 25, 2025, Thursday
-    expect(formatDate(date, 'upcoming')).toBe('12/25(木)');
-    expect(formatDate(date, 'past')).toBe('2025/12/25(木)');
+    expect(formatDate(date)).toBe('12/25(木)');
+    expect(formatDate(date)).toBe('12/25(木)');
   });
 });
 

@@ -15,7 +15,7 @@ export const useEventTableData = (mode: 'upcoming' | 'past', selectedIdols: stri
         const idol = idols.find((i) => i.id === e.id);
         return {
           ...e,
-          formatted_date: formatDate(e.date, mode),
+          formatted_date: formatDate(e.date),
           isToday: toDate(e.date).getTime() === today.getTime(),
           ...(idol && { colors: idol.colors }),
         };

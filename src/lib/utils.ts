@@ -6,12 +6,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // 日付を「6/1(月)」形式にフォーマットする関数
-export const formatDate = (date: Date, mode: string): string => {
-  const year = date.getFullYear();
+export const formatDate = (date: Date): string => {
   const month = date.getMonth() + 1;
   const day = date.getDate();
   const dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()];
-  return mode == 'past' ? `${year}/${month}/${day}(${dayOfWeek})` : `${month}/${day}(${dayOfWeek})`;
+  return `${month}/${day}(${dayOfWeek})`;
 };
 
 export const toDate = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());

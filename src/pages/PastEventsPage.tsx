@@ -21,7 +21,7 @@ export const PastEventsPage: React.FC = () => {
 
     if (selectedYear && year !== selectedYear) return false;
     if (selectedMonth && month !== selectedMonth) return false;
-    
+
     return true;
   });
 
