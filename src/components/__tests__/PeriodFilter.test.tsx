@@ -54,7 +54,7 @@ describe('PeriodFilter', () => {
       <PeriodFilter onSelectedPeriodChange={mockOnSelectedYearChange} events={mockEvents} />
     );
 
-    expect(mockOnSelectedYearChange).toHaveBeenCalledWith(2024);
+    expect(mockOnSelectedYearChange).toHaveBeenCalledWith({ year: 2024 });
 
     // 2024年が選択されている状態で再レンダリング
     rerender(
