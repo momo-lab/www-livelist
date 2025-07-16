@@ -9,13 +9,21 @@ import React, { useState } from 'react';
 export const PastEventsPage: React.FC = () => {
   const [selectedIdols, setSelectedIdols] = useLocalStorage<string[]>('selectedIdols', []);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
+  const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
 
   const { loading, error } = useLiveEvents();
   const { eventTableData: allEventTableData } = useEventTableData('past', selectedIdols);
 
-  const eventTableData = selectedYear
-    ? allEventTableData.filter((event) => new Date(event.date).getFullYear() === selectedYear)
-    : allEventTableData;
+  const eventTableData = allEventTableData.filter((event) => {
+    const date = new Date(event.date);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+
+    if (selectedYear && year !== selectedYear) return false;
+    if (selectedMonth && month !== selectedMonth) return false;
+    
+    return true;
+  });
 
   const handleSelectedIdolsChange = (newSelectedIdols: string[]) => {
     setSelectedIdols(newSelectedIdols);
@@ -39,6 +47,7 @@ export const PastEventsPage: React.FC = () => {
         <YearFilter
           selectedYear={selectedYear}
           onSelectedYearChange={setSelectedYear}
+          onSelectedMonthChange={setSelectedMonth}
           events={allEventTableData}
         />
       </div>
