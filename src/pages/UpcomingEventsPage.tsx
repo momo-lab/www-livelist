@@ -25,7 +25,12 @@ export const UpcomingEventsPage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 pb-4">
-      <IdolFilter selectedIdols={selectedIdols} onSelectedIdolsChange={handleSelectedIdolsChange} />
+      <div className="space-y-2 my-2">
+        <IdolFilter
+          selectedIdols={selectedIdols}
+          onSelectedIdolsChange={handleSelectedIdolsChange}
+        />
+      </div>
 
       {eventTableData.length > 0 ? (
         <LiveEventTable tableData={eventTableData} />

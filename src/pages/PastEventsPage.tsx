@@ -31,7 +31,7 @@ export const PastEventsPage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 pb-4">
-      <div>
+      <div className="space-y-2 my-2">
         <IdolFilter
           selectedIdols={selectedIdols}
           onSelectedIdolsChange={handleSelectedIdolsChange}
