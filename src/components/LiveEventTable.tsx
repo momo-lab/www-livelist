@@ -18,11 +18,11 @@ interface LiveEventTableProps {
 
 export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => {
   return (
-    <Table className="rounded-lg border border-border">
+    <Table>
       <TableHeader className={cn('bg-header-bg', 'text-header-fg')}>
         <TableRow>
-          <TableHead className="w-fit border-r border-border">日付</TableHead>
-          <TableHead>イベント内容</TableHead>
+          <TableHead className="rounded-tl-lg w-fit border-r border-border">日付</TableHead>
+          <TableHead className="rounded-tr-lg">イベント内容</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -42,9 +42,9 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
               {event.isFirstOfDay && (
                 <TableCell
                   rowSpan={event.rowspan}
-                  className={`font-medium ${dateBgColor} pt-2 px-2 border-r border-border text-center align-top`}
+                  className={`font-medium ${dateBgColor} p-2 border-r border-border text-center align-top`}
                 >
-                  <div className="inline-flex items-center justify-center w-full">
+                  <div className="inline-flex items-center justify-center w-full sticky top-[calc(var(--header-height)+0.5rem)]">
                     <div>
                       {event.formatted_date}
                       {event.isToday && (

@@ -4,10 +4,10 @@ import { cn } from '@/lib/utils';
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
   ({ className, ...props }, ref) => (
-    <div className={cn('relative w-full overflow-auto rounded-lg', className)}>
-      {' '}
-      {/* rounded-lgとoverflow-hiddenを追加 */}
-      <table ref={ref} className={cn('w-full caption-bottom text-sm', className)} {...props} />
+    <div className={cn('relative w-full overflow-visible')}>
+      <div className={cn('rounded-lg border border-border')}>
+        <table ref={ref} className={cn('w-full caption-bottom text-sm', className)} {...props} />
+      </div>
     </div>
   )
 );
