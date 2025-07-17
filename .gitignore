@@ -11,8 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
-public/idols.json
-public/data.json
+
+public/external-data
 
 
 # Editor directories and files

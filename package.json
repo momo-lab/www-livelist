@@ -6,12 +6,12 @@
   "scripts": {
     "dev": "vite --mode test",
     "build": "tsc -b && vite build --mode test",
-    "typecheck": "tsc -b --noEmit",
+    "deploy": "node scripts/deploy.ts --exclude=external-data --mode test",
+    "build-check": "tsc -b --noEmit",
     "test": "vitest",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "full-check": "yarn typecheck && yarn test run && yarn lint && yarn format",
-    "deploy": "node scripts/deploy.ts --exclude=\"data*.json\" --exclude=\"idols*.json\" --mode test",
+    "full-check": "yarn build-check && yarn test run && yarn lint && yarn format",
     "preview": "vite preview --mode test"
   },
   "dependencies": {

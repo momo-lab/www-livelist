@@ -12,12 +12,15 @@ export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children
   const [error, setError] = useState<string | null>(null);
   const [idols, setIdols] = useState<Idol[]>([]);
 
+  const makeFetchUrl = (name: string) =>
+    `${import.meta.env.BASE_URL}external-data/${name}?cachebuster=${new Date().getTime()}`;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [eventsResponse, idolsResponse] = await Promise.all([
-          fetch(`${import.meta.env.BASE_URL}data.json?cachebuster=${new Date().getTime()}`),
-          fetch(`${import.meta.env.BASE_URL}idols.json?cachebuster=${new Date().getTime()}`),
+          fetch(makeFetchUrl('data.json')),
+          fetch(makeFetchUrl('idols.json')),
         ]);
 
         if (!eventsResponse.ok) {
