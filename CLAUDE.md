@@ -8,8 +8,8 @@
 - `yarn test` - テストを実行
 - `yarn lint` - ESLintチェック
 - `yarn format` - Prettierでフォーマット
-- `yarn build:prod` / `yarn build:test` - ビルド
-- `yarn full-deploy:prod` / `yarn full-deploy:test` - 完全デプロイパイプライン
+- `yarn build` - ビルド
+- `yarn deploy` - デプロイ
 
 ## アーキテクチャ
 

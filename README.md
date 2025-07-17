@@ -35,25 +35,25 @@
 ### 本番環境向けビルド
 
 ```bash
-yarn build:prod
+yarn build --mode production
 ```
 
 ### 本番環境へのデプロイ
 
 ```bash
-yarn deploy:prod
+yarn deploy --mode production
 ```
 
 ### テスト環境向けビルド
 
 ```bash
-yarn build:test
+yarn build
 ```
 
 ### テスト環境へのデプロイ
 
 ```bash
-yarn deploy:test
+yarn deploy
 ```
 
 ## テスト

@@ -4,32 +4,15 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --base=${npm_package_config_prod_base_url}",
-    "_build": "test -n \"${BASE_URL}\" && tsc -b && vite build --base=\"${BASE_URL}\"",
-    "_deploy": "test -n \"${DEPLOY_URL}\" && rsync -avz --delete --exclude=\"data*.json\" --exclude=\"idols*.json\" ./dist/ \"${DEPLOY_URL}\"",
-    "_full-deploy": "test -n \"${ENV}\" && yarn full-check && yarn build:${ENV} && yarn deploy:${ENV}",
+    "dev": "vite --mode test",
+    "build": "tsc -b && vite build --mode test",
     "typecheck": "tsc -b --noEmit",
     "test": "vitest",
     "lint": "eslint .",
     "format": "prettier --write .",
     "full-check": "yarn typecheck && yarn test run && yarn lint && yarn format",
-    "build:prod": "BASE_URL=${npm_package_config_prod_base_url} yarn _build",
-    "deploy:prod": "DEPLOY_URL=${npm_package_config_prod_deploy_url} yarn _deploy",
-    "full-deploy:prod": "ENV=prod yarn _full-deploy",
-    "build:test": "BASE_URL=${npm_package_config_test_base_url} yarn _build",
-    "deploy:test": "DEPLOY_URL=${npm_package_config_test_deploy_url} yarn _deploy",
-    "full-deploy:test": "ENV=test yarn _full-deploy",
-    "preview": "vite preview"
-  },
-  "config": {
-    "prod": {
-      "base_url": "/livelist/",
-      "deploy_url": "momo-lab.net:www/livelist/"
-    },
-    "test": {
-      "base_url": "/livelist-test/",
-      "deploy_url": "momo-lab.net:www/livelist-test/"
-    }
+    "deploy": "node scripts/deploy.ts --exclude=\"data*.json\" --exclude=\"idols*.json\" --mode test",
+    "preview": "vite preview --mode test"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
@@ -38,9 +21,12 @@
     "@radix-ui/react-tabs": "^1.1.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.0",
     "lucide-react": "^0.525.0",
+    "minimist": "^1.2.8",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-ga4": "^2.1.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.6.3",
     "tailwind-merge": "^3.3.1"
@@ -52,6 +38,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^30.0.0",
+    "@types/minimist": "^1.2.5",
     "@types/node": "^24.0.12",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",

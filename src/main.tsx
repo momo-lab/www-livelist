@@ -2,11 +2,17 @@ import { Layout } from '@/components/Layout';
 import { LiveEventsProvider } from '@/providers/LiveEventsProvider';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import ReactGA from 'react-ga4';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.css';
 import { AboutPage } from './pages/About';
 import { PastEventsPage } from './pages/PastEventsPage';
 import { UpcomingEventsPage } from './pages/UpcomingEventsPage';
+
+const ga4Id = import.meta.env.VITE_GA4_ID;
+if (ga4Id) {
+  ReactGA.initialize(ga4Id);
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
