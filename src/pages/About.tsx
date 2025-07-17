@@ -57,6 +57,12 @@ export const AboutPage: React.FC = () => {
       <section className="mb-8">
         <h2 className="mb-2 text-xl font-semibold">更新履歴</h2>
         <div className="mb-4">
+          <h3 className="mb-1 font-semibold">2025-07-17</h3>
+          <ul className="list-disc pl-8">
+            <li>日付の表示を調整しました。</li>
+          </ul>
+        </div>
+        <div className="mb-4">
           <h3 className="mb-1 font-semibold">2025-07-16</h3>
           <ul className="list-disc pl-8">
             <li>過去のライブのページで期間の絞り込み機能を追加しました。</li>
