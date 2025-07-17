@@ -42,7 +42,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
               {event.isFirstOfDay && (
                 <TableCell
                   rowSpan={event.rowspan}
-                  className={`font-medium ${dateBgColor} px-2 border-r border-border text-center align-middle`}
+                  className={`font-medium ${dateBgColor} pt-2 px-2 border-r border-border text-center align-top`}
                 >
                   <div className="inline-flex items-center justify-center w-full">
                     <div>
