@@ -21,7 +21,9 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
     <Table>
       <TableHeader className={cn('bg-header-bg', 'text-header-fg')}>
         <TableRow>
-          <TableHead className="rounded-tl-lg w-fit border-r border-border">日付</TableHead>
+          <TableHead className="rounded-tl-lg w-20 border-r border-border text-center">
+            日付
+          </TableHead>
           <TableHead className="rounded-tr-lg">イベント内容</TableHead>
         </TableRow>
       </TableHeader>
