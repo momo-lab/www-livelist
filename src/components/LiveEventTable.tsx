@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { getHolidayName } from '@/lib/holidays-jp';
 import { cn } from '@/lib/utils';
 import type { TableEvent } from '@/types';
 import { ExternalLink } from 'lucide-react';
@@ -30,7 +31,9 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
       <TableBody>
         {tableData.map((event) => {
           const dayOfWeek = event.date.getDay(); // 0:日, 1:月, ..., 6:土
-          const dateBgColor = dayOfWeek === 0 ? 'bg-red-100' : dayOfWeek === 6 ? 'bg-blue-100' : '';
+          const holidayName = getHolidayName(event.date);
+          const dateBgColor =
+            dayOfWeek === 0 || holidayName ? 'bg-red-100' : dayOfWeek === 6 ? 'bg-blue-100' : '';
 
           const badgeStyle = event.colors
             ? {
@@ -49,8 +52,13 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
                   <div className="inline-flex items-center justify-center w-full sticky top-[calc(var(--header-height)+0.5rem)]">
                     <div>
                       {event.formatted_date}
+                      {holidayName && (
+                        <Badge className="px-1 my-0.5 text-xs font-normal bg-red-300 text-red-800">
+                          {holidayName}
+                        </Badge>
+                      )}
                       {event.isToday && (
-                        <Badge className="px-1 py-0.5 text-xs font-normal bg-amber-100 text-amber-800">
+                        <Badge className="px-1 my-0.5 text-xs font-normal bg-amber-100 text-amber-800">
                           本日
                         </Badge>
                       )}
