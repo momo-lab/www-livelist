@@ -12,7 +12,8 @@ dist
 dist-ssr
 *.local
 
-public/external-data
+public/external-data/*
+!public/external-data/.gitkeep
 
 
 # Editor directories and files
