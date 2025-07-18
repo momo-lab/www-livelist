@@ -6,6 +6,7 @@ import { LiveEventTable } from '../LiveEventTable';
 // Keep mock for ExternalLink as it's from a third-party icon library
 vi.mock('lucide-react', () => ({
   ExternalLink: () => <svg data-testid="ExternalLink" />,
+  CalendarPlus: () => <svg data-testid="CalendarPlus" />,
 }));
 
 const mockTableData: TableEvent[] = [

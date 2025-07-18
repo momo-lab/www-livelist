@@ -1,3 +1,4 @@
+import { AddToCalendarButton } from '@/components/AddToCalendarButton';
 import { Badge } from '@/components/ui/badge';
 import { LinkButton } from '@/components/ui/LinkButton';
 import {
@@ -73,14 +74,17 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
               )}
               <TableCell className={cn(isLastRow && 'rounded-br-lg')}>
                 <div className="px-4 py-2">
-                  <div className="mb-2 flex items-center">
+                  <div className="mb-2 flex justify-between items-center">
                     <Badge style={badgeStyle}>{event.short_name}</Badge>
-                    {event.link && (
-                      <LinkButton href={event.link} className="ml-auto inline-flex items-center">
-                        <ExternalLink className="me-1 h-4 w-4" />
-                        詳細
-                      </LinkButton>
-                    )}
+                    <div className="flex gap-3">
+                      {event.link && (
+                        <LinkButton href={event.link} className="inline-flex items-center">
+                          <ExternalLink className="me-0.5 h-4 w-4" />
+                          詳細
+                        </LinkButton>
+                      )}
+                      <AddToCalendarButton event={event} />
+                    </div>
                   </div>
                   <div className="item-start flex gap-2">
                     {event.image && (
