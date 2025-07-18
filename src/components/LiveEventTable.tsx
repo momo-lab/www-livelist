@@ -29,7 +29,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
         </TableRow>
       </TableHeader>
       <TableBody>
-        {tableData.map((event) => {
+        {tableData.map((event, i) => {
           const dayOfWeek = event.date.getDay(); // 0:日, 1:月, ..., 6:土
           const holidayName = getHolidayName(event.date);
           const dateBgColor =
@@ -42,12 +42,17 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
               }
             : {};
 
+          const isLastRow = i == tableData.length - (event.rowspan ?? 1);
+
           return (
             <TableRow key={event.url + event.date + event.content}>
               {event.isFirstOfDay && (
                 <TableCell
                   rowSpan={event.rowspan}
-                  className={`font-medium ${dateBgColor} p-2 border-r border-border text-center align-top`}
+                  className={cn(
+                    `font-medium ${dateBgColor} p-2 border-r border-border text-center align-top`,
+                    isLastRow && 'rounded-bl-lg'
+                  )}
                 >
                   <div className="inline-flex items-center justify-center w-full sticky top-[calc(var(--header-height)+0.5rem)]">
                     <div>
@@ -66,7 +71,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
                   </div>
                 </TableCell>
               )}
-              <TableCell>
+              <TableCell className={cn(isLastRow && 'rounded-br-lg')}>
                 <div className="px-4 py-2">
                   <div className="mb-2 flex items-center">
                     <Badge style={badgeStyle}>{event.short_name}</Badge>
