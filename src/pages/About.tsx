@@ -56,12 +56,22 @@ export const AboutPage: React.FC = () => {
 
       <section className="mb-8">
         <h2 className="mb-2 text-xl font-semibold">更新履歴</h2>
+
+        <div className="mb-4">
+          <h3 className="mb-1 font-semibold">2025-07-18</h3>
+          <ul className="list-disc pl-8">
+            <li>役目を終えたのでGoogle Spreadsheet版の旧サイトの公開を停止しました。</li>
+            <li>アイコンを書き直しました。</li>
+          </ul>
+        </div>
+
         <div className="mb-4">
           <h3 className="mb-1 font-semibold">2025-07-17</h3>
           <ul className="list-disc pl-8">
             <li>日付の表示を調整しました。</li>
           </ul>
         </div>
+
         <div className="mb-4">
           <h3 className="mb-1 font-semibold">2025-07-16</h3>
           <ul className="list-disc pl-8">
@@ -76,6 +86,7 @@ export const AboutPage: React.FC = () => {
             <li>更新履歴(これ)を追加しました。</li>
           </ul>
         </div>
+
         <div className="mb-4">
           <h3 className="mb-1 font-semibold">2025-07-15</h3>
           <ul className="list-disc pl-8">
@@ -83,6 +94,7 @@ export const AboutPage: React.FC = () => {
             <li>各種SNSのリンクを追加しました。</li>
           </ul>
         </div>
+
         <div className="mb-4">
           <h3 className="mb-1 font-semibold">2025-07-11</h3>
           <ul className="list-disc pl-8">
@@ -90,18 +102,21 @@ export const AboutPage: React.FC = () => {
             <li>アイドルの絞り込み機能を追加しました。</li>
           </ul>
         </div>
+
         <div className="mb-4">
           <h3 className="mb-1 font-semibold">2025-07-01</h3>
           <ul className="list-disc pl-8">
             <li>Google Spreadsheet版の旧サイトを公開しました。</li>
           </ul>
         </div>
+
         <div className="mb-4">
           <h3 className="mb-1 font-semibold">2025-06-25</h3>
           <ul className="list-disc pl-8">
             <li>lit.linkからの定期的なデータ収集を始めました。</li>
           </ul>
         </div>
+
         <div className="mb-4">
           <h3 className="mb-1 font-semibold">2025-06-24</h3>
           <ul className="list-disc pl-8">
