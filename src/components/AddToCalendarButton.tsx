@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import type { LiveEvent } from '@/types';
 import { CalendarPlus } from 'lucide-react';
 import React from 'react';
+import { FaApple, FaGoogle } from 'react-icons/fa6';
 
 const escapeICSText = (text: string): string => {
   return text
@@ -96,13 +97,17 @@ END:VCALENDAR`;
           <span className="underline me-0.5">登録</span>▾
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="border-border">
+      <DropdownMenuContent align="end" className="border-border">
         <DropdownMenuItem asChild>
           <a href={generateGoogleCalendarLink()} target="_blank" rel="noopener noreferrer">
+            <FaGoogle className="h-4 w-4" />
             Googleカレンダーに登録
           </a>
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={handleIcsDownload}>iPhoneに登録(.ics)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={handleIcsDownload}>
+          <FaApple className="h-4 w-4" />
+          iPhoneに登録(.ics)
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
