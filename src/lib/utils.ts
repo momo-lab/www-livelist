@@ -6,13 +6,14 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // 日付を「6/1(月)」形式にフォーマットする関数
-export const formatDate = (date: Date): string => {
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()];
+export const formatDate = (date: string): string => {
+  const d = new Date(date);
+  const month = d.getMonth() + 1;
+  const day = d.getDate();
+  const dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'][d.getDay()];
   return `${month}/${day}(${dayOfWeek})`;
 };
 
-export const toDate = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+export const toDateString = (d: Date) => d.toLocaleDateString('sv-SE');
 
-export const getToday = () => toDate(new Date());
+export const getToday = () => toDateString(new Date());

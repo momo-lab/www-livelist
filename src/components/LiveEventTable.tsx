@@ -10,7 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { getHolidayName } from '@/lib/holidays-jp';
-import { cn } from '@/lib/utils';
+import { cn, formatDate } from '@/lib/utils';
 import type { TableEvent } from '@/types';
 import { ExternalLink } from 'lucide-react';
 
@@ -31,7 +31,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
       </TableHeader>
       <TableBody>
         {tableData.map((event, i) => {
-          const dayOfWeek = event.date.getDay(); // 0:日, 1:月, ..., 6:土
+          const dayOfWeek = new Date(event.date).getDay(); // 0:日, 1:月, ..., 6:土
           const holidayName = getHolidayName(event.date);
           const dateBgColor =
             dayOfWeek === 0 || holidayName ? 'bg-red-100' : dayOfWeek === 6 ? 'bg-blue-100' : '';
@@ -46,7 +46,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
           const isLastRow = i == tableData.length - (event.rowspan ?? 1);
 
           return (
-            <TableRow key={event.url + event.date + event.content}>
+            <TableRow key={event.id + event.date + event.content}>
               {event.isFirstOfDay && (
                 <TableCell
                   rowSpan={event.rowspan}
@@ -57,7 +57,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
                 >
                   <div className="inline-flex items-center justify-center w-full sticky top-[calc(var(--header-height)+0.5rem)]">
                     <div>
-                      {event.formatted_date}
+                      {formatDate(event.date)}
                       {holidayName && (
                         <Badge className="px-1 my-0.5 text-xs font-normal bg-red-300 text-red-800">
                           {holidayName}

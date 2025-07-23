@@ -150,11 +150,8 @@ describe('PastEventsPage', () => {
         {
           id: 'event1',
           content: 'Test Event',
-          url: '',
-          name: 'Test Event',
           short_name: '',
-          date: new Date(),
-          formatted_date: '',
+          date: '2025-07-01',
           link: '',
         },
       ],
@@ -206,22 +203,16 @@ describe('PastEventsPage', () => {
   it('updates selectedPeriod and filters events when PeriodFilter changes selection', async () => {
     const mockEventTableData: TableEvent[] = [
       {
-        date: new Date('2024-01-01'),
+        date: '2024-01-01',
         id: 'event1',
-        url: '',
-        name: 'Event 1',
         short_name: 'E1',
-        formatted_date: '2024-01-01',
         content: '',
         link: '',
       },
       {
-        date: new Date('2023-01-01'),
+        date: '2023-01-01',
         id: 'event2',
-        url: '',
-        name: 'Event 2',
         short_name: 'E2',
-        formatted_date: '2023-01-01',
         content: '',
         link: '',
       },

@@ -1,5 +1,5 @@
 import { useLiveEvents } from '@/hooks/useLiveEvents';
-import { formatDate, getToday, toDate } from '@/lib/utils';
+import { getToday } from '@/lib/utils';
 import type { LiveEvent, TableEvent } from '@/types';
 import { useMemo } from 'react';
 
@@ -10,20 +10,20 @@ export const useEventTableData = (mode: 'upcoming' | 'past', selectedIdols: stri
 
   const enrichedEvents = useMemo(() => {
     let result = allEvents
-      .filter((e) => (mode === 'upcoming' ? toDate(e.date) >= today : toDate(e.date) < today))
+      .filter((e) => (mode === 'upcoming' ? e.date >= today : e.date < today))
       .map((e) => {
         const idol = idols.find((i) => i.id === e.id);
         return {
           ...e,
-          formatted_date: formatDate(e.date),
-          isToday: toDate(e.date).getTime() === today.getTime(),
-          ...(idol && { colors: idol.colors }),
+          isToday: e.date === today,
+          ...(idol && {
+            colors: idol.colors,
+            short_name: idol.short_name,
+          }),
         };
       });
     if (mode === 'past') {
-      result = result
-        .map(({ image: _, ...e }) => e)
-        .sort((a, b) => b.date.getTime() - a.date.getTime());
+      result = result.map(({ image: _, ...e }) => e).sort((a, b) => b.date.localeCompare(a.date));
     }
     return result;
   }, [allEvents, mode, today, idols]);
@@ -37,13 +37,13 @@ export const useEventTableData = (mode: 'upcoming' | 'past', selectedIdols: stri
 
   const createTableEvents = (liveEvents: LiveEvent[]): TableEvent[] => {
     let currentGroupIndex = -1;
-    let lastFormattedDate = '';
+    let lastDate = '';
 
     return liveEvents.reduce((acc: TableEvent[], event) => {
-      if (event.formatted_date !== lastFormattedDate) {
+      if (event.date !== lastDate) {
         currentGroupIndex++;
-        lastFormattedDate = event.formatted_date;
-        const dayEvents = liveEvents.filter((e) => e.formatted_date === event.formatted_date);
+        lastDate = event.date;
+        const dayEvents = liveEvents.filter((e) => e.date === event.date);
         acc.push({
           ...event,
           rowspan: dayEvents.length,

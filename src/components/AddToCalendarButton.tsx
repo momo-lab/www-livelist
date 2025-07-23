@@ -4,7 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
+import { cn, toDateString } from '@/lib/utils';
 import type { LiveEvent } from '@/types';
 import { CalendarPlus } from 'lucide-react';
 import React from 'react';
@@ -22,12 +22,12 @@ interface AddToCalendarButtonProps extends React.ComponentProps<'button'> {
   event: LiveEvent;
 }
 
-const toYYYYMMDD = (date: Date): string => date.toISOString().slice(0, 10).replace(/-/g, '');
+const toYYYYMMDD = (date: string): string => date.replace(/-/g, '');
 
-const getNextDay = (date: Date): Date => {
-  const next = new Date(date.getTime());
+const getNextDay = (date: string): string => {
+  const next = new Date(date);
   next.setDate(next.getDate() + 1);
-  return next;
+  return toDateString(next);
 };
 
 const makeTitle = (event: LiveEvent): string =>

@@ -11,15 +11,12 @@ vi.mock('lucide-react', () => ({
 
 const mockTableData: TableEvent[] = [
   {
-    name: 'Event 1 Content',
-    url: 'http://example.com/event1',
-    date: new Date('2025-07-15T10:00:00Z'),
+    date: '2025-07-15',
     content: 'Event 1 Content',
     id: 'idol1',
     short_name: 'Idol A',
     link: 'http://example.com/link1',
     image: 'http://example.com/image1.png',
-    formatted_date: '2025/07/15 (火)',
     rowspan: 2,
     isFirstOfDay: true,
     groupIndex: 0,
@@ -27,15 +24,12 @@ const mockTableData: TableEvent[] = [
     isToday: true,
   },
   {
-    name: 'Event 2 Content',
-    url: 'http://example.com/event2',
-    date: new Date('2025-07-15T12:00:00Z'),
+    date: '2025-07-15',
     content: 'Event 2 Content',
     id: 'idol2',
     short_name: 'Idol B',
     link: '', // No link
     image: '', // No image
-    formatted_date: '2025/07/15 (火)',
     rowspan: undefined,
     isFirstOfDay: false,
     groupIndex: 0,
@@ -43,15 +37,12 @@ const mockTableData: TableEvent[] = [
     isToday: true,
   },
   {
-    name: 'Event 3 Content',
-    url: 'http://example.com/event3',
-    date: new Date('2025-07-16T14:00:00Z'),
+    date: '2025-07-16',
     content: 'Event 3 Content',
     id: 'idol3',
     short_name: 'Idol C',
     link: 'http://example.com/link3',
     image: '', // No image
-    formatted_date: '2025/07/16 (水)',
     rowspan: 1,
     isFirstOfDay: true,
     groupIndex: 1,
@@ -77,7 +68,7 @@ describe('LiveEventTable', () => {
   it('renders first event of the day correctly with rowspan and date', () => {
     render(<LiveEventTable tableData={mockTableData} />);
     // Get all rows, skip the header row
-    const dateCell = screen.getByText('2025/07/15 (火)');
+    const dateCell = screen.getByText('7/15(火)');
     expect(dateCell).toBeInTheDocument();
     // Check the actual td element for rowspan
     expect(dateCell.closest('td')).toHaveAttribute('rowspan', '2');
@@ -111,7 +102,7 @@ describe('LiveEventTable', () => {
   it('renders event on a new day correctly with date cell', () => {
     render(<LiveEventTable tableData={mockTableData} />);
     const thirdEventRow = screen.getAllByRole('row')[3]; // Index 3 for the third data row
-    const dateCell = screen.getByText('2025/07/16 (水)');
+    const dateCell = screen.getByText('7/16(水)');
     expect(dateCell).toBeInTheDocument();
     expect(dateCell.closest('td')).toHaveAttribute('rowspan', '1');
 
@@ -135,15 +126,12 @@ describe('LiveEventTable', () => {
     // Create test data with only non-today events
     const nonTodayData: TableEvent[] = [
       {
-        name: 'Event 3 Content',
-        url: 'http://example.com/event3',
-        date: new Date('2025-07-16T14:00:00Z'),
+        date: '2025-07-16',
         content: 'Event 3 Content',
         id: 'idol3',
         short_name: 'Idol C',
         link: 'http://example.com/link3',
         image: '',
-        formatted_date: '2025/07/16 (水)',
         rowspan: 1,
         isFirstOfDay: true,
         groupIndex: 1,

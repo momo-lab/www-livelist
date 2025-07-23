@@ -16,20 +16,18 @@ export interface Idol {
 
 export interface LiveEvent {
   id: string;
-  url: string;
-  name: string;
-  short_name: string;
-  date: Date;
-  formatted_date: string;
+  date: string; // yyyy-MM-dd
   content: string;
   image?: string;
-  link: string;
+  link?: string;
 }
 
 export interface TableEvent extends LiveEvent {
+  short_name?: string;
+  isToday?: boolean;
+  colors?: IdolColors;
+
   rowspan?: number;
   isFirstOfDay?: boolean;
   groupIndex?: number;
-  colors?: IdolColors;
-  isToday?: boolean;
 }

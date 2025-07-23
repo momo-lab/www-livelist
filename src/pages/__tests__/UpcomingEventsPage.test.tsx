@@ -73,11 +73,8 @@ describe('UpcomingEventsPage', () => {
         {
           id: 'event1',
           content: 'Test Event',
-          url: '',
-          name: 'Test Event',
-          short_name: '',
-          date: new Date(),
-          formatted_date: '',
+          short_name: 'short',
+          date: '2025-07-01',
           link: '',
         },
       ],

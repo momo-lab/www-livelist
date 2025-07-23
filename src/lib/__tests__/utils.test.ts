@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
-import { cn, formatDate, getToday, toDate } from '../utils';
+import { describe, expect, it, vi } from 'vitest';
+import { cn, formatDate, getToday, toDateString } from '../utils';
 
 describe('cn', () => {
   it('combines class names correctly', () => {
@@ -24,72 +24,48 @@ describe('cn', () => {
 
 describe('formatDate', () => {
   it('formats date for upcoming mode correctly', () => {
-    const date = new Date('2025-07-15T10:00:00Z'); // July 15, 2025, Tuesday
+    const date = '2025-07-15T10:00:00Z';
     expect(formatDate(date)).toBe('7/15(火)');
   });
 
   it('formats date for past mode correctly', () => {
-    const date = new Date('2025-07-15T10:00:00Z'); // July 15, 2025, Tuesday
+    const date = '2025-07-15T10:00:00Z';
     expect(formatDate(date)).toBe('7/15(火)');
   });
 
   it('handles different days of the week', () => {
     // Sunday
-    const sunday = new Date('2025-07-13T10:00:00Z');
+    const sunday = '2025-07-13T10:00:00Z';
     expect(formatDate(sunday)).toBe('7/13(日)');
 
     // Saturday
-    const saturday = new Date('2025-07-12T10:00:00Z');
+    const saturday = '2025-07-12T10:00:00Z';
     expect(formatDate(saturday)).toBe('7/12(土)');
   });
 
   it('handles single digit month and day', () => {
-    const date = new Date('2025-01-01T10:00:00Z'); // January 1, 2025, Wednesday
-    expect(formatDate(date)).toBe('1/1(水)');
+    const date = '2025-01-01T10:00:00Z';
     expect(formatDate(date)).toBe('1/1(水)');
   });
 
   it('handles double digit month and day', () => {
-    const date = new Date('2025-12-25T10:00:00Z'); // December 25, 2025, Thursday
-    expect(formatDate(date)).toBe('12/25(木)');
+    const date = '2025-12-25T10:00:00Z';
     expect(formatDate(date)).toBe('12/25(木)');
   });
 });
 
-describe('toDate', () => {
+describe('toDateString', () => {
   it('should return a new Date object with time set to 00:00:00', () => {
     const originalDate = new Date('2023-01-15T10:30:00Z');
-    const expectedDate = new Date(
-      originalDate.getFullYear(),
-      originalDate.getMonth(),
-      originalDate.getDate()
-    );
-    const result = toDate(originalDate);
-    expect(result.toISOString().split('T')[0]).toBe(expectedDate.toISOString().split('T')[0]);
-    expect(result.getHours()).toBe(0);
-    expect(result.getMinutes()).toBe(0);
-    expect(result.getSeconds()).toBe(0);
-    expect(result.getMilliseconds()).toBe(0);
-  });
-
-  it('should not modify the original Date object', () => {
-    const originalDate = new Date('2023-01-15T10:30:00Z');
-    const originalDateCopy = new Date(originalDate.getTime());
-    toDate(originalDate);
-    expect(originalDate.getTime()).toBe(originalDateCopy.getTime());
+    const result = toDateString(originalDate);
+    expect(result).toBe('2023-01-15');
   });
 });
 
 describe('getToday', () => {
   it(`should return today's date with time set to 00:00:00`, () => {
-    const today = new Date();
+    vi.setSystemTime(new Date('2025-01-01T08:15:00Z'));
     const result = getToday();
-    expect(result.getFullYear()).toBe(today.getFullYear());
-    expect(result.getMonth()).toBe(today.getMonth());
-    expect(result.getDate()).toBe(today.getDate());
-    expect(result.getHours()).toBe(0);
-    expect(result.getMinutes()).toBe(0);
-    expect(result.getSeconds()).toBe(0);
-    expect(result.getMilliseconds()).toBe(0);
+    expect(result).toBe('2025-01-01');
   });
 });

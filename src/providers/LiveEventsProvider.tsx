@@ -23,22 +23,17 @@ export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children
           fetch(makeFetchUrl('idols.json')),
         ]);
 
-        if (!eventsResponse.ok) {
-          throw new Error('イベントデータの取得に失敗しました。');
-        }
-        const eventsData: LiveEvent[] = (await eventsResponse.json()).map(
-          ({ date, ...event }: { date: string }) => ({
-            ...event,
-            date: new Date(date),
-          })
-        );
-        setAllEvents(eventsData);
-
         if (!idolsResponse.ok) {
           throw new Error('アイドルデータの取得に失敗しました。');
         }
         const idolsData: Idol[] = await idolsResponse.json();
         setIdols(idolsData);
+
+        if (!eventsResponse.ok) {
+          throw new Error('イベントデータの取得に失敗しました。');
+        }
+        const eventsData: LiveEvent[] = await eventsResponse.json();
+        setAllEvents(eventsData);
       } catch (err) {
         setError(err instanceof Error ? err.message : '不明なエラーが発生しました。');
       } finally {
