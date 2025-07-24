@@ -33,6 +33,7 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          name: id_private
           known_hosts: ${{ secrets.REMOTE_HOST }}
 
       - name: Build
@@ -40,3 +41,5 @@ jobs:
 
       - name: Deploy via deploy.ts
         run: yarn deploy --mode production
+        env:
+          SSH_KEY_PATH: ~/.ssh/id_private

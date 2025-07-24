@@ -56,9 +56,13 @@ if (!remoteDir) {
   process.exit(1);
 }
 
+// 環境変数SSH_KEY_PATHの指定があればそれを使う
+const sshKey = process.env.SSH_KEY_PATH;
+const sshCmd = sshKey ? `ssh -i "${sshKey}" -o StrictHostKeyChecking=yes` : 'ssh';
+
 // コマンド引数配列にdistDirとdestを追加
 const dest = `${remoteUser}@${remoteHost}:${remoteDir}`;
-const cmdArgs = ['-avz', '--delete', ...rsyncArgs, distDir, dest];
+const cmdArgs = ['-avz', '--delete', '-e', sshCmd, ...rsyncArgs, distDir, dest];
 console.log('Executing: rsync', cmdArgs.join(' '));
 
 // spawnSyncで実行
