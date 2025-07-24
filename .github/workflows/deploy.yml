@@ -1,0 +1,43 @@
+name: Build and Deploy
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+
+    env:
+      VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
+      VITE_GA4_ID: ${{ secrets.VITE_GA4_ID }}
+      DEPLOY_DEST: ${{ secrets.DEPLOY_DEST }}
+      SSH_KEY_PATH: ${{ github.workspace }}/.ssh/id_private
+      NODE_ENV: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p $(dirname $SSH_KEY_PATH)
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > $SSH_KEY_PATH
+          chmod 600 $SSH_KEY_PATH
+        shell: bash
+
+      - name: Run full-check
+        run: yarn build --mode production
+
+      - name: Deploy via deploy.ts
+        run: yarn deploy --mode production

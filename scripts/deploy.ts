@@ -43,13 +43,21 @@ if (!dest) {
   process.exit(1);
 }
 
+// 環境変数SSH_KEY_PATHの指定があればそれを使う
+const sshKey = process.env.SSH_KEY_PATH;
+const sshCmd = sshKey ? `ssh -i "${sshKey}" -o StrictHostKeyChecking=yes` : 'ssh';
+
 // コマンド引数配列にdistDirとdestを追加
-const cmdArgs = ['-avz', '--delete', ...rsyncArgs, distDir, dest];
+const cmdArgs = ['-avz', '--delete', '-e', sshCmd, ...rsyncArgs, distDir, dest];
 console.log('Executing: rsync', cmdArgs.join(' '));
 
 // spawnSyncで実行
 const result = spawnSync('rsync', cmdArgs, { stdio: 'inherit' });
 
+if (result.error) {
+  console.error('Failed to start rsync:', result.error);
+  process.exit(1);
+}
 if (result.status !== 0) {
   console.error(`rsync failed with exit code ${result.status}`);
   process.exit(result.status ?? 1);
