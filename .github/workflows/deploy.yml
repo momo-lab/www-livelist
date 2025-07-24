@@ -45,7 +45,7 @@ jobs:
         run: pnpm build --mode production
 
       - name: Deploy via deploy.ts
-        run: pnpm deploy --mode production
+        run: pnpm deploy-app --mode production
         env:
           SSH_KEY_PATH: ~/.ssh/id_private
 

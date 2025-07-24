@@ -4,15 +4,15 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --mode test",
-    "build": "tsc -b && vite build --mode test",
-    "deploy": "node scripts/deploy.ts --exclude='external-data/**' --mode test",
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "deploy-app": "node scripts/deploy.ts --exclude='external-data/**'",
     "build-check": "tsc -b --noEmit",
     "test": "vitest",
     "lint": "eslint .",
     "format": "prettier --write .",
     "full-check": "pnpm build-check && pnpm test run && pnpm lint && pnpm format",
-    "preview": "vite preview --mode test"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
