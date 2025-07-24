@@ -50,7 +50,7 @@ jobs:
           SSH_KEY_PATH: ~/.ssh/id_private
 
   notify-on-success:
-    needs: build-and-test-job
+    needs: deploy-prod-job
     if: success()
     uses: ./.github/workflows/line-notify.yml
     with:
