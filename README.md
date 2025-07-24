@@ -65,10 +65,25 @@ pnpm test
 コードの整形とリンティングを実行します。
 
 ```bash
-yarn format
-yarn lint
+pnpm format
+pnpm lint
 ```
 
 ## その他の情報
 
 - **コミットメッセージ**: コミットメッセージは日本語で記述してください。
+
+### GitHub Secrets
+
+本プロジェクトのデプロイおよび通知機能を利用するには、以下のGitHub Secretsをリポジトリに設定する必要があります。
+
+| Secret名                    | 説明                                                        |
+| :-------------------------- | :---------------------------------------------------------- |
+| `VITE_BASE_URL`             | Viteビルド時のベースURL（例: `/` または `/your-app-path/`） |
+| `VITE_GA4_ID`               | Google Analytics 4の測定ID（`G-` から始まるID）             |
+| `REMOTE_USER`               | デプロイ先サーバーへのSSH接続ユーザー名                     |
+| `REMOTE_HOST`               | デプロイ先サーバーのホスト名                                |
+| `REMOTE_DIR`                | デプロイ先サーバーのディレクトリパス                        |
+| `SSH_PRIVATE_KEY`           | デプロイ先サーバーへのSSH接続に使用する秘密鍵（改行含む）   |
+| `LINE_CHANNEL_ACCESS_TOKEN` | LINE Messaging APIのチャネルアクセストークン                |
+| `LINE_USER_ID`              | LINE通知の送信先となるユーザーIDまたはグループID            |
