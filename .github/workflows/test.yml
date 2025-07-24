@@ -43,15 +43,13 @@ jobs:
         if: failure()
         run: |
           UUID=$(uuidgen)
-          {
-            echo 'LINE_MESSAGE<<EOF'
+          LINE_MESSAGE=$({
             echo '❌ GitHub Actionsでエラーが発生しました'
             echo ''
             echo '📦 プロジェクト: ${{ github.repository }}'
             echo '🔖 ブランチ/タグ: ${{ github.ref_name }}'
             echo '🔗 詳細: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-            echo EOF
-          } >> $GITHUB_ENV
+          })
           curl -v -X POST https://api.line.me/v2/bot/message/push \
             -H 'Content-Type: application/json' \
             -H 'Authorization: Bearer ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}' \
