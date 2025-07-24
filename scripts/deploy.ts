@@ -37,18 +37,28 @@ for (const file of envFiles) {
 }
 
 const distDir = 'dist/';
-const dest = process.env.DEPLOY_DEST;
-if (!dest) {
-  console.error('ERROR: DEPLOY_DEST is not defined.');
+
+const remoteUser = process.env.REMOTE_USER;
+if (!remoteUser) {
+  console.error('ERROR: REMOTE_USER is not defined.');
   process.exit(1);
 }
 
-// 環境変数SSH_KEY_PATHの指定があればそれを使う
-const sshKey = process.env.SSH_KEY_PATH;
-const sshCmd = sshKey ? `ssh -i "${sshKey}" -o StrictHostKeyChecking=yes` : 'ssh';
+const remoteHost = process.env.REMOTE_HOST;
+if (!remoteHost) {
+  console.error('ERROR: REMOTE_HOST is not defined.');
+  process.exit(1);
+}
+
+const remoteDir = process.env.REMOTE_DIR;
+if (!remoteDir) {
+  console.error('ERROR: REMOTE_DIR is not defined.');
+  process.exit(1);
+}
 
 // コマンド引数配列にdistDirとdestを追加
-const cmdArgs = ['-avz', '--delete', '-e', sshCmd, ...rsyncArgs, distDir, dest];
+const dest = `${remoteUser}@${remoteHost}:${remoteDir}`;
+const cmdArgs = ['-avz', '--delete', ...rsyncArgs, distDir, dest];
 console.log('Executing: rsync', cmdArgs.join(' '));
 
 // spawnSyncで実行

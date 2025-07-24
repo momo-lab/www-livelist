@@ -12,7 +12,9 @@ jobs:
     env:
       VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
       VITE_GA4_ID: ${{ secrets.VITE_GA4_ID }}
-      DEPLOY_DEST: ${{ secrets.DEPLOY_DEST }}
+      REMOTE_USER: ${{ secrets.REMOTE_USER }}
+      REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+      REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
 
     steps:
       - name: Checkout
@@ -31,7 +33,6 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          name: id_private
           known_hosts: ${{ secrets.REMOTE_HOST }}
 
       - name: Build
