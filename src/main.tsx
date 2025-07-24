@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.css';
 import { AboutPage } from './pages/About';
 import { PastEventsPage } from './pages/PastEventsPage';
-mport { UpcomingEventsPage } from './pages/UpcomingEventsPage';
+import { UpcomingEventsPage } from './pages/UpcomingEventsPage';
 
 const ga4Id = import.meta.env.VITE_GA4_ID;
 if (ga4Id) {
