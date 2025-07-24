@@ -5,7 +5,7 @@
       "@/*": ["./src/*"]
     },
     "jsx": "react-jsx",
-    "types": ["@testing-library/jest-dom", "vitest/globals", "@types/jest", "@types/node"]
+    "types": ["vitest/globals", "@types/jest", "@types/node"]
   },
   "files": [],
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
