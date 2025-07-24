@@ -55,7 +55,7 @@ jobs:
           curl -v -X POST https://api.line.me/v2/bot/message/push \
             -H 'Content-Type: application/json' \
             -H 'Authorization: Bearer ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}' \
-            -H 'X-Line-Retry-Key: $UUID' \
+            -H "X-Line-Retry-Key: $UUID" \
             -d "$(jq -n \
               --arg to "${{ secrets.LINE_USER_ID }}" \
               --arg message "$LINE_MESSAGE" \
