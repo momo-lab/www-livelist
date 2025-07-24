@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build check
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 jobs:
-  deploy-prod:
+  deploy-prod-job:
     runs-on: ubuntu-latest
 
     env:
@@ -48,3 +48,29 @@ jobs:
         run: pnpm deploy --mode production
         env:
           SSH_KEY_PATH: ~/.ssh/id_private
+
+  notify-on-success:
+    needs: build-and-test-job
+    if: success()
+    uses: ./.github/workflows/line-notify.yml
+    with:
+      message_prefix: '✅ デプロイが成功しました。'
+      github_repository: ${{ github.repository }}
+      github_ref_name: ${{ github.ref_name }}
+      github_run_id: ${{ github.run_id }}
+    secrets:
+      LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+      LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+
+  notify-on-failure:
+    needs: deploy-prod-job
+    if: failure()
+    uses: ./.github/workflows/line-notify.yml
+    with:
+      message_prefix: '❌ デプロイが失敗しました。'
+      github_repository: ${{ github.repository }}
+      github_ref_name: ${{ github.ref_name }}
+      github_run_id: ${{ github.run_id }}
+    secrets:
+      LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+      LINE_USER_ID: ${{ secrets.LINE_USER_ID }}

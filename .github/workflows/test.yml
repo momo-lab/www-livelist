@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-test:
+  build-and-test-job:
     runs-on: ubuntu-latest
 
     env:
@@ -39,23 +39,15 @@ jobs:
       - name: Run tests
         run: pnpm test run
 
-      - name: Send LINE message on failure
-        if: failure()
-        run: |
-          UUID=$(uuidgen)
-          LINE_MESSAGE=$({
-            echo '❌ GitHub Actionsでエラーが発生しました'
-            echo ''
-            echo '📦 プロジェクト: ${{ github.repository }}'
-            echo '🔖 ブランチ/タグ: ${{ github.ref_name }}'
-            echo '🔗 詳細: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-          })
-          curl -v -X POST https://api.line.me/v2/bot/message/push \
-            -H 'Content-Type: application/json' \
-            -H 'Authorization: Bearer ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}' \
-            -H "X-Line-Retry-Key: $UUID" \
-            -d "$(jq -n \
-              --arg to "${{ secrets.LINE_USER_ID }}" \
-              --arg message "$LINE_MESSAGE" \
-              '{to: $to, messages: [{ type: "text", text: $message }]}'
-            )"
+  notify-on-failure:
+    needs: build-and-test-job
+    if: failure()
+    uses: ./.github/workflows/line-notify.yml
+    with:
+      message_prefix: '❌ テストが失敗しました。'
+      github_repository: ${{ github.repository }}
+      github_ref_name: ${{ github.ref_name }}
+      github_run_id: ${{ github.run_id }}
+    secrets:
+      LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+      LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
