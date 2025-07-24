@@ -4,12 +4,12 @@
 
 ## コマンド
 
-- `yarn dev` - 開発サーバーを起動
-- `yarn test` - テストを実行
-- `yarn lint` - ESLintチェック
-- `yarn format` - Prettierでフォーマット
-- `yarn build` - ビルド
-- `yarn deploy` - デプロイ
+- `pnpm dev` - 開発サーバーを起動
+- `pnpm test` - テストを実行
+- `pnpm lint` - ESLintチェック
+- `pnpm format` - Prettierでフォーマット
+- `pnpm build` - ビルド
+- `pnpm deploy-app` - デプロイ
 
 ## アーキテクチャ
 

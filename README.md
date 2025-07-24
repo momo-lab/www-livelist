@@ -11,7 +11,7 @@
 - **フロントエンド**: React, Vite
 - **スタイリング**: Tailwind CSS
 - **UIコンポーネント**: shadcn/ui
-- **パッケージ管理**: yarn
+- **パッケージ管理**: pnpm
 
 ## 開発環境のセットアップ
 
@@ -20,40 +20,36 @@
     git clone https://github.com/momo-lab/www-livelist.git
     cd www-livelist
     ```
-2.  依存関係をインストールします。
+2.  環境変数を設定します。
+    `.env.sample` をコピーして `.env` ファイルを作成し、必要に応じて環境変数を設定してください。
     ```bash
-    yarn install
+    cp .env.sample .env
     ```
-3.  開発サーバーを起動します。
+3.  依存関係をインストールします。
     ```bash
-    yarn dev
+    pnpm install
+    ```
+4.  開発サーバーを起動します。
+    ```bash
+    pnpm dev
     ```
     開発サーバーは通常 `http://localhost:5173` で起動します。
 
 ## ビルドとデプロイ
 
-### 本番環境向けビルド
-
-```bash
-yarn build --mode production
-```
-
-### 本番環境へのデプロイ
-
-```bash
-yarn deploy --mode production
-```
+本番環境へのビルドとデプロイは「v」で始まるタグをpushすることで実行されます。
+ローカル環境からは実行しないでください。
 
 ### テスト環境向けビルド
 
 ```bash
-yarn build
+pnpm build
 ```
 
 ### テスト環境へのデプロイ
 
 ```bash
-yarn deploy
+pnpm deploy-app
 ```
 
 ## テスト
@@ -61,7 +57,7 @@ yarn deploy
 ユニットテストを実行します。
 
 ```bash
-yarn test
+pnpm test
 ```
 
 ## コード品質
