@@ -29,12 +29,12 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          name: id_private
-          known_hosts: ${{ secrets.REMOTE_HOST }}
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_private
+          chmod 600 ~/.ssh/id_private
+          ssh-keyscan -t ecdsa ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
       - name: Build
         run: yarn build --mode production
