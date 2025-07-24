@@ -23,7 +23,7 @@ const TITLES: Record<string, string> = {
 
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { idols } = useLiveEvents(); // idolsを取得
+  const { idols, updatedAt } = useLiveEvents(); // idolsを取得
   const location = useLocation();
 
   const base = import.meta.env.BASE_URL; // 例: "/app/"
@@ -96,6 +96,18 @@ export const Header: React.FC = () => {
           </div>
         </li>
       ))}
+      <hr className="my-3 border-border" />
+      <li className="mx-2 opacity-40 text-xs text-right">
+        {updatedAt &&
+          `※${updatedAt.toLocaleString('ja-JP', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+          })}時点の情報です。`}
+      </li>
     </>
   );
 

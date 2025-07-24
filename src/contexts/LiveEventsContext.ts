@@ -4,6 +4,7 @@ import React from 'react';
 interface LiveEventsContextType {
   idols: Idol[];
   allEvents: LiveEvent[];
+  updatedAt?: Date;
   loading: boolean;
   error: string | null;
 }

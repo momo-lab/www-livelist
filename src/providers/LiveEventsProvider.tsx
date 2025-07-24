@@ -7,10 +7,11 @@ interface LiveEventsProviderProps {
 }
 
 export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children }) => {
+  const [idols, setIdols] = useState<Idol[]>([]);
   const [allEvents, setAllEvents] = useState<LiveEvent[]>([]);
+  const [updatedAt, setUpdatedAt] = useState<Date>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [idols, setIdols] = useState<Idol[]>([]);
 
   const makeFetchUrl = (name: string) =>
     `${import.meta.env.BASE_URL}external-data/${name}?cachebuster=${new Date().getTime()}`;
@@ -32,6 +33,10 @@ export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children
         if (!eventsResponse.ok) {
           throw new Error('イベントデータの取得に失敗しました。');
         }
+        const lastModified = eventsResponse.headers.get('Last-Modified');
+        if (lastModified) {
+          setUpdatedAt(new Date(lastModified));
+        }
         const eventsData: LiveEvent[] = await eventsResponse.json();
         setAllEvents(eventsData);
       } catch (err) {
@@ -48,10 +53,11 @@ export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children
     () => ({
       idols,
       allEvents,
+      updatedAt,
       loading,
       error,
     }),
-    [idols, allEvents, loading, error]
+    [idols, allEvents, updatedAt, loading, error]
   );
 
   return <LiveEventsContext.Provider value={contextValue}>{children}</LiveEventsContext.Provider>;
