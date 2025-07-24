@@ -33,6 +33,8 @@ jobs:
           mkdir -p $(dirname $SSH_KEY_PATH)
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > $SSH_KEY_PATH
           chmod 600 $SSH_KEY_PATH
+          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
         shell: bash
 
       - name: Build
