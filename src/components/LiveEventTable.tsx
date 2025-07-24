@@ -10,7 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { getHolidayName } from '@/lib/holidays-jp';
-import { cn, formatDate } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import type { TableEvent } from '@/types';
 import { ExternalLink } from 'lucide-react';
 
@@ -57,7 +57,11 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
                 >
                   <div className="inline-flex items-center justify-center w-full sticky top-[calc(var(--header-height)+0.5rem)]">
                     <div>
-                      {formatDate(event.date)}
+                      {new Date(event.date).toLocaleString('ja-JP', {
+                        month: 'numeric',
+                        day: 'numeric',
+                        weekday: 'short',
+                      })}
                       {holidayName && (
                         <Badge className="px-1 my-0.5 text-xs font-normal bg-red-300 text-red-800">
                           {holidayName}

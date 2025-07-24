@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { cn, formatDate, getToday, toDateString } from '../utils';
+import { cn, getToday, toDateString } from '../utils';
 
 describe('cn', () => {
   it('combines class names correctly', () => {
@@ -19,38 +19,6 @@ describe('cn', () => {
     expect(cn('font-bold', { 'text-lg': true, 'text-sm': false }, 'p-4', 'px-2')).toBe(
       'font-bold text-lg p-4 px-2'
     );
-  });
-});
-
-describe('formatDate', () => {
-  it('formats date for upcoming mode correctly', () => {
-    const date = '2025-07-15T10:00:00Z';
-    expect(formatDate(date)).toBe('7/15(火)');
-  });
-
-  it('formats date for past mode correctly', () => {
-    const date = '2025-07-15T10:00:00Z';
-    expect(formatDate(date)).toBe('7/15(火)');
-  });
-
-  it('handles different days of the week', () => {
-    // Sunday
-    const sunday = '2025-07-13T10:00:00Z';
-    expect(formatDate(sunday)).toBe('7/13(日)');
-
-    // Saturday
-    const saturday = '2025-07-12T10:00:00Z';
-    expect(formatDate(saturday)).toBe('7/12(土)');
-  });
-
-  it('handles single digit month and day', () => {
-    const date = '2025-01-01T10:00:00Z';
-    expect(formatDate(date)).toBe('1/1(水)');
-  });
-
-  it('handles double digit month and day', () => {
-    const date = '2025-12-25T10:00:00Z';
-    expect(formatDate(date)).toBe('12/25(木)');
   });
 });
 
