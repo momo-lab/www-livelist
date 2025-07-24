@@ -11,7 +11,7 @@
     "test": "vitest",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "full-check": "yarn build-check && yarn test run && yarn lint && yarn format",
+    "full-check": "pnpm build-check && pnpm test run && pnpm lint && pnpm format",
     "preview": "vite preview --mode test"
   },
   "dependencies": {

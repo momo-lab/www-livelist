@@ -24,10 +24,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: yarn
+
+      - name: Install pnpm
+        run: npm install -g pnpm
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Set up SSH key
         run: |
@@ -37,9 +39,9 @@ jobs:
           ssh-keyscan -t ecdsa ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
       - name: Build
-        run: yarn build --mode production
+        run: pnpm build --mode production
 
       - name: Deploy via deploy.ts
-        run: yarn deploy --mode production
+        run: pnpm deploy --mode production
         env:
           SSH_KEY_PATH: ~/.ssh/id_private
