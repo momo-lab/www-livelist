@@ -7,9 +7,9 @@
    width="695"
    height="695"
    viewBox="0 0 695 695"
-   sodipodi:docname="livelist-icon-green.svg"
+   sodipodi:docname="livelist-icon.svg"
    inkscape:version="1.4 (86a8ad7, 2024-10-11)"
-   inkscape:export-filename="livelist-icon-green.png"
+   inkscape:export-filename="livelist-icon.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -28,53 +28,79 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="1.1873289"
-     inkscape:cx="355.84073"
-     inkscape:cy="280.04034"
+     inkscape:cx="355.84074"
+     inkscape:cy="280.04035"
      inkscape:window-width="1927"
      inkscape:window-height="1211"
      inkscape:window-x="1034"
      inkscape:window-y="92"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg1" />
+     inkscape:current-layer="g9" />
   <g
      id="g9"
      inkscape:label="枠">
-    <rect
-       style="display:none;fill:#3e7744;fill-opacity:1;stroke:#000000;stroke-width:0.898043;stroke-linejoin:round;stroke-dasharray:0, 9.8785;stroke-dashoffset:0"
-       id="rect12"
-       width="595"
-       height="545"
-       x="50"
-       y="100"
-       ry="62.324768"
-       inkscape:label="外側bk" />
+    <g
+       id="g1"
+       inkscape:label="外側bk"
+       style="display:none">
+      <rect
+         style="display:inline;fill:#3e7744;fill-opacity:1;stroke:#000000;stroke-width:0.898043;stroke-linejoin:round;stroke-dasharray:0, 9.8785;stroke-dashoffset:0"
+         id="rect12"
+         width="595"
+         height="545"
+         x="50"
+         y="100"
+         ry="99.382736"
+         inkscape:label="外側" />
+      <rect
+         style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26551;stroke-linejoin:round;stroke-dasharray:0, 13.9205;stroke-dashoffset:0"
+         id="rect5"
+         width="84.850998"
+         height="109.276"
+         x="143.285"
+         y="44.744999"
+         ry="22.679926"
+         inkscape:label="左耳背景"
+         transform="translate(-3.2850037)" />
+      <rect
+         style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26551;stroke-linejoin:round;stroke-dasharray:0, 13.9205;stroke-dashoffset:0"
+         id="rect6"
+         width="84.850998"
+         height="109.276"
+         x="479.3334"
+         y="44.744999"
+         ry="22.679926"
+         inkscape:label="右耳背景"
+         transform="translate(-9.1844045)" />
+    </g>
     <path
-       id="rect3"
+       id="rect1"
        style="display:inline;fill:#3e7744;fill-opacity:1;stroke:#000000;stroke-width:0.898043;stroke-linejoin:round;stroke-dasharray:0, 9.8785;stroke-dashoffset:0"
        inkscape:label="外側"
-       d="M 112.32422 100 C 77.796296 100 50 127.7963 50 162.32422 L 50 582.67578 C 50 617.2037 77.796296 645 112.32422 645 L 582.67578 645 C 617.2037 645 645 617.2037 645 582.67578 L 645 162.32422 C 645 127.7963 617.2037 100 582.67578 100 L 555 100 L 555 131.3418 C 555 143.90648 544.88499 154.02148 532.32031 154.02148 L 492.82812 154.02148 C 480.26345 154.02148 470.14844 143.90648 470.14844 131.3418 L 470.14844 100 L 224.85156 100 L 224.85156 131.3418 C 224.85156 143.90648 214.73654 154.02148 202.17188 154.02148 L 162.67969 154.02148 C 150.11501 154.02148 140 143.90648 140 131.3418 L 140 100 L 112.32422 100 z " />
+       d="m 224.85156,100 v 31.3418 c 0,12.56468 -10.11502,22.67968 -22.67968,22.67968 H 162.67969 C 150.11501,154.02148 140,143.90648 140,131.3418 v -30.8711 c -50.620123,4.70347 -90,47.02278 -90,98.91211 V 545.61719 C 50,600.67522 94.32478,645 149.38281,645 H 545.61719 C 600.67522,645 645,600.67522 645,545.61719 V 199.38281 c 0,-51.88932 -39.37987,-94.20863 -90,-98.91211 v 30.8711 c 0,12.56468 -10.11501,22.67968 -22.67969,22.67968 h -39.49219 c -12.56467,0 -22.67968,-10.115 -22.67968,-22.67968 V 100 Z" />
     <rect
-       style="display:inline;fill:#ebf0ee;fill-opacity:1;stroke:#000000;stroke-width:0.734082;stroke-linejoin:round;stroke-dasharray:0, 8.07493;stroke-dashoffset:0"
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.670331;stroke-linejoin:round;stroke-dasharray:0, 7.37366;stroke-dashoffset:0"
        id="rect9"
-       width="535"
-       height="405"
-       x="80"
-       y="210"
-       ry="46.314735"
+       width="495"
+       height="365"
+       x="100"
+       y="230"
+       ry="72.90284"
        inkscape:label="内側(下)" />
     <rect
-       style="display:inline;fill:#ebf0ee;fill-opacity:1;stroke:#000000;stroke-width:0.63704;stroke-linejoin:round;stroke-dasharray:0, 7.00747;stroke-dashoffset:0"
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.55477;stroke-linejoin:round;stroke-dasharray:0, 6.10249;stroke-dashoffset:0"
        id="rect8"
-       width="535"
-       height="305"
-       x="80"
+       width="495"
+       height="250"
+       x="100"
        y="210"
-       ry="0"
+       ry="11.791173"
        inkscape:label="内側(上)" />
   </g>
   <g
      id="g10"
-     inkscape:label="マイク">
+     inkscape:label="マイク"
+     transform="matrix(0.86341908,0,0,0.86341908,46.904336,44.774669)">
     <path
        style="display:inline;fill:#3e7744;fill-opacity:1"
        d="m 324.79099,380.04874 c 17.65821,-17.27985 33.09796,-32.75983 34.31054,-34.39994 4.48701,-6.069 4.98225,-32.30193 0.909,-48.1488 -6.31519,-24.56902 -23.87844,-45.68468 -47.3571,-56.93571 -18.40804,-8.97041 -45.9677,-11.51716 -65.65343,-5.14169 -33.15116,10.9687 -55.36637,35.44711 -62.22786,68.56737 -3.58009,17.281 -1.35061,38.40844 5.74653,54.45633 11.33943,25.64047 37.23187,46.79451 62.98133,51.45553 9.997,1.8096 11.50284,1.91169 25.59257,1.73515 l 13.59258,-0.17032 z"
@@ -87,50 +113,24 @@
        id="path3"
        inkscape:label="持ち手" />
   </g>
-  <g
-     id="g5"
+  <rect
+     style="fill:#3e7744;fill-opacity:1;stroke:#000000;stroke-linejoin:round;stroke-dasharray:0, 11;stroke-dashoffset:0"
+     id="rect4"
+     width="64.851456"
+     height="89.276016"
+     x="153.28523"
+     y="54.744728"
+     ry="18.528986"
      inkscape:label="左耳"
-     transform="translate(-3.2850037)">
-    <rect
-       style="display:none;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26551;stroke-linejoin:round;stroke-dasharray:0, 13.9205;stroke-dashoffset:0"
-       id="rect5"
-       width="84.850998"
-       height="109.276"
-       x="143.285"
-       y="44.744999"
-       ry="22.679926"
-       inkscape:label="背景bk" />
-    <rect
-       style="fill:#3e7744;fill-opacity:1;stroke:#000000;stroke-linejoin:round;stroke-dasharray:0, 11;stroke-dashoffset:0"
-       id="rect4"
-       width="64.851456"
-       height="89.276016"
-       x="153.28523"
-       y="54.744728"
-       ry="18.528986"
-       inkscape:label="左耳" />
-  </g>
-  <g
-     id="g7"
+     transform="translate(-3.2850037)" />
+  <rect
+     style="fill:#3e7744;fill-opacity:1;stroke:#000000;stroke-linejoin:round;stroke-dasharray:0, 11;stroke-dashoffset:0"
+     id="rect7"
+     width="64.851456"
+     height="89.276016"
+     x="489.33365"
+     y="54.744728"
+     ry="18.528986"
      inkscape:label="右耳"
-     transform="translate(-9.1844045)">
-    <rect
-       style="display:none;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.26551;stroke-linejoin:round;stroke-dasharray:0, 13.9205;stroke-dashoffset:0"
-       id="rect6"
-       width="84.850998"
-       height="109.276"
-       x="479.3334"
-       y="44.744999"
-       ry="22.679926"
-       inkscape:label="背景bk" />
-    <rect
-       style="fill:#3e7744;fill-opacity:1;stroke:#000000;stroke-linejoin:round;stroke-dasharray:0, 11;stroke-dashoffset:0"
-       id="rect7"
-       width="64.851456"
-       height="89.276016"
-       x="489.33365"
-       y="54.744728"
-       ry="18.528986"
-       inkscape:label="右耳" />
-  </g>
+     transform="translate(-9.1844045)" />
 </svg>
