@@ -18,6 +18,12 @@ interface LiveEventTableProps {
   tableData: TableEvent[];
 }
 
+const formatter = Intl.DateTimeFormat('ja-JP', {
+  month: 'numeric',
+  day: 'numeric',
+  weekday: 'short',
+});
+
 export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => {
   return (
     <Table>
@@ -57,11 +63,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
                 >
                   <div className="inline-flex items-center justify-center w-full sticky top-[calc(var(--header-height)+0.5rem)]">
                     <div>
-                      {new Date(event.date).toLocaleString('ja-JP', {
-                        month: 'numeric',
-                        day: 'numeric',
-                        weekday: 'short',
-                      })}
+                      {formatter.format(new Date(event.date))}
                       {holidayName && (
                         <Badge className="px-1 my-0.5 text-xs font-normal bg-red-300 text-red-800">
                           {holidayName}
