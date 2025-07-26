@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "full-check": "pnpm build-check && pnpm test run && pnpm lint && pnpm format",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:test": "pnpm build --mode test && pnpm deploy-app --mode test"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
