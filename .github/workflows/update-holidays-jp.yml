@@ -33,7 +33,7 @@ jobs:
         run: npx --yes holidays-jp-gen --year 2020 --output src/lib/holidays-jp.ts
 
       - name: Run format
-        run: pnpm format
+        run: pnpm prettier --write src/lib/holidays-jp.ts
 
       - id: check_changes
         name: Check for change
