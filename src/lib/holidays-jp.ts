@@ -9,7 +9,7 @@
  * キーは 'YYYY-MM-DD' 形式の日付文字列、値は祝日名。
  * @type { [key: string]: string }
  */
-const HOLIDAYS: { [key: string]: string } = {
+export const holidays: { [key: string]: string } = {
   '2020-01-01': '元日',
   '2020-01-13': '成人の日',
   '2020-02-11': '建国記念の日',
@@ -164,7 +164,7 @@ const toDateString = (date: Date | string): string => {
  */
 export const isHoliday = (date: Date | string): boolean => {
   const key = toDateString(date);
-  return key in HOLIDAYS;
+  return key in holidays;
 };
 
 /**
@@ -174,5 +174,5 @@ export const isHoliday = (date: Date | string): boolean => {
  */
 export const getHolidayName = (date: Date | string): string | null => {
   const key = toDateString(date);
-  return HOLIDAYS[key] || null;
+  return holidays[key] || null;
 };
