@@ -96,6 +96,8 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
                     {event.image && (
                       <img
                         src={event.image}
+                        width="48"
+                        height="48"
                         className="h-12 w-12 rounded-lg border border-border"
                       />
                     )}

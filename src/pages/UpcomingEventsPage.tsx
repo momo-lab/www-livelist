@@ -1,5 +1,6 @@
 import { IdolFilter } from '@/components/IdolFilter';
 import { LiveEventTable } from '@/components/LiveEventTable';
+import { LiveEventTableSkeleton } from '@/components/LiveEventTableSkeleton';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -15,10 +16,6 @@ export const UpcomingEventsPage: React.FC = () => {
     setSelectedIdols(newSelectedIdols);
   };
 
-  if (loading) {
-    return <div className="p-4">読み込み中...</div>;
-  }
-
   if (error) {
     return <div className="p-4 text-red-500">エラー: {error}</div>;
   }
@@ -32,7 +29,9 @@ export const UpcomingEventsPage: React.FC = () => {
         />
       </div>
 
-      {eventTableData.length > 0 ? (
+      {loading ? (
+        <LiveEventTableSkeleton />
+      ) : eventTableData.length > 0 ? (
         <LiveEventTable tableData={eventTableData} />
       ) : (
         <p className="p-4 text-center">今後のライブ予定はありません。</p>

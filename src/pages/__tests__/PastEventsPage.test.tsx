@@ -7,6 +7,7 @@ import { PastEventsPage } from '../PastEventsPage';
 // Import the actual modules to be mocked
 import { IdolFilter } from '@/components/IdolFilter';
 import { LiveEventTable } from '@/components/LiveEventTable';
+import { LiveEventTableSkeleton } from '@/components/LiveEventTableSkeleton';
 import { PeriodFilter } from '@/components/PeriodFilter';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
@@ -17,6 +18,7 @@ vi.mock('@/hooks/useLiveEvents');
 vi.mock('@/hooks/useEventTableData');
 vi.mock('@/components/IdolFilter');
 vi.mock('@/components/LiveEventTable');
+vi.mock('@/components/LiveEventTableSkeleton');
 vi.mock('@/components/PeriodFilter');
 vi.mock('@/hooks/useLocalStorage');
 
@@ -95,6 +97,10 @@ describe('PastEventsPage', () => {
       </div>
     ));
 
+    vi.mocked(LiveEventTableSkeleton).mockImplementation(() => (
+      <div data-testid="mock-live-event-table-skeleton">Mock Live Event Table Skeleton</div>
+    ));
+
     vi.mocked(PeriodFilter).mockImplementation(({ selectedPeriod, onSelectedPeriodChange }) => {
       const handlePeriodChange = () => {
         onSelectedPeriodChange({ year: 2024, month: undefined });
@@ -129,7 +135,7 @@ describe('PastEventsPage', () => {
     });
 
     render(<PastEventsPage />);
-    expect(screen.getByText('読み込み中...')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-live-event-table-skeleton')).toBeInTheDocument();
   });
 
   it('renders error state', () => {

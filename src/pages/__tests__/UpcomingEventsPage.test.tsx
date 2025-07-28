@@ -5,6 +5,7 @@ import { UpcomingEventsPage } from '../UpcomingEventsPage';
 // Import the actual modules to be mocked
 import { IdolFilter } from '@/components/IdolFilter';
 import { LiveEventTable } from '@/components/LiveEventTable';
+import { LiveEventTableSkeleton } from '@/components/LiveEventTableSkeleton';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -14,6 +15,7 @@ vi.mock('@/hooks/useLiveEvents');
 vi.mock('@/hooks/useEventTableData');
 vi.mock('@/components/IdolFilter');
 vi.mock('@/components/LiveEventTable');
+vi.mock('@/components/LiveEventTableSkeleton');
 vi.mock('@/hooks/useLocalStorage');
 
 describe('UpcomingEventsPage', () => {
@@ -40,6 +42,9 @@ describe('UpcomingEventsPage', () => {
         Mock Live Event Table
       </div>
     ));
+    vi.mocked(LiveEventTableSkeleton).mockImplementation(() => (
+      <div data-testid="mock-live-event-table-skeleton">Mock Live Event Table Skeleton</div>
+    ));
     vi.mocked(useLocalStorage).mockReturnValue([[], vi.fn()]);
   });
 
@@ -52,7 +57,7 @@ describe('UpcomingEventsPage', () => {
     });
 
     render(<UpcomingEventsPage />);
-    expect(screen.getByText('読み込み中...')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-live-event-table-skeleton')).toBeInTheDocument();
   });
 
   it('renders error state', () => {

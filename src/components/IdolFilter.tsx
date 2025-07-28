@@ -1,3 +1,4 @@
+import { IdolFilterSkeleton } from '@/components/IdolFilterSkeleton';
 import { ToggleButton } from '@/components/ui/ToggleButton';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import * as React from 'react';
@@ -8,7 +9,7 @@ interface IdolFilterProps {
 }
 
 export const IdolFilter: React.FC<IdolFilterProps> = ({ selectedIdols, onSelectedIdolsChange }) => {
-  const { idols } = useLiveEvents();
+  const { idols, loading } = useLiveEvents();
 
   const handleToggleIdol = (id: string) => {
     const newSelectedIdols = selectedIdols.includes(id)
@@ -26,6 +27,10 @@ export const IdolFilter: React.FC<IdolFilterProps> = ({ selectedIdols, onSelecte
   const handleLongPressIdol = (id: string) => {
     onSelectedIdolsChange([id]);
   };
+
+  if (loading) {
+    return <IdolFilterSkeleton />;
+  }
 
   return (
     <div className="flex flex-wrap gap-2">
