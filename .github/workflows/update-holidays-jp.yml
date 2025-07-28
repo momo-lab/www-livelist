@@ -1,0 +1,54 @@
+name: Update holidays-jp
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-holidays:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate holidays-jp file
+        run: npx --yes holidays-jp-gen --year 2020 --output src/lib/holidays-jp.ts
+
+      - name: Check for change
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet; then
+            echo "No changes detected"
+            exit 0
+          fi
+
+      - name: Commit changes
+        run: |
+          git add src/lib/holidays-jp.ts
+          git commit -m "Update holidays-jp.ts"
+
+      - name: Push branch and create PR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update holidays-jp.ts
+          branch: update-holidays-jp
+          title: Update holidays-jp.ts
+          body: This PR updates the holidays-jp.ts file
