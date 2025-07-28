@@ -35,21 +35,26 @@ jobs:
       - name: Run format
         run: pnpm format
 
-      - name: Check for change
+      - id: check_changes
+        name: Check for change
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if git diff --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
             echo "No changes detected"
-            exit 0
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Commit changes
+        if: steps.check_changes.outputs.changed == 'true'
         run: |
           git add src/lib/holidays-jp.ts
           git commit -m "Update holidays-jp.ts"
 
       - name: Push branch and create PR
+        if: steps.check_changes.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
