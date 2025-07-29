@@ -2,7 +2,7 @@ name: Update holidays-jp
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '40 15 * * *' # 24:40 JST
   workflow_dispatch:
 
 jobs:
