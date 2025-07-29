@@ -42,16 +42,15 @@
 本番環境へのビルドとデプロイは「v」で始まるタグをpushすることで実行されます。
 ローカル環境からは実行しないでください。
 
-### テスト環境向けビルド
+### テスト環境向けビルド＆デプロイ
 
 ```bash
-pnpm build
-```
-
-### テスト環境へのデプロイ
-
-```bash
-pnpm deploy-app
+# ビルド＆デプロイ
+pnpm deploy-dev
+# ビルドのみ
+pnpm build-dev
+# デプロイのみ
+pnpm rsync-dev
 ```
 
 ## テスト
@@ -67,8 +66,10 @@ pnpm test
 コードの整形とリンティングを実行します。
 
 ```bash
-pnpm format
+# チェックのみ
 pnpm lint
+# 修正も行う
+pnpm lint-fix
 ```
 
 ## 環境変数とGitHub Secrets

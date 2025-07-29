@@ -41,11 +41,8 @@ jobs:
           chmod 600 ~/.ssh/id_private
           ssh-keyscan -t ecdsa ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Build
-        run: pnpm build --mode production
-
-      - name: Deploy via deploy.ts
-        run: pnpm deploy-app --mode production
+      - name: Build and deploy
+        run: pnpm deploy-prod
         env:
           SSH_KEY_PATH: ~/.ssh/id_private
 
