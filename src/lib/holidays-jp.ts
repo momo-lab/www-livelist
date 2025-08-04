@@ -1,7 +1,7 @@
 // holidays-jp-from-2020.ts
 /**
- * @file 日本の祝日データと関連ユーティリティ
- * @module holidays-jp
+ * @file 祝日データと関連ユーティリティのテンプレート
+ * @module holidays-jp-template
  */
 
 /**
@@ -140,39 +140,125 @@ export const holidays: { [key: string]: string } = {
 
 /**
  * Dateオブジェクトまたは日付文字列を 'YYYY-MM-DD' 形式の文字列に変換します。
- * @param {Date | string} date - 変換する日付。
- * @returns {string} 'YYYY-MM-DD' 形式の日付文字列。
- * @throws {Error} 無効な日付が指定された場合。
+ * @param {string | Date} date - 変換する日付。
+ * @returns {string | null} 'YYYY-MM-DD' 形式の日付文字列。無効な日付の場合は `null`。
  */
-const toDateString = (date: Date | string): string => {
-  if (typeof date === 'string') {
-    date = new Date(date);
-  } else if (!(date instanceof Date)) {
-    throw new Error('Invalid date');
+const toDateString = (date: string | Date): string | null => {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+
+  // Invalid Dateオブジェクトの場合はnullを返す
+  if (Number.isNaN(dateObj.getTime())) {
+    return null;
   }
 
-  const yyyy = date.getFullYear();
-  const mm = (date.getMonth() + 1).toString().padStart(2, '0');
-  const dd = date.getDate().toString().padStart(2, '0');
+  const yyyy = dateObj.getFullYear();
+  const mm = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+  const dd = dateObj.getDate().toString().padStart(2, '0');
   return [yyyy, mm, dd].join('-');
 };
 
 /**
- * 指定された日付が祝日であるかどうかを判定します。
- * @param {Date | string} date - 判定する日付。
+ * 指定された日付が日本の祝日であるかどうかを判定します。
+ * @param {string | Date} date - 判定する日付。文字列の場合は'YYYY-MM-DD'形式。
  * @returns {boolean} 祝日であれば `true`、そうでなければ `false`。
  */
-export const isHoliday = (date: Date | string): boolean => {
+export const isHoliday = (date: string | Date): boolean => {
   const key = toDateString(date);
+  if (key === null) {
+    return false;
+  }
   return key in holidays;
 };
 
 /**
  * 指定された日付の祝日名を取得します。
- * @param {Date | string} date - 祝日名を取得する日付。
+ * @param {string | Date} date - 祝日名を取得する日付。文字列の場合は'YYYY-MM-DD'形式。
  * @returns {string | null} 祝日名。祝日でない場合は `null`。
  */
-export const getHolidayName = (date: Date | string): string | null => {
+export const getHolidayName = (date: string | Date): string | null => {
   const key = toDateString(date);
+  if (key === null) {
+    return null;
+  }
   return holidays[key] || null;
+};
+
+/**
+ * 指定された日付が営業日（土日祝以外）であるかどうかを判定します。
+ * @param {string | Date} date - 判定する日付。文字列の場合は'YYYY-MM-DD'形式。
+ * @returns {boolean} 営業日であれば `true`、そうでなければ `false`。
+ */
+export const isBusinessDay = (date: string | Date): boolean => {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+
+  // 無効な日付の場合はfalseを返す
+  if (Number.isNaN(dateObj.getTime())) {
+    return false;
+  }
+
+  const dayOfWeek = dateObj.getDay();
+
+  // 土日の場合はfalse
+  if (dayOfWeek === 0 || dayOfWeek === 6) {
+    return false;
+  }
+
+  // 祝日の場合はfalse（isHolidayで例外処理済み）
+  return !isHoliday(date);
+};
+
+/**
+ * 指定された日付からN営業日後（前）の日付を計算します。
+ * @param {string | Date} date - 基準となる日付。文字列の場合は'YYYY-MM-DD'形式。
+ * @param {number} days - 加算する営業日数（正なら未来方向、負なら過去方向）。
+ * @param {"next" | "previous" | "none"} adjustment - 基準日の調整方法。
+ *   省略時は days >= 0 なら "next"、days < 0 なら "previous"。
+ *   - "next": 基準日が営業日でない場合、次の営業日に調整してから計算
+ *   - "previous": 基準日が営業日でない場合、前の営業日に調整してから計算
+ *   - "none": 基準日をそのまま使用（営業日でなくても調整しない）
+ * @returns {string | null} 計算結果の日付（'YYYY-MM-DD'形式）。無効な日付の場合は `null`。
+ */
+export const offsetInBusinessDays = (
+  date: string | Date,
+  days: number,
+  adjustment?: 'next' | 'previous' | 'none'
+): string | null => {
+  const startDateObj = typeof date === 'string' ? new Date(date) : date;
+
+  // 無効な日付の場合はnullを返す
+  if (Number.isNaN(startDateObj.getTime())) {
+    return null;
+  }
+
+  // スマートデフォルトの決定
+  const actualAdjustment = adjustment ?? (days >= 0 ? 'next' : 'previous');
+
+  // 時間を00:00:00に統一したDateオブジェクト作成
+  const currentDate = new Date(
+    startDateObj.getFullYear(),
+    startDateObj.getMonth(),
+    startDateObj.getDate()
+  );
+
+  // 基準日を調整
+  if (actualAdjustment !== 'none') {
+    const step = actualAdjustment === 'next' ? 1 : -1;
+    while (!isBusinessDay(currentDate)) {
+      currentDate.setDate(currentDate.getDate() + step);
+    }
+  }
+
+  // 営業日を加算/減算
+  const direction = days > 0 ? 1 : -1;
+  let remainingDays = Math.abs(days);
+
+  while (remainingDays > 0) {
+    currentDate.setDate(currentDate.getDate() + direction);
+
+    if (isBusinessDay(currentDate)) {
+      remainingDays--;
+    }
+  }
+
+  return toDateString(currentDate);
 };
