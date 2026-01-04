@@ -75,8 +75,11 @@ describe('useSelectedIdols', () => {
   });
 
   it('再アクセス時（localStorageに値あり）は、初期化処理を行わない', async () => {
+    const storedValue = ['aikatsu'];
     // localStorageに値が存在する状態をシミュレート
-    vi.mocked(localStorage.getItem).mockReturnValue(JSON.stringify(['aikatsu']));
+    vi.mocked(localStorage.getItem).mockReturnValue(JSON.stringify(storedValue));
+    // useLocalStorageがlocalStorageの値を返すようにモックを上書き
+    mockUseLocalStorage.mockReturnValue([storedValue, mockSetSelectedIdols]);
 
     const { rerender } = renderHook(() => useSelectedIdols());
 
