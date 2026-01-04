@@ -87,6 +87,13 @@ export const AboutPage: React.FC = () => {
         <h2 className="mb-2 text-xl font-semibold">更新履歴</h2>
 
         <div className="ml-2">
+          <h3 className="font-semibold">2026-01-04</h3>
+          <ul className="list-disc pl-6 mb-2">
+            <li>前年の予定がlitlinkに登録されている場合、今年の予定としても再登録されてしまう問題を修正しました。</li>
+          </ul>
+        </div>
+
+        <div className="ml-2">
           <h3 className="font-semibold">2025-07-19</h3>
           <ul className="list-disc pl-6 mb-2">
             <li>予定をカレンダーに登録できるようにしました。</li>
