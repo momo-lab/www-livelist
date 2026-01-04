@@ -1,243 +1,169 @@
-import type { TableEvent } from '@/types';
-import { render, screen } from '@testing-library/react';
-import { act } from 'react';
+import { LiveEventsContext } from '@/contexts/LiveEventsContext';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { PastEventsPage } from '../PastEventsPage';
 
-// Import the actual modules to be mocked
-import { IdolFilter } from '@/components/IdolFilter';
-import { LiveEventTable } from '@/components/LiveEventTable';
-import { LiveEventTableSkeleton } from '@/components/LiveEventTableSkeleton';
-import { PeriodFilter } from '@/components/PeriodFilter';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import type { Idol, TableEvent } from '@/types';
 
-// Mock dependencies at the top level
+// データを提供するフックのみをモック
+// Note: useLiveEvents は Context を経由するため厳密には不要だが、
+//       IdolFilter のような子コンポーネントが直接使っているためモックを残す
 vi.mock('@/hooks/useLiveEvents');
 vi.mock('@/hooks/useEventTableData');
-vi.mock('@/components/IdolFilter');
-vi.mock('@/components/LiveEventTable');
-vi.mock('@/components/LiveEventTableSkeleton');
-vi.mock('@/components/PeriodFilter');
-vi.mock('@/hooks/useLocalStorage');
 
-// 状態管理用のグローバル変数と関数を定義
-let mockSelectedIdols: string[];
-let mockSetSelectedIdols: ReturnType<typeof vi.fn>;
-let mockSelectedPeriod: { year?: number; month?: number };
-let mockSetSelectedPeriod: (period: { year?: number; month?: number }) => void;
+const mockUseLiveEvents = vi.mocked(useLiveEvents);
+const mockUseEventTableData = vi.mocked(useEventTableData);
+
+const mockEventData: TableEvent[] = [
+  {
+    id: 'event1',
+    date: '2024-01-15',
+    content: 'テストイベント1',
+    short_name: 'アイカツ！',
+  },
+  {
+    id: 'event2',
+    date: '2023-12-10',
+    content: 'テストイベント2',
+    short_name: 'プリパラ',
+  },
+];
+
+const mockIdols: Idol[] = [
+  {
+    id: 'aikatsu',
+    name: 'アイカツ！',
+    short_name: 'アイカツ！',
+    colors: { background: '#FF6347', foreground: '#FFFFFF', text: '#FF6347' },
+  },
+  {
+    id: 'pripara',
+    name: 'プリパラ',
+    short_name: 'プリパラ',
+    colors: { background: '#8A2BE2', foreground: '#FFFFFF', text: '#8A2BE2' },
+  },
+];
 
 describe('PastEventsPage', () => {
-  // 各テスト前のセットアップ
-  const setupMocks = () => {
-    mockSelectedIdols = [];
-    mockSelectedPeriod = {};
+  const user = userEvent.setup();
 
-    mockSetSelectedIdols = vi.fn((newIdols: string[]) => {
-      mockSelectedIdols = newIdols;
-    });
-
-    mockSetSelectedPeriod = vi.fn((period: { year?: number; month?: number }) => {
-      mockSelectedPeriod = period;
-    });
-
-    // Reactのモック
-    vi.mock('react', async (importOriginal) => {
-      const mod = (await importOriginal()) as {
-        useState: <T>(initialState: T) => [T, (value: T) => void];
-        [key: string]: unknown;
-      };
-
-      return {
-        ...mod,
-        useState: vi.fn((initialState: unknown) => {
-          if (
-            typeof initialState === 'object' &&
-            initialState !== null &&
-            !Array.isArray(initialState)
-          ) {
-            return [mockSelectedPeriod, mockSetSelectedPeriod];
-          }
-          if (Array.isArray(initialState) && initialState.length === 0) {
-            return [mockSelectedIdols, mockSetSelectedIdols];
-          }
-          return mod.useState(initialState);
-        }),
-      };
-    });
-
-    // 各モックの設定
-    vi.mocked(useLiveEvents).mockReturnValue({
-      loading: false,
-      error: null,
-      idols: [],
-      allEvents: [],
-    });
-
-    vi.mocked(useEventTableData).mockReturnValue({
-      eventTableData: [],
-    });
-
-    vi.mocked(IdolFilter).mockImplementation(({ selectedIdols, onSelectedIdolsChange }) => {
-      const handleIdolChange = () => {
-        onSelectedIdolsChange(['mockIdol1']);
-      };
-
-      return (
-        <div data-testid="mock-idol-filter" data-selected-idols={JSON.stringify(selectedIdols)}>
-          <button onClick={handleIdolChange}>Change Idols</button>
-        </div>
-      );
-    });
-
-    vi.mocked(LiveEventTable).mockImplementation(({ tableData }) => (
-      <div data-testid="mock-live-event-table" data-table-data={JSON.stringify(tableData)}>
-        Mock Live Event Table
-      </div>
-    ));
-
-    vi.mocked(LiveEventTableSkeleton).mockImplementation(() => (
-      <div data-testid="mock-live-event-table-skeleton">Mock Live Event Table Skeleton</div>
-    ));
-
-    vi.mocked(PeriodFilter).mockImplementation(({ selectedPeriod, onSelectedPeriodChange }) => {
-      const handlePeriodChange = () => {
-        onSelectedPeriodChange({ year: 2024, month: undefined });
-      };
-      return (
-        <div data-testid="mock-period-filter" data-selected-period={selectedPeriod}>
-          <button onClick={handlePeriodChange}>Select 2024</button>
-        </div>
-      );
-    });
-
-    vi.mocked(useLocalStorage).mockImplementation((key, initialValue) => {
-      if (key === 'selectedIdols') {
-        return [mockSelectedIdols, mockSetSelectedIdols];
-      }
-      return [initialValue, vi.fn()];
-    });
-  };
-
-  // 各テスト前にモックをセットアップ
   beforeEach(() => {
-    vi.clearAllMocks();
-    setupMocks();
+    vi.resetAllMocks();
+    localStorage.clear();
+
+    mockUseEventTableData.mockReturnValue({
+      eventTableData: mockEventData,
+    });
   });
 
-  it('renders loading state initially', () => {
-    vi.mocked(useLiveEvents).mockReturnValue({
+  // コンテキストの値を引数で受け取り、Providerでラップしてレンダリングするヘルパー
+  const renderComponent = (
+    contextValue: React.ContextType<typeof LiveEventsContext> = {
+      loading: false,
+      error: null,
+      idols: mockIdols,
+      allEvents: [],
+      updatedAt: undefined,
+    }
+  ) => {
+    // 子コンポーネント(IdolFilter)が使うuseLiveEventsも同じ値でモックする
+    mockUseLiveEvents.mockReturnValue(contextValue);
+
+    return render(
+      <LiveEventsContext.Provider value={contextValue}>
+        <PastEventsPage />
+      </LiveEventsContext.Provider>
+    );
+  };
+
+  it('ローディング中にスケルトンコンポーネントが表示される', () => {
+    renderComponent({
       loading: true,
       error: null,
       idols: [],
       allEvents: [],
+      updatedAt: undefined,
     });
 
-    render(<PastEventsPage />);
-    expect(screen.getByTestId('mock-live-event-table-skeleton')).toBeInTheDocument();
+    expect(screen.getByText('日付')).toBeInTheDocument();
+    expect(screen.getByText('イベント内容')).toBeInTheDocument();
   });
 
-  it('renders error state', () => {
-    vi.mocked(useLiveEvents).mockReturnValue({
+  it('エラー発生時にエラーメッセージが表示される', () => {
+    const errorMessage = 'データの取得に失敗しました';
+    renderComponent({
       loading: false,
-      error: 'Test Error',
+      error: errorMessage,
       idols: [],
       allEvents: [],
+      updatedAt: undefined,
     });
 
-    render(<PastEventsPage />);
-    expect(screen.getByText('エラー: Test Error')).toBeInTheDocument();
+    expect(screen.getByText(`エラー: ${errorMessage}`)).toBeInTheDocument();
   });
 
-  it('renders LiveEventTable when data is available', () => {
-    vi.mocked(useEventTableData).mockReturnValue({
-      eventTableData: [
-        {
-          id: 'event1',
-          content: 'Test Event',
-          short_name: '',
-          date: '2025-07-01',
-          link: '',
-        },
-      ],
+  it('データがある場合にイベントテーブルが表示され、自動で最新年でフィルタされる', async () => {
+    renderComponent();
+
+    await waitFor(() => {
+      expect(screen.getByText('テストイベント1')).toBeInTheDocument();
     });
 
-    render(<PastEventsPage />);
-    expect(screen.getByTestId('mock-live-event-table')).toBeInTheDocument();
+    expect(screen.queryByText('テストイベント2')).not.toBeInTheDocument();
     expect(screen.queryByText('過去のライブ履歴はありません。')).not.toBeInTheDocument();
   });
 
-  it('renders no events message when eventTableData is empty for past mode', () => {
-    vi.mocked(useEventTableData).mockReturnValue({
+  it('データがない場合に「過去のライブ履歴はありません。」と表示される', () => {
+    mockUseEventTableData.mockReturnValue({
       eventTableData: [],
     });
-    render(<PastEventsPage />);
+    renderComponent();
+
     expect(screen.getByText('過去のライブ履歴はありません。')).toBeInTheDocument();
-    expect(screen.queryByTestId('mock-live-event-table')).not.toBeInTheDocument();
+    expect(screen.queryByText('テストイベント1')).not.toBeInTheDocument();
   });
 
-  it('loads selectedIdols from useLocalStorage on initial render', () => {
-    mockSelectedIdols = ['storedIdol'];
+  it('PeriodFilterで年を選択すると、イベントがその年でフィルタリングされる', async () => {
+    renderComponent();
 
-    render(<PastEventsPage />);
+    await waitFor(() => {
+      expect(screen.getByText('テストイベント1')).toBeInTheDocument();
+    });
+    expect(screen.queryByText('テストイベント2')).not.toBeInTheDocument();
 
-    const idolFilter = screen.getByTestId('mock-idol-filter');
-    expect(idolFilter).toHaveAttribute('data-selected-idols', JSON.stringify(['storedIdol']));
+    const yearSelect = screen.getByRole('combobox');
+    await user.click(yearSelect);
+
+    const option2023 = await screen.findByRole('option', { name: '2023年' });
+    await user.click(option2023);
+
+    await waitFor(() => {
+      expect(screen.queryByText('テストイベント1')).not.toBeInTheDocument();
+      expect(screen.getByText('テストイベント2')).toBeInTheDocument();
+    });
   });
 
-  it('updates selectedIdols and useLocalStorage when IdolFilter changes selection', async () => {
-    mockSelectedIdols = [];
+  it('IdolFilterでアイドルの選択・解除ができる', async () => {
+    renderComponent();
 
-    const { rerender } = render(<PastEventsPage />);
-
-    const idolFilterButton = screen.getByText('Change Idols');
-
-    await act(async () => {
-      idolFilterButton.click();
+    await waitFor(() => {
+      expect(mockUseEventTableData).toHaveBeenCalledWith('past', []);
     });
 
-    rerender(<PastEventsPage />);
+    const idolButton = screen.getByRole('button', { name: 'アイカツ！' });
+    await user.click(idolButton);
 
-    expect(mockSetSelectedIdols).toHaveBeenCalledWith(['mockIdol1']);
-    expect(mockSelectedIdols).toEqual(['mockIdol1']);
-
-    const idolFilter = screen.getByTestId('mock-idol-filter');
-    expect(idolFilter).toHaveAttribute('data-selected-idols', JSON.stringify(['mockIdol1']));
-  });
-
-  it('updates selectedPeriod and filters events when PeriodFilter changes selection', async () => {
-    const mockEventTableData: TableEvent[] = [
-      {
-        date: '2024-01-01',
-        id: 'event1',
-        short_name: 'E1',
-        content: '',
-        link: '',
-      },
-      {
-        date: '2023-01-01',
-        id: 'event2',
-        short_name: 'E2',
-        content: '',
-        link: '',
-      },
-    ];
-    vi.mocked(useEventTableData).mockReturnValue({
-      eventTableData: mockEventTableData,
+    await waitFor(() => {
+      expect(mockUseEventTableData).toHaveBeenCalledWith('past', ['aikatsu']);
     });
 
-    mockSelectedPeriod = {};
-
-    render(<PastEventsPage />);
-
-    const selectYearButton = screen.getByText('Select 2024');
-
-    await act(async () => {
-      selectYearButton.click();
+    await user.click(idolButton);
+    await waitFor(() => {
+      const allIdolIds = mockIdols.map((idol) => idol.id);
+      expect(mockUseEventTableData).toHaveBeenCalledWith('past', allIdolIds);
     });
-
-    expect(mockSetSelectedPeriod).toHaveBeenCalledWith({ year: 2024, month: undefined });
-    expect(mockSelectedPeriod).toEqual({ year: 2024, month: undefined });
   });
 });
