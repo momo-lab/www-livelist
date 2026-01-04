@@ -4,11 +4,11 @@ import { LiveEventTableSkeleton } from '@/components/LiveEventTableSkeleton';
 import { PeriodFilter } from '@/components/PeriodFilter';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useSelectedIdols } from '@/hooks/useSelectedIdols';
 import React, { useState } from 'react';
 
 export const PastEventsPage: React.FC = () => {
-  const [selectedIdols, setSelectedIdols] = useLocalStorage<string[]>('selectedIdols', []);
+  const [selectedIdols, setSelectedIdols] = useSelectedIdols();
   const [selectedPeriod, setSelectedPeriod] = useState<{ year?: number; month?: number }>({});
 
   const { loading, error } = useLiveEvents();
@@ -25,10 +25,6 @@ export const PastEventsPage: React.FC = () => {
     return true;
   });
 
-  const handleSelectedIdolsChange = (newSelectedIdols: string[]) => {
-    setSelectedIdols(newSelectedIdols);
-  };
-
   if (error) {
     return <div className="p-4 text-red-500">エラー: {error}</div>;
   }
@@ -36,10 +32,7 @@ export const PastEventsPage: React.FC = () => {
   return (
     <div className="container mx-auto px-4 pb-4">
       <div className="space-y-2 my-2">
-        <IdolFilter
-          selectedIdols={selectedIdols}
-          onSelectedIdolsChange={handleSelectedIdolsChange}
-        />
+        <IdolFilter selectedIdols={selectedIdols} onSelectedIdolsChange={setSelectedIdols} />
         <PeriodFilter
           selectedPeriod={selectedPeriod}
           onSelectedPeriodChange={setSelectedPeriod}

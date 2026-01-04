@@ -3,18 +3,14 @@ import { LiveEventTable } from '@/components/LiveEventTable';
 import { LiveEventTableSkeleton } from '@/components/LiveEventTableSkeleton';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useSelectedIdols } from '@/hooks/useSelectedIdols';
 import React from 'react';
 
 export const UpcomingEventsPage: React.FC = () => {
-  const [selectedIdols, setSelectedIdols] = useLocalStorage<string[]>('selectedIdols', []);
+  const [selectedIdols, setSelectedIdols] = useSelectedIdols();
 
   const { loading, error } = useLiveEvents();
   const { eventTableData } = useEventTableData('upcoming', selectedIdols);
-
-  const handleSelectedIdolsChange = (newSelectedIdols: string[]) => {
-    setSelectedIdols(newSelectedIdols);
-  };
 
   if (error) {
     return <div className="p-4 text-red-500">エラー: {error}</div>;
@@ -23,10 +19,7 @@ export const UpcomingEventsPage: React.FC = () => {
   return (
     <div className="container mx-auto px-4 pb-4">
       <div className="space-y-2 my-2">
-        <IdolFilter
-          selectedIdols={selectedIdols}
-          onSelectedIdolsChange={handleSelectedIdolsChange}
-        />
+        <IdolFilter selectedIdols={selectedIdols} onSelectedIdolsChange={setSelectedIdols} />
       </div>
 
       {loading ? (

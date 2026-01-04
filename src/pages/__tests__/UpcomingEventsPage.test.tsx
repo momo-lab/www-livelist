@@ -1,124 +1,122 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { LiveEventsContext } from '@/contexts/LiveEventsContext';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 import { UpcomingEventsPage } from '../UpcomingEventsPage';
 
-// Import the actual modules to be mocked
-import { IdolFilter } from '@/components/IdolFilter';
-import { LiveEventTable } from '@/components/LiveEventTable';
-import { LiveEventTableSkeleton } from '@/components/LiveEventTableSkeleton';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useSelectedIdols } from '@/hooks/useSelectedIdols';
+import type { Idol, TableEvent } from '@/types';
 
-// Mock dependencies at the top level
 vi.mock('@/hooks/useLiveEvents');
 vi.mock('@/hooks/useEventTableData');
-vi.mock('@/components/IdolFilter');
-vi.mock('@/components/LiveEventTable');
-vi.mock('@/components/LiveEventTableSkeleton');
-vi.mock('@/hooks/useLocalStorage');
+vi.mock('@/hooks/useSelectedIdols');
+
+const mockUseLiveEvents = vi.mocked(useLiveEvents);
+const mockUseEventTableData = vi.mocked(useEventTableData);
+const mockUseSelectedIdols = vi.mocked(useSelectedIdols);
+
+const mockEventData: TableEvent[] = [
+  { id: 'event1', date: '2099-01-15', content: '未来のテストイベント1', short_name: 'アイカツ！' },
+];
+
+const mockIdols: Idol[] = [
+  {
+    id: 'aikatsu',
+    name: 'アイカツ！',
+    short_name: 'アイカツ！',
+    colors: { background: '#FF6347', foreground: '#FFFFFF', text: '#FF6347' },
+  },
+  {
+    id: 'pripara',
+    name: 'プリパラ',
+    short_name: 'プリパラ',
+    colors: { background: '#8A2BE2', foreground: '#FFFFFF', text: '#8A2BE2' },
+  },
+];
+const allIdolIds = mockIdols.map((idol) => idol.id);
 
 describe('UpcomingEventsPage', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
+  const user = userEvent.setup();
+  let mockSetSelectedIdols: Mock;
 
-    // Reset mocks for each test
-    vi.mocked(useLiveEvents).mockReturnValue({
+  beforeEach(() => {
+    vi.resetAllMocks();
+    mockSetSelectedIdols = vi.fn();
+
+    // デフォルトのモックを設定
+    mockUseLiveEvents.mockReturnValue({
       loading: false,
       error: null,
-      idols: [],
+      idols: mockIdols,
       allEvents: [],
+      updatedAt: undefined,
     });
-    vi.mocked(useEventTableData).mockReturnValue({
-      eventTableData: [],
-    });
-    vi.mocked(IdolFilter).mockImplementation(({ selectedIdols, onSelectedIdolsChange }) => (
-      <div data-testid="mock-idol-filter" data-selected-idols={JSON.stringify(selectedIdols)}>
-        <button onClick={() => onSelectedIdolsChange(['mockIdol1'])}>Change Idols</button>
-      </div>
-    ));
-    vi.mocked(LiveEventTable).mockImplementation(({ tableData }) => (
-      <div data-testid="mock-live-event-table" data-table-data={JSON.stringify(tableData)}>
-        Mock Live Event Table
-      </div>
-    ));
-    vi.mocked(LiveEventTableSkeleton).mockImplementation(() => (
-      <div data-testid="mock-live-event-table-skeleton">Mock Live Event Table Skeleton</div>
-    ));
-    vi.mocked(useLocalStorage).mockReturnValue([[], vi.fn()]);
+    mockUseEventTableData.mockReturnValue({ eventTableData: mockEventData });
+    mockUseSelectedIdols.mockReturnValue([allIdolIds, mockSetSelectedIdols]);
   });
 
-  it('renders loading state initially', () => {
-    vi.mocked(useLiveEvents).mockReturnValue({
+  const renderComponent = () => {
+    return render(
+      <LiveEventsContext.Provider
+        value={{
+          loading: false,
+          error: null,
+          idols: mockIdols,
+          allEvents: [],
+          updatedAt: undefined,
+        }}
+      >
+        <UpcomingEventsPage />
+      </LiveEventsContext.Provider>
+    );
+  };
+
+  it('ローディング中にスケルトンコンポーネントが表示される', () => {
+    mockUseLiveEvents.mockReturnValue({
       loading: true,
       error: null,
       idols: [],
       allEvents: [],
+      updatedAt: undefined,
     });
-
-    render(<UpcomingEventsPage />);
-    expect(screen.getByTestId('mock-live-event-table-skeleton')).toBeInTheDocument();
+    renderComponent();
+    expect(screen.getByText('日付')).toBeInTheDocument();
+    expect(screen.getByText('イベント内容')).toBeInTheDocument();
   });
 
-  it('renders error state', () => {
-    vi.mocked(useLiveEvents).mockReturnValue({
+  it('エラー発生時にエラーメッセージが表示される', () => {
+    mockUseLiveEvents.mockReturnValue({
       loading: false,
       error: 'Test Error',
       idols: [],
       allEvents: [],
+      updatedAt: undefined,
     });
-
-    render(<UpcomingEventsPage />);
+    renderComponent();
     expect(screen.getByText('エラー: Test Error')).toBeInTheDocument();
   });
 
-  it('renders LiveEventTable when data is available', () => {
-    vi.mocked(useEventTableData).mockReturnValue({
-      eventTableData: [
-        {
-          id: 'event1',
-          content: 'Test Event',
-          short_name: 'short',
-          date: '2025-07-01',
-          link: '',
-        },
-      ],
-    });
-
-    render(<UpcomingEventsPage />);
-    expect(screen.getByTestId('mock-live-event-table')).toBeInTheDocument();
-    expect(screen.queryByText('今後のライブ予定はありません。')).not.toBeInTheDocument();
+  it('データがある場合にイベントテーブルが表示される', () => {
+    renderComponent();
+    expect(screen.getByText('未来のテストイベント1')).toBeInTheDocument();
   });
 
-  it('renders no events message when eventTableData is empty for upcoming mode', () => {
-    render(<UpcomingEventsPage />);
+  it('データがない場合に「今後のライブ予定はありません。」と表示される', () => {
+    mockUseEventTableData.mockReturnValue({ eventTableData: [] });
+    renderComponent();
     expect(screen.getByText('今後のライブ予定はありません。')).toBeInTheDocument();
-    expect(screen.queryByTestId('mock-live-event-table')).not.toBeInTheDocument();
   });
 
-  it('loads selectedIdols from useLocalStorage on initial render', () => {
-    vi.mocked(useLocalStorage).mockReturnValue([['storedIdol'], vi.fn()]);
+  it('IdolFilterでアイドルを選択すると、setSelectedIdolsが呼ばれる', async () => {
+    mockUseSelectedIdols.mockReturnValue([allIdolIds, mockSetSelectedIdols]);
+    renderComponent();
 
-    render(<UpcomingEventsPage />);
+    // 「アイカツ！」をクリックして選択解除
+    const aikatsuButton = screen.getByRole('button', { name: 'アイカツ！' });
+    await user.click(aikatsuButton);
 
-    const idolFilter = screen.getByTestId('mock-idol-filter');
-    expect(idolFilter).toHaveAttribute('data-selected-idols', JSON.stringify(['storedIdol']));
-  });
-
-  it('updates selectedIdols and useLocalStorage when IdolFilter changes selection', async () => {
-    const mockSetSelectedIdols = vi.fn();
-    vi.mocked(useLocalStorage).mockReturnValue([[], mockSetSelectedIdols]);
-
-    render(<UpcomingEventsPage />);
-
-    const idolFilterButton = screen.getByText('Change Idols');
-    idolFilterButton.click();
-
-    await waitFor(() => {
-      expect(mockSetSelectedIdols).toHaveBeenCalledWith(['mockIdol1']);
-    });
-
-    const idolFilter = screen.getByTestId('mock-idol-filter');
-    expect(idolFilter).toHaveAttribute('data-selected-idols', JSON.stringify([]));
+    expect(mockSetSelectedIdols).toHaveBeenCalledWith(['pripara']);
   });
 });
