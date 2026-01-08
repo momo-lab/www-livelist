@@ -1,6 +1,7 @@
 import { SocialLinkItem } from '@/components/SocialLinkItem';
 import { Button } from '@/components/ui/button';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
+import { getToday } from '@/lib/utils';
 import type { Member } from '@/types';
 import { ExternalLink, Search } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -26,6 +27,11 @@ export const MembersPage: React.FC = () => {
     }
   }, [location.hash, members, idols]);
 
+  const filteredMembers = useMemo(() => {
+    const today = getToday();
+    return members.filter((member) => !member.leaving_date || member.leaving_date > today);
+  }, [members]);
+
   const handleToggleMember = (memberId: string) => {
     setSelectedMembers((prev) => {
       const newSet = new Set(prev);
@@ -40,7 +46,7 @@ export const MembersPage: React.FC = () => {
 
   const handleSearchOnTwitter = useCallback(() => {
     const twitterIds = Array.from(selectedMembers)
-      .map((name) => members.find((m) => m.name === name)?.twitter_id)
+      .map((id) => filteredMembers.find((m) => m.id === id)?.twitter_id)
       .filter((id): id is string => !!id);
 
     if (twitterIds.length > 0) {
@@ -48,11 +54,11 @@ export const MembersPage: React.FC = () => {
       const url = `https://x.com/search?q=${encodeURIComponent(query)}&f=live`;
       window.open(url, '_blank', 'noopener,noreferrer');
     }
-  }, [selectedMembers, members]);
+  }, [selectedMembers, filteredMembers]);
 
   const membersByGroup = useMemo(() => {
     const groupMap = new Map<string, Member[]>();
-    members.forEach((member) => {
+    filteredMembers.forEach((member) => {
       if (!groupMap.has(member.idol_id)) {
         groupMap.set(member.idol_id, []);
       }
@@ -62,7 +68,7 @@ export const MembersPage: React.FC = () => {
       ...idol,
       members: groupMap.get(idol.id) || [],
     }));
-  }, [members, idols]);
+  }, [filteredMembers, idols]);
 
   if (loading) {
     return <MembersPageSkeleton />;
@@ -89,20 +95,17 @@ export const MembersPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {group.members.map((member) => (
                 <div
-                  key={member.name}
+                  key={member.id}
                   className="flex items-center gap-4 p-3 rounded-lg border bg-card text-card-foreground"
                 >
                   <input
                     type="checkbox"
-                    id={`member-${member.name}`}
-                    checked={selectedMembers.has(member.name)}
-                    onChange={() => handleToggleMember(member.name)}
+                    id={`member-${member.id}`}
+                    checked={selectedMembers.has(member.id)}
+                    onChange={() => handleToggleMember(member.id)}
                     className="h-5 w-5 rounded border-primary text-primary focus:ring-primary"
                   />
-                  <label
-                    htmlFor={`member-${member.name}`}
-                    className="flex-1 font-semibold truncate"
-                  >
+                  <label htmlFor={`member-${member.id}`} className="flex-1 font-semibold truncate">
                     {member.name}
                   </label>
                   <div className="flex gap-3">

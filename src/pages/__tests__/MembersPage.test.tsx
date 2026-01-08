@@ -26,6 +26,7 @@ const mockIdols: Idol[] = [
 
 const mockMembers: Member[] = [
   {
+    id: 'mofcrokoharu',
     idol_id: 'mofcro',
     name: '一野瀬 心晴',
     name_ruby: 'いちのせ こはる',
@@ -33,6 +34,7 @@ const mockMembers: Member[] = [
     twitter_id: 'koharu',
   },
   {
+    id: 'mofcroELLiE',
     idol_id: 'mofcro',
     name: '六星 エリィ',
     name_ruby: 'ろくほし えりぃ',
@@ -40,6 +42,7 @@ const mockMembers: Member[] = [
     twitter_id: 'ellie',
   },
   {
+    id: 'lumi7rina',
     idol_id: 'lumi7',
     name: '高橋 りな',
     name_ruby: 'たかはし りな',
@@ -84,7 +87,6 @@ describe('MembersPage', () => {
     renderComponent();
     expect(screen.getByText('もふくろちゃん', { selector: 'h2' })).toBeInTheDocument();
     expect(screen.getByText('一野瀬 心晴')).toBeInTheDocument();
-    expect(screen.getByText('高橋 りな')).toBeInTheDocument();
   });
 
   it('shows search button when a member is selected', async () => {
@@ -110,13 +112,9 @@ describe('MembersPage', () => {
     const searchButton = await screen.findByRole('button', { name: /2人のツイートを検索/ });
     fireEvent.click(searchButton);
 
+    const expectedQuery = `from:${mockMembers[0].twitter_id} OR from:${mockMembers[1].twitter_id}`;
     expect(mockWindowOpen).toHaveBeenCalledWith(
-      expect.stringContaining('from%3Akoharu'),
-      '_blank',
-      'noopener,noreferrer'
-    );
-    expect(mockWindowOpen).toHaveBeenCalledWith(
-      expect.stringContaining('from%3Aellie'),
+      expect.stringContaining(`https://x.com/search?q=${encodeURIComponent(expectedQuery)}&f=live`),
       '_blank',
       'noopener,noreferrer'
     );

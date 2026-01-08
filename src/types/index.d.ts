@@ -33,6 +33,7 @@ export interface TableEvent extends LiveEvent {
 }
 
 export interface Member {
+  id: string;
   idol_id: string;
   name: string;
   name_ruby: string;
