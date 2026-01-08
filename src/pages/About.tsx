@@ -14,6 +14,7 @@ export const AboutPage: React.FC = () => {
         <ul className="ml-4 list-disc pl-5">
           <li>「開催予定のライブ」には今日以降のライブ予定が表示されます。</li>
           <li>「過去のライブ」にはすでに終了したライブ情報が表示されます。</li>
+          <li>「メンバー一覧」には各アイドルグループのメンバーの各SNSリンクが表示されます。</li>
         </ul>
         <p className="ml-2">
           掲載内容は、各アイドルの
@@ -85,6 +86,13 @@ export const AboutPage: React.FC = () => {
 
       <section className="mb-8">
         <h2 className="mb-2 text-xl font-semibold">更新履歴</h2>
+
+        <div className="ml-2">
+          <h3 className="font-semibold">2026-01-08</h3>
+          <ul className="list-disc pl-6 mb-2">
+            <li>メンバー一覧ページを追加しました。アイドル個人の各SNSへのリンクが表示されます。</li>
+          </ul>
+        </div>
 
         <div className="ml-2">
           <h3 className="font-semibold">2026-01-04</h3>

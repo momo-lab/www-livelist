@@ -31,3 +31,16 @@ export interface TableEvent extends LiveEvent {
   isFirstOfDay?: boolean;
   groupIndex?: number;
 }
+
+export interface Member {
+  idol_id: string;
+  name: string;
+  name_ruby: string;
+  color: string;
+  litlink_id?: string;
+  twitter_id?: string;
+  tiktok_id?: string;
+  instagram_id?: string;
+  joining_date?: string; // yyyy-MM-dd
+  leaving_date?: string; // yyyy-MM-dd
+}

@@ -1,133 +1,103 @@
+import { act, renderHook } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { useLiveEvents } from '@/hooks/useLiveEvents';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useSelectedIdols } from '@/hooks/useSelectedIdols';
 import type { Idol } from '@/types';
-import { renderHook, waitFor } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 
-// useLiveEventsとuseLocalStorageをモック
 vi.mock('@/hooks/useLiveEvents');
-vi.mock('@/hooks/useLocalStorage');
 
 const mockUseLiveEvents = vi.mocked(useLiveEvents);
-const mockUseLocalStorage = vi.mocked(useLocalStorage);
 
 const mockIdols: Idol[] = [
   {
-    id: 'aikatsu',
-    name: 'アイカツ！',
-    short_name: 'アイカツ！',
-    colors: { background: '', foreground: '', text: '' },
+    id: 'lumi7',
+    name: 'LUMiNATiO',
+    short_name: 'lumi7',
+    colors: { background: '#fff', foreground: '#000', text: '#000' },
   },
   {
-    id: 'pripara',
-    name: 'プリパラ',
-    short_name: 'プリパラ',
-    colors: { background: '', foreground: '', text: '' },
+    id: 'mofcro',
+    name: 'もふくろちゃん',
+    short_name: 'mofcro',
+    colors: { background: '#fff', foreground: '#000', text: '#000' },
   },
 ];
-const allIdolIds = mockIdols.map((idol) => idol.id);
 
 describe('useSelectedIdols', () => {
-  let mockSetSelectedIdols: Mock;
-
   beforeEach(() => {
-    mockSetSelectedIdols = vi.fn();
-    // デフォルトのモックを設定
     mockUseLiveEvents.mockReturnValue({
       idols: [],
       loading: true,
       error: null,
       allEvents: [],
+      members: [],
       updatedAt: undefined,
     });
-    mockUseLocalStorage.mockReturnValue([[], mockSetSelectedIdols]);
-    vi.spyOn(Storage.prototype, 'getItem');
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+    localStorage.clear();
   });
 
-  it('初回アクセス時（localStorageが空）に、アイドルのロードが完了したら全選択で初期化する', async () => {
-    // localStorageが空の状態をシミュレート
-    vi.mocked(localStorage.getItem).mockReturnValue(null);
-
-    const { rerender } = renderHook(() => useSelectedIdols());
-
-    // 初期状態ではまだ呼ばれない
-    expect(mockSetSelectedIdols).not.toHaveBeenCalled();
-
-    // アイドルデータがロードされた状態をシミュレート
+  it('should return all idol IDs if localStorage is empty', () => {
     mockUseLiveEvents.mockReturnValue({
       idols: mockIdols,
       loading: false,
       error: null,
       allEvents: [],
+      members: [],
       updatedAt: undefined,
     });
-
-    rerender({}); // 再レンダリングをトリガー
-
-    await waitFor(() => {
-      expect(mockSetSelectedIdols).toHaveBeenCalledWith(allIdolIds);
-    });
+    const { result } = renderHook(() => useSelectedIdols());
+    expect(result.current[0]).toEqual(['lumi7', 'mofcro']);
   });
 
-  it('再アクセス時（localStorageに値あり）は、初期化処理を行わない', async () => {
-    const storedValue = ['aikatsu'];
-    // localStorageに値が存在する状態をシミュレート
-    vi.mocked(localStorage.getItem).mockReturnValue(JSON.stringify(storedValue));
-    // useLocalStorageがlocalStorageの値を返すようにモックを上書き
-    mockUseLocalStorage.mockReturnValue([storedValue, mockSetSelectedIdols]);
-
-    const { rerender } = renderHook(() => useSelectedIdols());
-
-    // アイドルデータがロードされた状態をシミュレート
+  it('should return selected idols from localStorage', () => {
+    localStorage.setItem('selectedIdols', JSON.stringify(['mofcro']));
     mockUseLiveEvents.mockReturnValue({
       idols: mockIdols,
       loading: false,
       error: null,
       allEvents: [],
+      members: [],
       updatedAt: undefined,
     });
-
-    rerender({}); // 再レンダリングをトリガー
-
-    // 少し待っても何も起こらないことを確認
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    expect(mockSetSelectedIdols).not.toHaveBeenCalled();
+    const { result } = renderHook(() => useSelectedIdols());
+    expect(result.current[0]).toEqual(['mofcro']);
   });
 
-  it('ローディング中でも初期化処理は行われない', () => {
-    vi.mocked(localStorage.getItem).mockReturnValue(null);
-
+  it('should update selected idols and localStorage', () => {
     mockUseLiveEvents.mockReturnValue({
       idols: mockIdols,
-      loading: true, // ローディング中
+      loading: true, // loading中でも動作するはず
       error: null,
       allEvents: [],
+      members: [],
       updatedAt: undefined,
     });
+    const { result } = renderHook(() => useSelectedIdols());
+    const [, setSelectedIdols] = result.current;
 
-    renderHook(() => useSelectedIdols());
+    act(() => {
+      setSelectedIdols(['lumi7']);
+    });
 
-    expect(mockSetSelectedIdols).not.toHaveBeenCalled();
+    expect(result.current[0]).toEqual(['lumi7']);
+    expect(localStorage.getItem('selectedIdols')).toBe(JSON.stringify(['lumi7']));
   });
 
-  it('アイドルデータが空の場合は初期化処理は行われない', () => {
-    vi.mocked(localStorage.getItem).mockReturnValue(null);
-
+  it('should return an empty array if there are no idols', () => {
     mockUseLiveEvents.mockReturnValue({
       idols: [], // アイドルデータが空
       loading: false,
       error: null,
       allEvents: [],
+      members: [],
       updatedAt: undefined,
     });
-
-    renderHook(() => useSelectedIdols());
-
-    expect(mockSetSelectedIdols).not.toHaveBeenCalled();
+    const { result } = renderHook(() => useSelectedIdols());
+    expect(result.current[0]).toEqual([]);
   });
 });

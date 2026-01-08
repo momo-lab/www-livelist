@@ -1,5 +1,5 @@
 import { LiveEventsContext } from '@/contexts/LiveEventsContext';
-import type { Idol, LiveEvent } from '@/types';
+import type { Idol, LiveEvent, Member } from '@/types';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 interface LiveEventsProviderProps {
@@ -8,6 +8,7 @@ interface LiveEventsProviderProps {
 
 export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children }) => {
   const [idols, setIdols] = useState<Idol[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [allEvents, setAllEvents] = useState<LiveEvent[]>([]);
   const [updatedAt, setUpdatedAt] = useState<Date>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -19,9 +20,10 @@ export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [eventsResponse, idolsResponse] = await Promise.all([
+        const [eventsResponse, idolsResponse, membersResponse] = await Promise.all([
           fetch(makeFetchUrl('data.json')),
           fetch(makeFetchUrl('idols.json')),
+          fetch(makeFetchUrl('members.json')),
         ]);
 
         if (!idolsResponse.ok) {
@@ -39,6 +41,12 @@ export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children
         }
         const eventsData: LiveEvent[] = await eventsResponse.json();
         setAllEvents(eventsData);
+
+        if (!membersResponse.ok) {
+          throw new Error('メンバーデータの取得に失敗しました。');
+        }
+        const membersData: Member[] = await membersResponse.json();
+        setMembers(membersData);
       } catch (err) {
         setError(err instanceof Error ? err.message : '不明なエラーが発生しました。');
       } finally {
@@ -53,11 +61,12 @@ export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children
     () => ({
       idols,
       allEvents,
+      members,
       updatedAt,
       loading,
       error,
     }),
-    [idols, allEvents, updatedAt, loading, error]
+    [idols, allEvents, members, updatedAt, loading, error]
   );
 
   return <LiveEventsContext.Provider value={contextValue}>{children}</LiveEventsContext.Provider>;

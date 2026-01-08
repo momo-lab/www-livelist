@@ -97,6 +97,7 @@ describe('useEventTableData', () => {
       idols: mockIdols,
       loading: false,
       error: null,
+      members: [],
     });
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2025-07-15T00:00:00Z')); // Set current date to 2025-07-15

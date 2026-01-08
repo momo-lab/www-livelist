@@ -24,6 +24,7 @@ describe('useLiveEvents', () => {
         },
       ],
       allEvents: [],
+      members: [],
       loading: false,
       error: null,
     };

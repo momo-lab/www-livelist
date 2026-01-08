@@ -5,7 +5,7 @@ interface SocialLinkItemProps {
   to?: string;
   icon: React.ElementType;
   siteName: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const SocialLinkItem: React.FC<SocialLinkItemProps> = ({

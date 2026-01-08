@@ -51,6 +51,7 @@ describe('UpcomingEventsPage', () => {
       error: null,
       idols: mockIdols,
       allEvents: [],
+      members: [],
       updatedAt: undefined,
     });
     mockUseEventTableData.mockReturnValue({ eventTableData: mockEventData });
@@ -65,6 +66,7 @@ describe('UpcomingEventsPage', () => {
           error: null,
           idols: mockIdols,
           allEvents: [],
+          members: [],
           updatedAt: undefined,
         }}
       >
@@ -79,6 +81,7 @@ describe('UpcomingEventsPage', () => {
       error: null,
       idols: [],
       allEvents: [],
+      members: [],
       updatedAt: undefined,
     });
     renderComponent();
@@ -92,6 +95,7 @@ describe('UpcomingEventsPage', () => {
       error: 'Test Error',
       idols: [],
       allEvents: [],
+      members: [],
       updatedAt: undefined,
     });
     renderComponent();

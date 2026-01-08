@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
-import { CalendarCheck, CalendarDays, ExternalLink, Info, Menu } from 'lucide-react';
+import { CalendarCheck, CalendarDays, ExternalLink, Info, Menu, Users } from 'lucide-react';
 import React, { useState } from 'react';
 import { FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6';
 import { Link, useLocation } from 'react-router-dom';
@@ -18,6 +18,7 @@ import { SocialLinkItem } from './SocialLinkItem';
 const TITLES: Record<string, string> = {
   '/': '開催予定のライブ',
   '/past': '過去のライブ',
+  '/members': 'メンバー一覧',
   '/about': 'このサイトについて',
 };
 
@@ -56,6 +57,16 @@ export const Header: React.FC = () => {
       </li>
       <li className="mx-2">
         <Link
+          to="/members"
+          className="text-foreground flex items-center hover:underline"
+          onClick={() => setIsOpen(false)}
+        >
+          <Users className="mr-2 h-4 w-4" />
+          {TITLES['/members']}
+        </Link>
+      </li>
+      <li className="mx-2">
+        <Link
           to="/about"
           className="text-foreground flex items-center hover:underline"
           onClick={() => setIsOpen(false)}
@@ -68,7 +79,15 @@ export const Header: React.FC = () => {
       {idols.map((idol) => (
         <li key={idol.id} className="px-2 flex flex-col items-start">
           <span className="text-foreground mb-2">{idol.name}</span>
-          <div className="flex gap-4 ps-4">
+          <div className="flex gap-4 ps-4 mt-2">
+            <Link
+              to={`/members#${idol.id}`}
+              className="text-foreground flex flex-col items-center hover:underline"
+              onClick={() => setIsOpen(false)}
+            >
+              <Users className="h-8 w-8" />
+              <span className="text-xs mt-1">メンバー</span>
+            </Link>
             <SocialLinkItem
               to={`https://lit.link/${idol.id}`}
               icon={ExternalLink}
@@ -122,7 +141,7 @@ export const Header: React.FC = () => {
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-64">
+              <SheetContent side="left" className="w-80">
                 <SheetHeader className="bg-header-bg text-header-fg">
                   <SheetTitle onClick={() => setIsOpen(false)}>
                     ルミナス所属アイドル
