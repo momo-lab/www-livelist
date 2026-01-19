@@ -91,6 +91,7 @@ export const AboutPage: React.FC = () => {
         <div className="ml-2">
           <h3 className="font-semibold">2026-01-19</h3>
           <ul className="list-disc pl-6 mb-2">
+            <li>メンバー一覧に一括チェック/クリア機能を追加</li>
             <li>このサイトについての概要の記述を微修正しました。</li>
           </ul>
         </div>
