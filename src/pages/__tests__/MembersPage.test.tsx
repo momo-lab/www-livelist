@@ -86,14 +86,16 @@ describe('MembersPage', () => {
   it('renders members grouped by idol', () => {
     renderComponent();
     expect(screen.getByText('もふくろちゃん', { selector: 'h2' })).toBeInTheDocument();
-    expect(screen.getByText('一野瀬 心晴')).toBeInTheDocument();
+    expect(
+      screen.getByRole('checkbox', { name: '一野瀬 いちのせ 心晴 こはる' })
+    ).toBeInTheDocument();
   });
 
   it('shows search button when a member is selected', async () => {
     renderComponent();
     expect(screen.queryByRole('button', { name: /ツイートを検索/ })).not.toBeInTheDocument();
 
-    const checkbox = screen.getByLabelText('一野瀬 心晴');
+    const checkbox = screen.getByRole('checkbox', { name: '一野瀬 いちのせ 心晴 こはる' });
     fireEvent.click(checkbox);
 
     await waitFor(() => {
@@ -104,8 +106,8 @@ describe('MembersPage', () => {
   it('opens twitter search with correct query when search button is clicked', async () => {
     renderComponent();
 
-    const checkbox1 = screen.getByLabelText('一野瀬 心晴');
-    const checkbox2 = screen.getByLabelText('六星 エリィ');
+    const checkbox1 = screen.getByRole('checkbox', { name: '一野瀬 いちのせ 心晴 こはる' });
+    const checkbox2 = screen.getByRole('checkbox', { name: '六星 ろくほし エリィ' });
     fireEvent.click(checkbox1);
     fireEvent.click(checkbox2);
 

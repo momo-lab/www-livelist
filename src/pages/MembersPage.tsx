@@ -10,6 +10,7 @@ import { FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6';
 import { useLocation } from 'react-router-dom';
 
 import { MembersPageSkeleton } from '@/components/MembersPageSkeleton';
+import { RubyName } from '@/components/RubyName';
 
 export const MembersPage: React.FC = () => {
   const { idols, members, loading } = useLiveEvents();
@@ -154,7 +155,7 @@ export const MembersPage: React.FC = () => {
                       htmlFor={`member-${member.id}`}
                       className="flex-1 font-semibold truncate cursor-pointer"
                     >
-                      {member.name}
+                      <RubyName name={member.name} ruby={member.name_ruby} />
                     </label>
                     <div className="flex gap-3">
                       <SocialLinkItem
