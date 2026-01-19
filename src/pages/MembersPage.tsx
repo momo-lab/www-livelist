@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { getToday } from '@/lib/utils';
 import type { Member } from '@/types';
-import { ExternalLink, Search } from 'lucide-react';
+import { ExternalLink, Search, Trash } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6';
 import { useLocation } from 'react-router-dom';
@@ -54,6 +54,10 @@ export const MembersPage: React.FC = () => {
       const url = `https://x.com/search?q=${encodeURIComponent(query)}&f=live`;
       window.open(url, '_blank', 'noopener,noreferrer');
     }
+  }, [selectedMembers, filteredMembers]);
+
+  const handleClear = useCallback(() => {
+    setSelectedMembers(new Set());
   }, [selectedMembers, filteredMembers]);
 
   const membersByGroup = useMemo(() => {
@@ -141,12 +145,16 @@ export const MembersPage: React.FC = () => {
 
       {selectedMembers.size > 0 && (
         <div className="sticky bottom-4 z-40 text-center">
-          <Button onClick={handleSearchOnTwitter} className="shadow-lg">
+          <Button onClick={handleSearchOnTwitter} className="shadow-lg me-2">
             <Search className="mr-2 h-4 w-4" />
             選択した{selectedMembers.size}人のツイートを検索
+          </Button>
+          <Button onClick={handleClear} className="shadow-lg">
+            <Trash className="mr-2 h-4 w-4" />
+            クリア
           </Button>
         </div>
       )}
     </div>
   );
-};
+}
