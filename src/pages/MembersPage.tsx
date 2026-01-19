@@ -1,5 +1,6 @@
 import { SocialLinkItem } from '@/components/SocialLinkItem';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { getToday } from '@/lib/utils';
 import type { Member } from '@/types';
@@ -44,6 +45,21 @@ export const MembersPage: React.FC = () => {
     });
   };
 
+  const handleToggleGroup = (membersInGroup: Member[]) => {
+    setSelectedMembers((prev) => {
+      const newSet = new Set(prev);
+      const memberIdsInGroup = membersInGroup.map((m) => m.id);
+      const allSelected = memberIdsInGroup.every((id) => newSet.has(id));
+
+      if (allSelected) {
+        memberIdsInGroup.forEach((id) => newSet.delete(id));
+      } else {
+        memberIdsInGroup.forEach((id) => newSet.add(id));
+      }
+      return newSet;
+    });
+  };
+
   const handleSearchOnTwitter = useCallback(() => {
     const twitterIds = Array.from(selectedMembers)
       .map((id) => filteredMembers.find((m) => m.id === id)?.twitter_id)
@@ -58,7 +74,7 @@ export const MembersPage: React.FC = () => {
 
   const handleClear = useCallback(() => {
     setSelectedMembers(new Set());
-  }, [selectedMembers, filteredMembers]);
+  }, []);
 
   const membersByGroup = useMemo(() => {
     const groupMap = new Map<string, Member[]>();
@@ -83,64 +99,93 @@ export const MembersPage: React.FC = () => {
   return (
     <div className="space-y-6 mx-4">
       <div className="container mx-auto space-y-8">
-        {idolGroupsWithMembers.map((group) => (
-          <section key={group.id} id={group.id} className="pt-4 scroll-mt-15">
-            <h2 className="text-2xl font-bold border-b pb-2 mb-4 flex items-center gap-4">
-              {group.name}
-              <a
-                href={`https://lit.link/${group.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${group.name}のlit.link`}
-              >
-                <ExternalLink className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-              </a>
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {group.members.map((member) => (
-                <div
-                  key={member.id}
-                  className="flex items-center gap-4 p-3 rounded-lg border bg-card text-card-foreground"
+        {idolGroupsWithMembers.map((group) => {
+          const allMembersInGroupSelected =
+            group.members.length > 0 && group.members.every((m) => selectedMembers.has(m.id));
+          const someMembersInGroupSelected =
+            group.members.some((m) => selectedMembers.has(m.id)) && !allMembersInGroupSelected;
+
+          return (
+            <section key={group.id} id={group.id} className="pt-4 scroll-mt-15">
+              <div className="border-b pb-2 mb-4">
+                <label
+                  htmlFor={`group-${group.id}`}
+                  className="flex items-center gap-4 cursor-pointer"
                 >
-                  <input
-                    type="checkbox"
-                    id={`member-${member.id}`}
-                    checked={selectedMembers.has(member.id)}
-                    onChange={() => handleToggleMember(member.id)}
-                    className="h-5 w-5 rounded border-primary text-primary focus:ring-primary"
+                  <Checkbox
+                    id={`group-${group.id}`}
+                    checked={
+                      allMembersInGroupSelected
+                        ? true
+                        : someMembersInGroupSelected
+                          ? 'indeterminate'
+                          : false
+                    }
+                    onCheckedChange={() => handleToggleGroup(group.members)}
+                    aria-label={`${group.name}のメンバーをすべて選択`}
+                    className="h-5 w-5"
                   />
-                  <label htmlFor={`member-${member.id}`} className="flex-1 font-semibold truncate">
-                    {member.name}
-                  </label>
-                  <div className="flex gap-3">
-                    <SocialLinkItem
-                      to={member.litlink_id && `https://lit.link/${member.litlink_id}`}
-                      icon={ExternalLink}
-                      siteName="lit.link"
+                  <h2 className="text-2xl font-bold flex items-center gap-2">
+                    {group.name}
+                    <a
+                      href={`https://lit.link/${group.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${group.name}のlit.link`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <ExternalLink className="h-5 w-5 text-muted-foreground hover:text-foreground" />
+                    </a>
+                  </h2>
+                </label>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {group.members.map((member) => (
+                  <div
+                    key={member.id}
+                    className="flex items-center gap-4 p-3 rounded-lg border bg-card text-card-foreground"
+                  >
+                    <Checkbox
+                      id={`member-${member.id}`}
+                      checked={selectedMembers.has(member.id)}
+                      onCheckedChange={() => handleToggleMember(member.id)}
                     />
-                    <SocialLinkItem
-                      to={member.twitter_id && `https://x.com/${member.twitter_id}`}
-                      icon={FaXTwitter}
-                      siteName="X.com"
-                    />
-                    <SocialLinkItem
-                      to={member.tiktok_id && `https://www.tiktok.com/@${member.tiktok_id}`}
-                      icon={FaTiktok}
-                      siteName="TikTok"
-                    />
-                    <SocialLinkItem
-                      to={
-                        member.instagram_id && `https://www.instagram.com/${member.instagram_id}/`
-                      }
-                      icon={FaInstagram}
-                      siteName="Instagram"
-                    />
+                    <label
+                      htmlFor={`member-${member.id}`}
+                      className="flex-1 font-semibold truncate cursor-pointer"
+                    >
+                      {member.name}
+                    </label>
+                    <div className="flex gap-3">
+                      <SocialLinkItem
+                        to={member.litlink_id && `https://lit.link/${member.litlink_id}`}
+                        icon={ExternalLink}
+                        siteName="lit.link"
+                      />
+                      <SocialLinkItem
+                        to={member.twitter_id && `https://x.com/${member.twitter_id}`}
+                        icon={FaXTwitter}
+                        siteName="X.com"
+                      />
+                      <SocialLinkItem
+                        to={member.tiktok_id && `https://www.tiktok.com/@${member.tiktok_id}`}
+                        icon={FaTiktok}
+                        siteName="TikTok"
+                      />
+                      <SocialLinkItem
+                        to={
+                          member.instagram_id && `https://www.instagram.com/${member.instagram_id}/`
+                        }
+                        icon={FaInstagram}
+                        siteName="Instagram"
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        ))}
+                ))}
+              </div>
+            </section>
+          );
+        })}
       </div>
 
       {selectedMembers.size > 0 && (
@@ -157,4 +202,4 @@ export const MembersPage: React.FC = () => {
       )}
     </div>
   );
-}
+};
