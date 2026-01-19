@@ -9,12 +9,13 @@ export const AboutPage: React.FC = () => {
       <section className="mb-8">
         <h2 className="mb-2 text-xl font-semibold">概要</h2>
         <p className="ml-2">
-          このサイトは、ルミナス所属アイドルのライブ出演情報を時系列で整理した、個人による非公式のまとめです。
+          このサイトは、<LinkButton href="https://luminous-pro.com/">株式会社ルミナス</LinkButton>
+          に所属するアイドルのライブ出演情報を時系列で整理した、個人による非公式のまとめです。
         </p>
         <ul className="ml-4 list-disc pl-5">
           <li>「開催予定のライブ」には今日以降のライブ予定が表示されます。</li>
           <li>「過去のライブ」にはすでに終了したライブ情報が表示されます。</li>
-          <li>「メンバー一覧」には各アイドルグループのメンバーの各SNSリンクが表示されます。</li>
+          <li>「メンバー一覧」には各アイドルグループのメンバーの各種SNSリンクが表示されます。</li>
         </ul>
         <p className="ml-2">
           掲載内容は、各アイドルの
@@ -86,6 +87,13 @@ export const AboutPage: React.FC = () => {
 
       <section className="mb-8">
         <h2 className="mb-2 text-xl font-semibold">更新履歴</h2>
+
+        <div className="ml-2">
+          <h3 className="font-semibold">2026-01-19</h3>
+          <ul className="list-disc pl-6 mb-2">
+            <li>このサイトについての概要の記述を微修正しました。</li>
+          </ul>
+        </div>
 
         <div className="ml-2">
           <h3 className="font-semibold">2026-01-08</h3>
