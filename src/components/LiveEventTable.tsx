@@ -29,7 +29,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
     <Table>
       <TableHeader className={cn('bg-header-bg', 'text-header-fg')}>
         <TableRow>
-          <TableHead className="rounded-tl-lg w-20 border-r border-border text-center">
+          <TableHead className="border-border w-20 rounded-tl-lg border-r text-center">
             日付
           </TableHead>
           <TableHead className="rounded-tr-lg">イベント内容</TableHead>
@@ -57,20 +57,20 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
                 <TableCell
                   rowSpan={event.rowspan}
                   className={cn(
-                    `font-medium ${dateBgColor} p-2 border-r border-border text-center align-top`,
+                    `font-medium ${dateBgColor} border-border border-r p-2 text-center align-top`,
                     isLastRow && 'rounded-bl-lg'
                   )}
                 >
-                  <div className="inline-flex items-center justify-center w-full sticky top-[calc(var(--header-height)+0.5rem)]">
+                  <div className="sticky top-[calc(var(--header-height)+0.5rem)] inline-flex w-full items-center justify-center">
                     <div>
                       {formatter.format(new Date(event.date))}
                       {holidayName && (
-                        <Badge className="px-1 my-0.5 text-xs font-normal bg-red-300 text-red-800">
+                        <Badge className="my-0.5 bg-red-300 px-1 text-xs font-normal text-red-800">
                           {holidayName}
                         </Badge>
                       )}
                       {event.isToday && (
-                        <Badge className="px-1 my-0.5 text-xs font-normal bg-amber-100 text-amber-800">
+                        <Badge className="my-0.5 bg-amber-100 px-1 text-xs font-normal text-amber-800">
                           本日
                         </Badge>
                       )}
@@ -80,7 +80,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
               )}
               <TableCell className={cn(isLastRow && 'rounded-br-lg')}>
                 <div className="px-4 py-2">
-                  <div className="mb-2 flex justify-between items-center">
+                  <div className="mb-2 flex items-center justify-between">
                     <Badge style={badgeStyle}>{event.short_name}</Badge>
                     <div className="flex gap-3">
                       {event.link && (
@@ -98,7 +98,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
                         src={event.image}
                         width="48"
                         height="48"
-                        className="h-12 w-12 rounded-lg border border-border"
+                        className="border-border h-12 w-12 rounded-lg border"
                       />
                     )}
                     <pre className="font-sans whitespace-pre-wrap">{event.content}</pre>

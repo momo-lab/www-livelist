@@ -18,7 +18,7 @@ export const UpcomingEventsPage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 pb-4">
-      <div className="space-y-2 my-2">
+      <div className="my-2 space-y-2">
         <IdolFilter selectedIdols={selectedIdols} onSelectedIdolsChange={setSelectedIdols} />
       </div>
 

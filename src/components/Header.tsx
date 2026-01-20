@@ -75,18 +75,18 @@ export const Header: React.FC = () => {
           {TITLES['/about']}
         </Link>
       </li>
-      <hr className="my-3 border-border" />
+      <hr className="border-border my-3" />
       {idols.map((idol) => (
-        <li key={idol.id} className="px-2 flex flex-col items-start">
+        <li key={idol.id} className="flex flex-col items-start px-2">
           <span className="text-foreground mb-2">{idol.name}</span>
-          <div className="flex gap-4 ps-4 mt-2">
+          <div className="mt-2 flex gap-4 ps-4">
             <Link
               to={`/members#${idol.id}`}
               className="text-foreground flex flex-col items-center hover:underline"
               onClick={() => setIsOpen(false)}
             >
               <Users className="h-8 w-8" />
-              <span className="text-xs mt-1">メンバー</span>
+              <span className="mt-1 text-xs">メンバー</span>
             </Link>
             <SocialLinkItem
               to={`https://lit.link/${idol.id}`}
@@ -115,8 +115,8 @@ export const Header: React.FC = () => {
           </div>
         </li>
       ))}
-      <hr className="my-3 border-border" />
-      <li className="mx-2 opacity-40 text-xs text-right">
+      <hr className="border-border my-3" />
+      <li className="mx-2 text-right text-xs opacity-40">
         {updatedAt &&
           `※${updatedAt.toLocaleString('ja-JP', {
             year: 'numeric',

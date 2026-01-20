@@ -54,8 +54,8 @@ export const AboutPage: React.FC = () => {
         <p className="ml-2">
           各ライブ情報の「
           <button className="inline-flex items-center text-sm text-blue-500 hover:text-blue-600">
-            <CalendarPlus className="h-4 w-4 me-0.5" />
-            <span className="underline me-0.5">登録</span>▾
+            <CalendarPlus className="me-0.5 h-4 w-4" />
+            <span className="me-0.5 underline">登録</span>▾
           </button>
           」リンクより、予定をカレンダーへ登録できます。
           登録時には、以下のように各項目が入力されます。
@@ -90,7 +90,7 @@ export const AboutPage: React.FC = () => {
 
         <div className="ml-2">
           <h3 className="font-semibold">2026-01-19</h3>
-          <ul className="list-disc pl-6 mb-2">
+          <ul className="mb-2 list-disc pl-6">
             <li>メンバー一覧に一括チェック/クリア機能を追加しました。</li>
             <li>メンバー一覧の名前にフリガナを追記しました。</li>
             <li>このサイトについての概要の記述を微修正しました。</li>
@@ -99,14 +99,14 @@ export const AboutPage: React.FC = () => {
 
         <div className="ml-2">
           <h3 className="font-semibold">2026-01-08</h3>
-          <ul className="list-disc pl-6 mb-2">
+          <ul className="mb-2 list-disc pl-6">
             <li>メンバー一覧ページを追加しました。アイドル個人の各SNSへのリンクが表示されます。</li>
           </ul>
         </div>
 
         <div className="ml-2">
           <h3 className="font-semibold">2026-01-04</h3>
-          <ul className="list-disc pl-6 mb-2">
+          <ul className="mb-2 list-disc pl-6">
             <li>
               前年の予定がlitlinkに登録されている場合、今年の予定としても再登録されてしまう問題を修正しました。
             </li>
@@ -116,7 +116,7 @@ export const AboutPage: React.FC = () => {
 
         <div className="ml-2">
           <h3 className="font-semibold">2025-07-19</h3>
-          <ul className="list-disc pl-6 mb-2">
+          <ul className="mb-2 list-disc pl-6">
             <li>予定をカレンダーに登録できるようにしました。</li>
             <li>役目を終えたのでGoogle Spreadsheet版の旧サイトの公開を停止しました。</li>
             <li>アイコンを書き直しました。</li>
@@ -125,18 +125,18 @@ export const AboutPage: React.FC = () => {
 
         <div className="ml-2">
           <h3 className="font-semibold">2025-07-17</h3>
-          <ul className="list-disc pl-6 mb-2">
+          <ul className="mb-2 list-disc pl-6">
             <li>日付の表示を調整しました。</li>
           </ul>
         </div>
 
         <div className="ml-2">
           <h3 className="font-semibold">2025-07-16</h3>
-          <ul className="list-disc pl-6 mb-2">
+          <ul className="mb-2 list-disc pl-6">
             <li>過去のライブのページで期間の絞り込み機能を追加しました。</li>
             <li>
               今日の日付の欄に「
-              <Badge className="px-1 py-0.5 text-xs font-normal bg-amber-100 text-amber-800">
+              <Badge className="bg-amber-100 px-1 py-0.5 text-xs font-normal text-amber-800">
                 本日
               </Badge>
               」と出すようにしました。
@@ -147,7 +147,7 @@ export const AboutPage: React.FC = () => {
 
         <div className="ml-2">
           <h3 className="font-semibold">2025-07-15</h3>
-          <ul className="list-disc pl-6 mb-2">
+          <ul className="mb-2 list-disc pl-6">
             <li>デザインを調整し、ほんのり色を付けました。</li>
             <li>各種SNSのリンクを追加しました。</li>
           </ul>
@@ -155,7 +155,7 @@ export const AboutPage: React.FC = () => {
 
         <div className="ml-2">
           <h3 className="font-semibold">2025-07-11</h3>
-          <ul className="list-disc pl-6 mb-2">
+          <ul className="mb-2 list-disc pl-6">
             <li>ちゃんとサイトを作成してある意味正式に公開しました。</li>
             <li>アイドルの絞り込み機能を追加しました。</li>
           </ul>
@@ -163,21 +163,21 @@ export const AboutPage: React.FC = () => {
 
         <div className="ml-2">
           <h3 className="font-semibold">2025-07-01</h3>
-          <ul className="list-disc pl-6 mb-2">
+          <ul className="mb-2 list-disc pl-6">
             <li>Google Spreadsheet版の旧サイトを公開しました。</li>
           </ul>
         </div>
 
         <div className="ml-2">
           <h3 className="font-semibold">2025-06-25</h3>
-          <ul className="list-disc pl-6 mb-2">
+          <ul className="mb-2 list-disc pl-6">
             <li>lit.linkからの定期的なデータ収集を始めました。</li>
           </ul>
         </div>
 
         <div className="ml-2">
           <h3 className="font-semibold">2025-06-24</h3>
-          <ul className="list-disc pl-6 mb-2">
+          <ul className="mb-2 list-disc pl-6">
             <li>lit.linkのライブ情報が収集可能と気づき、このサイトを作り始めました。</li>
           </ul>
         </div>

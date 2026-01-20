@@ -28,7 +28,7 @@ export const SocialLinkItem: React.FC<SocialLinkItemProps> = ({
       aria-label={`${siteName}`}
     >
       <Icon className="h-8 w-8" />
-      <span className="text-xs mt-1">{siteName}</span>
+      <span className="mt-1 text-xs">{siteName}</span>
     </Link>
   );
 };

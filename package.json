@@ -1,7 +1,7 @@
 {
-  "private": true,
   "name": "www-livelist",
   "version": "0.1.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "build": "run-s build:*",
@@ -18,10 +18,10 @@
     "lint": "run-s -c lint:*",
     "lint:eslint": "eslint .",
     "lint:tsc": "tsc --noEmit",
-    "lint:prettier": "prettier --check .",
+    "lint:fmt": "oxfmt --check",
     "lint-fix": "run-s -c lint-fix:*",
     "lint-fix:eslint": "eslint . --fix",
-    "lint-fix:prettier": "prettier --write .",
+    "lint-fix:fmt": "oxfmt",
     "test": "vitest run",
     "test-watch": "vitest",
     "preview": "vite preview"

@@ -13,7 +13,7 @@ export function Layout() {
       <div className="bg-background text-foreground pt-[var(--header-height)] pb-2">
         <Outlet />
       </div>
-      <footer className="bg-background text-foreground/50 border-t border-border py-2 text-center text-sm">
+      <footer className="bg-background text-foreground/50 border-border border-t py-2 text-center text-sm">
         Created by{' '}
         <a
           href="https://x.com/momolab"

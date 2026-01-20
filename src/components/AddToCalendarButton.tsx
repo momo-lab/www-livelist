@@ -93,8 +93,8 @@ END:VCALENDAR`;
           )}
           {...props}
         >
-          <CalendarPlus className="h-4 w-4 me-0.5" />
-          <span className="underline me-0.5">登録</span>▾
+          <CalendarPlus className="me-0.5 h-4 w-4" />
+          <span className="me-0.5 underline">登録</span>▾
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="border-border">

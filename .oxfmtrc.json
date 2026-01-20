@@ -6,7 +6,5 @@
   "tabWidth": 2,
   "trailingComma": "es5",
   "experimentalTailwindcss": {},
-  "ignorePatterns": [
-    "pnpm-lock.yaml"
-  ]
+  "ignorePatterns": ["pnpm-lock.yaml"]
 }

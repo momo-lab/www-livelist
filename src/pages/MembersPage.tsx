@@ -98,7 +98,7 @@ export const MembersPage: React.FC = () => {
   const idolGroupsWithMembers = membersByGroup.filter((group) => group.members.length > 0);
 
   return (
-    <div className="space-y-6 mx-4">
+    <div className="mx-4 space-y-6">
       <div className="container mx-auto space-y-8">
         {idolGroupsWithMembers.map((group) => {
           const allMembersInGroupSelected =
@@ -107,11 +107,11 @@ export const MembersPage: React.FC = () => {
             group.members.some((m) => selectedMembers.has(m.id)) && !allMembersInGroupSelected;
 
           return (
-            <section key={group.id} id={group.id} className="pt-4 scroll-mt-15">
-              <div className="border-b pb-2 mb-4">
+            <section key={group.id} id={group.id} className="scroll-mt-15 pt-4">
+              <div className="mb-4 border-b pb-2">
                 <label
                   htmlFor={`group-${group.id}`}
-                  className="flex items-center gap-4 cursor-pointer"
+                  className="flex cursor-pointer items-center gap-4"
                 >
                   <Checkbox
                     id={`group-${group.id}`}
@@ -126,7 +126,7 @@ export const MembersPage: React.FC = () => {
                     aria-label={`${group.name}のメンバーをすべて選択`}
                     className="h-5 w-5"
                   />
-                  <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <h2 className="flex items-center gap-2 text-2xl font-bold">
                     {group.name}
                     <a
                       href={`https://lit.link/${group.id}`}
@@ -135,16 +135,16 @@ export const MembersPage: React.FC = () => {
                       aria-label={`${group.name}のlit.link`}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <ExternalLink className="h-5 w-5 text-muted-foreground hover:text-foreground" />
+                      <ExternalLink className="text-muted-foreground hover:text-foreground h-5 w-5" />
                     </a>
                   </h2>
                 </label>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {group.members.map((member) => (
                   <div
                     key={member.id}
-                    className="flex items-center gap-4 p-3 rounded-lg border bg-card text-card-foreground"
+                    className="bg-card text-card-foreground flex items-center gap-4 rounded-lg border p-3"
                   >
                     <Checkbox
                       id={`member-${member.id}`}
@@ -153,7 +153,7 @@ export const MembersPage: React.FC = () => {
                     />
                     <label
                       htmlFor={`member-${member.id}`}
-                      className="flex-1 font-semibold truncate cursor-pointer"
+                      className="flex-1 cursor-pointer truncate font-semibold"
                     >
                       <RubyName name={member.name} ruby={member.name_ruby} />
                     </label>
@@ -191,7 +191,7 @@ export const MembersPage: React.FC = () => {
 
       {selectedMembers.size > 0 && (
         <div className="sticky bottom-4 z-40 text-center">
-          <Button onClick={handleSearchOnTwitter} className="shadow-lg me-2">
+          <Button onClick={handleSearchOnTwitter} className="me-2 shadow-lg">
             <Search className="mr-2 h-4 w-4" />
             選択した{selectedMembers.size}人のツイートを検索
           </Button>
