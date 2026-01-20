@@ -1,5 +1,5 @@
-import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const MemberItemSkeleton = () => (
   <div className="bg-card text-card-foreground flex items-center gap-4 rounded-lg border p-3">

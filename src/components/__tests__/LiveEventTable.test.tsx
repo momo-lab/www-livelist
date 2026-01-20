@@ -1,6 +1,6 @@
-import type { TableEvent } from '@/types';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import type { TableEvent } from '@/types';
 import { LiveEventTable } from '../LiveEventTable';
 
 // Keep mock for ExternalLink as it's from a third-party icon library

@@ -1,7 +1,7 @@
-import { LiveEventsProvider } from '@/providers/LiveEventsProvider';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
+import { LiveEventsProvider } from '@/providers/LiveEventsProvider';
 import { Header } from '../Header';
 
 // LiveEventsProviderをモックして、テスト用のidolsデータを提供する

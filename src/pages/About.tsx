@@ -1,7 +1,7 @@
-import { Badge } from '@/components/ui/badge';
-import { LinkButton } from '@/components/ui/LinkButton';
 import { CalendarPlus } from 'lucide-react';
 import React from 'react';
+import { Badge } from '@/components/ui/badge';
+import { LinkButton } from '@/components/ui/LinkButton';
 
 export const AboutPage: React.FC = () => {
   return (

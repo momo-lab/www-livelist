@@ -1,5 +1,5 @@
-import { LiveEventsContext } from '@/contexts/LiveEventsContext';
 import { useContext } from 'react';
+import { LiveEventsContext } from '@/contexts/LiveEventsContext';
 
 export const useLiveEvents = () => {
   const context = useContext(LiveEventsContext);

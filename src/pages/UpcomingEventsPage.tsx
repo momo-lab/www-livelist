@@ -1,10 +1,10 @@
+import React from 'react';
 import { IdolFilter } from '@/components/IdolFilter';
 import { LiveEventTable } from '@/components/LiveEventTable';
 import { LiveEventTableSkeleton } from '@/components/LiveEventTableSkeleton';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { useSelectedIdols } from '@/hooks/useSelectedIdols';
-import React from 'react';
 
 export const UpcomingEventsPage: React.FC = () => {
   const [selectedIdols, setSelectedIdols] = useSelectedIdols();

@@ -1,3 +1,6 @@
+import { CalendarPlus } from 'lucide-react';
+import React from 'react';
+import { FaApple, FaGoogle } from 'react-icons/fa6';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,9 +9,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn, toDateString } from '@/lib/utils';
 import type { LiveEvent } from '@/types';
-import { CalendarPlus } from 'lucide-react';
-import React from 'react';
-import { FaApple, FaGoogle } from 'react-icons/fa6';
 
 const escapeICSText = (text: string): string => {
   return text

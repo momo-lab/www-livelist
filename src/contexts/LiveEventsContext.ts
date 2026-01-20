@@ -1,5 +1,5 @@
-import type { Idol, LiveEvent, Member } from '@/types';
 import React from 'react';
+import type { Idol, LiveEvent, Member } from '@/types';
 
 interface LiveEventsContextType {
   idols: Idol[];

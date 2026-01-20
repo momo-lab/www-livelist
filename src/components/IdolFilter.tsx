@@ -1,7 +1,7 @@
+import * as React from 'react';
 import { IdolFilterSkeleton } from '@/components/IdolFilterSkeleton';
 import { ToggleButton } from '@/components/ui/ToggleButton';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
-import * as React from 'react';
 
 interface IdolFilterProps {
   selectedIdols: string[];

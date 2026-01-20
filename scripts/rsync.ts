@@ -1,8 +1,8 @@
 import { spawnSync } from 'child_process';
-import { config } from 'dotenv';
 import fs from 'fs';
-import minimist from 'minimist';
 import { resolve } from 'path';
+import { config } from 'dotenv';
+import minimist from 'minimist';
 
 // 引数解析
 const args = minimist(process.argv.slice(2));

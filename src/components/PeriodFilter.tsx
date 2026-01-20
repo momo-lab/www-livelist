@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -6,7 +7,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import type { TableEvent } from '@/types';
-import { useEffect, useState } from 'react';
 
 interface PeriodFilterProps {
   selectedPeriod?: { year?: number; month?: number };

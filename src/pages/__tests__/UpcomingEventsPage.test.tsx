@@ -1,13 +1,12 @@
-import { LiveEventsContext } from '@/contexts/LiveEventsContext';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
-import { UpcomingEventsPage } from '../UpcomingEventsPage';
-
+import { LiveEventsContext } from '@/contexts/LiveEventsContext';
 import { useEventTableData } from '@/hooks/useEventTableData';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { useSelectedIdols } from '@/hooks/useSelectedIdols';
 import type { Idol, TableEvent } from '@/types';
+import { UpcomingEventsPage } from '../UpcomingEventsPage';
 
 vi.mock('@/hooks/useLiveEvents');
 vi.mock('@/hooks/useEventTableData');

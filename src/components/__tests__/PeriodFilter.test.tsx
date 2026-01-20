@@ -1,6 +1,6 @@
-import type { TableEvent } from '@/types';
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
+import type { TableEvent } from '@/types';
 import { PeriodFilter } from '../PeriodFilter';
 
 describe('PeriodFilter', () => {

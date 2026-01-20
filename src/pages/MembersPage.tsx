@@ -1,16 +1,15 @@
+import { ExternalLink, Search, Trash } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6';
+import { useLocation } from 'react-router-dom';
+import { MembersPageSkeleton } from '@/components/MembersPageSkeleton';
+import { RubyName } from '@/components/RubyName';
 import { SocialLinkItem } from '@/components/SocialLinkItem';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { getToday } from '@/lib/utils';
 import type { Member } from '@/types';
-import { ExternalLink, Search, Trash } from 'lucide-react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6';
-import { useLocation } from 'react-router-dom';
-
-import { MembersPageSkeleton } from '@/components/MembersPageSkeleton';
-import { RubyName } from '@/components/RubyName';
 
 export const MembersPage: React.FC = () => {
   const { idols, members, loading } = useLiveEvents();

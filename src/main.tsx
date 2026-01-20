@@ -1,10 +1,10 @@
-import { Layout } from '@/components/Layout';
-import { LiveEventsProvider } from '@/providers/LiveEventsProvider';
+import './index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import ReactGA from 'react-ga4';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './index.css';
+import { Layout } from '@/components/Layout';
+import { LiveEventsProvider } from '@/providers/LiveEventsProvider';
 import { AboutPage } from './pages/About';
 import { MembersPage } from './pages/MembersPage';
 import { PastEventsPage } from './pages/PastEventsPage';

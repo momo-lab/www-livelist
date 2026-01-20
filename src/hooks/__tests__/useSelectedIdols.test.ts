@@ -1,6 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { useSelectedIdols } from '@/hooks/useSelectedIdols';
 import type { Idol } from '@/types';

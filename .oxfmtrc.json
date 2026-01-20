@@ -5,6 +5,18 @@
   "printWidth": 100,
   "tabWidth": 2,
   "trailingComma": "es5",
+  "experimentalSortImports": {
+    "groups": [
+      ["side-effect"],
+      ["builtin"],
+      ["external"],
+      ["internal"],
+      ["parent", "sibling", "index"]
+    ],
+    "sortSideEffects": false,
+    "newlinesBetween": false,
+    "ignoreCase": true
+  },
   "experimentalTailwindcss": {},
   "ignorePatterns": ["pnpm-lock.yaml"]
 }

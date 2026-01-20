@@ -1,7 +1,7 @@
+import { useMemo } from 'react';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { getToday } from '@/lib/utils';
 import type { LiveEvent, TableEvent } from '@/types';
-import { useMemo } from 'react';
 
 export const useEventTableData = (mode: 'upcoming' | 'past', selectedIdols: string[]) => {
   const { allEvents, idols } = useLiveEvents();

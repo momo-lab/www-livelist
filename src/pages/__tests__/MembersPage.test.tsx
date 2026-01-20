@@ -1,7 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-
 import { MembersPageSkeleton } from '@/components/MembersPageSkeleton';
 import * as useLiveEvents from '@/hooks/useLiveEvents';
 import type { Idol, Member } from '@/types';

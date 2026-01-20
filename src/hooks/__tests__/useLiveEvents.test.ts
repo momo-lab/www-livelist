@@ -1,7 +1,7 @@
-import { LiveEventsContext } from '@/contexts/LiveEventsContext';
 import { renderHook } from '@testing-library/react';
 import React from 'react';
 import { describe, expect, it } from 'vitest';
+import { LiveEventsContext } from '@/contexts/LiveEventsContext';
 import { useLiveEvents } from '../useLiveEvents';
 
 describe('useLiveEvents', () => {

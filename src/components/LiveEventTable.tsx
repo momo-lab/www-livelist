@@ -1,3 +1,4 @@
+import { ExternalLink } from 'lucide-react';
 import { AddToCalendarButton } from '@/components/AddToCalendarButton';
 import { Badge } from '@/components/ui/badge';
 import { LinkButton } from '@/components/ui/LinkButton';
@@ -12,7 +13,6 @@ import {
 import { getHolidayName } from '@/lib/holidays-jp';
 import { cn } from '@/lib/utils';
 import type { TableEvent } from '@/types';
-import { ExternalLink } from 'lucide-react';
 
 interface LiveEventTableProps {
   tableData: TableEvent[];
