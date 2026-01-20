@@ -67,6 +67,7 @@
     "globals": "^17.0.0",
     "jsdom": "^27.4.0",
     "npm-run-all2": "^8.0.4",
+    "oxfmt": "^0.26.0",
     "prettier": "^3.7.4",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-sort-package-json": "^1.1.0",
