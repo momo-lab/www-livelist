@@ -8,22 +8,23 @@ on:
         required: true
         type: string
       github_repository:
-        description: 'GitHub repository (e.g., octocat/Spoon-Knife)'
+        description: "GitHub repository (e.g., octocat/Spoon-Knife)"
         required: true
         type: string
       github_ref_name:
-        description: 'GitHub ref name (e.g., main, v1.0.0)'
+        description: "GitHub ref name (e.g., main, v1.0.0)"
         required: true
         type: string
       github_run_id:
-        description: 'GitHub run ID'
+        description: "GitHub run ID"
         required: true
         type: string
-    secrets:
       LINE_CHANNEL_ACCESS_TOKEN:
         required: true
+        type: string
       LINE_USER_ID:
         required: true
+        type: string
 
 jobs:
   send-notification:
