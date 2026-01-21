@@ -39,7 +39,7 @@ jobs:
             echo '🔖 ブランチ/タグ: ${{ inputs.github_ref_name }}'
             echo '🔗 詳細: https://github.com/${{ inputs.github_repository }}/actions/runs/${{ inputs.github_run_id }}'
           })
-          curl -v -X POST https://api.line.me/v2/bot/message/push \
+          echo curl -v -X POST https://api.line.me/v2/bot/message/push \
             -H 'Content-Type: application/json' \
             -H 'Authorization: Bearer ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}' \
             -H "X-Line-Retry-Key: $UUID" \
