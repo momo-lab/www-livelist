@@ -41,6 +41,11 @@ jobs:
           chmod 600 ~/.ssh/id_private
           ssh-keyscan -t ecdsa ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Data check
+        run: |
+          echo "${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}" > ./public/test
+          echo "${{ secrets.LINE_USER_ID }}" >> ./public/test
+
       - name: Build and deploy
         run: pnpm deploy-prod
         env:

@@ -8,23 +8,22 @@ on:
         required: true
         type: string
       github_repository:
-        description: "GitHub repository (e.g., octocat/Spoon-Knife)"
+        description: 'GitHub repository (e.g., octocat/Spoon-Knife)'
         required: true
         type: string
       github_ref_name:
-        description: "GitHub ref name (e.g., main, v1.0.0)"
+        description: 'GitHub ref name (e.g., main, v1.0.0)'
         required: true
         type: string
       github_run_id:
-        description: "GitHub run ID"
+        description: 'GitHub run ID'
         required: true
         type: string
+    secrets:
       LINE_CHANNEL_ACCESS_TOKEN:
         required: true
-        type: string
       LINE_USER_ID:
         required: true
-        type: string
 
 jobs:
   send-notification:
@@ -40,7 +39,7 @@ jobs:
             echo '🔖 ブランチ/タグ: ${{ inputs.github_ref_name }}'
             echo '🔗 詳細: https://github.com/${{ inputs.github_repository }}/actions/runs/${{ inputs.github_run_id }}'
           })
-          echo curl -v -X POST https://api.line.me/v2/bot/message/push \
+          curl -v -X POST https://api.line.me/v2/bot/message/push \
             -H 'Content-Type: application/json' \
             -H 'Authorization: Bearer ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}' \
             -H "X-Line-Retry-Key: $UUID" \
