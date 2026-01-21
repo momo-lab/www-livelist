@@ -100,6 +100,23 @@ GitHub Actionsでも利用するため、Secretsにも設定が必要です。
 | `LINE_CHANNEL_ACCESS_TOKEN` | LINE Messaging APIのチャネルアクセストークン              |
 | `LINE_USER_ID`              | LINE通知の送信先となるユーザーIDまたはグループID          |
 
+### 各種機密情報の取得方法
+
+#### VITE_GA4_ID
+
+[Google Analitics](https://analytics.google.com/analytics)の管理より
+プロパティ設定 > データの収集と修正 > データストリームの「測定ID」を確認する。
+
+#### LINE_CHANNEL_ACCESS_TOKEN
+
+[LINE Developers](https://developers.line.biz/ja/)のコンソールより通知用のチャネルを選択し、
+Messaging API設定の「アクセスチャネルトークン(長期)」を確認する。
+
+#### LINE_USER_ID
+
+[LINE Developers](https://developers.line.biz/ja/)のコンソールより通知用のチャネルを選択し、
+チャネル基本設計の「あなたのユーザID」を確認する。
+
 ## その他の情報
 
 - **コミットメッセージ**: コミットメッセージは日本語で記述してください。
