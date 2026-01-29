@@ -14,6 +14,15 @@ export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const getContrastYIQ = (hexcolor: string) => {
+    const r = parseInt(hexcolor.substring(1, 3), 16);
+    const g = parseInt(hexcolor.substring(3, 5), 16);
+    const b = parseInt(hexcolor.substring(5, 7), 16);
+    console.log(hexcolor, r, g, b);
+    const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+    return yiq >= 128 ? '#000000' : '#FFFFFF';
+  };
+
   const makeFetchUrl = (name: string) =>
     `${import.meta.env.BASE_URL}external-data/${name}?cachebuster=${new Date().getTime()}`;
 
@@ -46,7 +55,12 @@ export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children
           throw new Error('メンバーデータの取得に失敗しました。');
         }
         const membersData: Member[] = await membersResponse.json();
-        setMembers(membersData);
+        setMembers(
+          membersData.map((member) => ({
+            ...member,
+            text_color_code: getContrastYIQ(member.color_code),
+          }))
+        );
       } catch (err) {
         setError(err instanceof Error ? err.message : '不明なエラーが発生しました。');
       } finally {

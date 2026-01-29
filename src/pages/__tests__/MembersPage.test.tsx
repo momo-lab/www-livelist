@@ -30,6 +30,7 @@ const mockMembers: Member[] = [
     name: '一野瀬 心晴',
     name_ruby: 'いちのせ こはる',
     color: 'yellow',
+    color_code: '#000000',
     twitter_id: 'koharu',
   },
   {
@@ -38,6 +39,7 @@ const mockMembers: Member[] = [
     name: '六星 エリィ',
     name_ruby: 'ろくほし えりぃ',
     color: 'purple',
+    color_code: '#000000',
     twitter_id: 'ellie',
   },
   {
@@ -46,6 +48,7 @@ const mockMembers: Member[] = [
     name: '高橋 りな',
     name_ruby: 'たかはし りな',
     color: 'blue',
+    color_code: '#000000',
     twitter_id: 'rina',
     leaving_date: '2024-01-01',
   },

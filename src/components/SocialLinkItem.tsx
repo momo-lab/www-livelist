@@ -23,7 +23,7 @@ export const SocialLinkItem: React.FC<SocialLinkItemProps> = ({
       to={to}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-foreground flex flex-col items-center hover:underline"
+      className="flex flex-col items-center hover:underline"
       onClick={onClick}
       aria-label={`${siteName}`}
     >

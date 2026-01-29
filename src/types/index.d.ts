@@ -38,6 +38,8 @@ export interface Member {
   name: string;
   name_ruby: string;
   color: string;
+  color_code: string; // #xxxxxx
+  text_color_code?: string; // 計算で付与
   litlink_id?: string;
   twitter_id?: string;
   tiktok_id?: string;

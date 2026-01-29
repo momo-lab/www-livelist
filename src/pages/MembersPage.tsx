@@ -139,7 +139,7 @@ export const MembersPage: React.FC = () => {
                   </h2>
                 </label>
               </div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {group.members.map((member) => (
                   <div
                     key={member.id}
@@ -152,11 +152,15 @@ export const MembersPage: React.FC = () => {
                     />
                     <label
                       htmlFor={`member-${member.id}`}
-                      className="flex-1 cursor-pointer truncate font-semibold"
+                      style={{
+                        backgroundColor: member.color_code,
+                        color: member.text_color_code || '#000000',
+                      }}
+                      className="flex-1 cursor-pointer truncate rounded-lg border p-2 pt-4 font-semibold"
                     >
                       <RubyName name={member.name} ruby={member.name_ruby} />
                     </label>
-                    <div className="flex gap-3">
+                    <div className="flex w-46 gap-3">
                       <SocialLinkItem
                         to={member.litlink_id && `https://lit.link/${member.litlink_id}`}
                         icon={ExternalLink}
