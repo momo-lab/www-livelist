@@ -89,6 +89,13 @@ export const AboutPage: React.FC = () => {
         <h2 className="mb-2 text-xl font-semibold">更新履歴</h2>
 
         <div className="ml-2">
+          <h3 className="font-semibold">2026-01-29</h3>
+          <ul className="mb-2 list-disc pl-6">
+            <li>メンバー一覧にメンバーカラーを表示するようにしました。</li>
+          </ul>
+        </div>
+
+        <div className="ml-2">
           <h3 className="font-semibold">2026-01-19</h3>
           <ul className="mb-2 list-disc pl-6">
             <li>メンバー一覧に一括チェック/クリア機能を追加しました。</li>
