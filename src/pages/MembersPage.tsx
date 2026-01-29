@@ -160,21 +160,11 @@ export const MembersPage: React.FC = () => {
                     >
                       <RubyName name={member.name} ruby={member.name_ruby} />
                     </label>
-                    <div className="flex w-46 gap-3">
-                      <SocialLinkItem
-                        to={member.litlink_id && `https://lit.link/${member.litlink_id}`}
-                        icon={ExternalLink}
-                        siteName="lit.link"
-                      />
+                    <div className="flex w-48 gap-3">
                       <SocialLinkItem
                         to={member.twitter_id && `https://x.com/${member.twitter_id}`}
                         icon={FaXTwitter}
                         siteName="X.com"
-                      />
-                      <SocialLinkItem
-                        to={member.tiktok_id && `https://www.tiktok.com/@${member.tiktok_id}`}
-                        icon={FaTiktok}
-                        siteName="TikTok"
                       />
                       <SocialLinkItem
                         to={
@@ -182,6 +172,16 @@ export const MembersPage: React.FC = () => {
                         }
                         icon={FaInstagram}
                         siteName="Instagram"
+                      />
+                      <SocialLinkItem
+                        to={member.tiktok_id && `https://www.tiktok.com/@${member.tiktok_id}`}
+                        icon={FaTiktok}
+                        siteName="TikTok"
+                      />
+                      <SocialLinkItem
+                        to={member.litlink_id && `https://lit.link/${member.litlink_id}`}
+                        icon={ExternalLink}
+                        siteName="lit.link"
                       />
                     </div>
                   </div>

@@ -88,15 +88,15 @@ export const Header: React.FC = () => {
               <span className="mt-1 text-xs">メンバー</span>
             </Link>
             <SocialLinkItem
-              to={`https://lit.link/${idol.id}`}
-              icon={ExternalLink}
-              siteName="lit.link"
-              onClick={() => setIsOpen(false)}
-            />
-            <SocialLinkItem
               to={idol.twitter_id && `https://x.com/${idol.twitter_id}`}
               icon={FaXTwitter}
               siteName="X.com"
+              onClick={() => setIsOpen(false)}
+            />
+            <SocialLinkItem
+              to={idol.instagram_id && `https://www.instagram.com/${idol.instagram_id}/`}
+              icon={FaInstagram}
+              siteName="Instagram"
               onClick={() => setIsOpen(false)}
             />
             <SocialLinkItem
@@ -106,9 +106,9 @@ export const Header: React.FC = () => {
               onClick={() => setIsOpen(false)}
             />
             <SocialLinkItem
-              to={idol.instagram_id && `https://www.instagram.com/${idol.instagram_id}/`}
-              icon={FaInstagram}
-              siteName="Instagram"
+              to={`https://lit.link/${idol.id}`}
+              icon={ExternalLink}
+              siteName="lit.link"
               onClick={() => setIsOpen(false)}
             />
           </div>
