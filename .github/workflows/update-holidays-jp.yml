@@ -2,7 +2,7 @@ name: Update holidays-jp
 
 on:
   schedule:
-    - cron: "40 15 * * *" # 24:40 JST
+    - cron: '40 15 * * *' # 24:40 JST
   workflow_dispatch:
 
 jobs:
@@ -23,8 +23,8 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24"
-          cache: "pnpm"
+          node-version: '24'
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
