@@ -10,6 +10,30 @@ export default defineConfig(({ mode }) => {
   return {
     base: env.VITE_BASE_URL || '/',
     plugins: [react(), tailwindcss()],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            react: ['react', 'react-dom', 'react-dom/client'],
+            router: ['react-router-dom'],
+            ui: [
+              // Radix UI
+              '@radix-ui/react-checkbox',
+              '@radix-ui/react-dialog',
+              '@radix-ui/react-dropdown-menu',
+              '@radix-ui/react-select',
+              '@radix-ui/react-slot',
+
+              // icons
+              'lucide-react',
+              'react-icons',
+            ],
+            utils: ['clsx', 'tailwind-merge', 'class-variance-authority'],
+            analytics: ['react-ga4'],
+          },
+        },
+      },
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
