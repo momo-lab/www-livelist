@@ -3,15 +3,15 @@ name: Deploy
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   deploy-prod-job:
     runs-on: ubuntu-latest
 
     env:
-      VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
-      VITE_GA4_ID: ${{ secrets.VITE_GA4_ID }}
+      VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
+      VITE_GA4_ID: ${{ vars.VITE_GA4_ID }}
       REMOTE_USER: ${{ secrets.REMOTE_USER }}
       REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
       REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
@@ -28,8 +28,8 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          cache: 'pnpm'
+          node-version: "24"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -51,7 +51,7 @@ jobs:
     if: success()
     uses: ./.github/workflows/line-notify.yml
     with:
-      message_prefix: '✅ デプロイが成功しました。'
+      message_prefix: "✅ デプロイが成功しました。"
       github_repository: ${{ github.repository }}
       github_ref_name: ${{ github.ref_name }}
       github_run_id: ${{ github.run_id }}
@@ -64,7 +64,7 @@ jobs:
     if: failure()
     uses: ./.github/workflows/line-notify.yml
     with:
-      message_prefix: '❌ デプロイが失敗しました。'
+      message_prefix: "❌ デプロイが失敗しました。"
       github_repository: ${{ github.repository }}
       github_ref_name: ${{ github.ref_name }}
       github_run_id: ${{ github.run_id }}

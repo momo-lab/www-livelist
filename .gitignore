@@ -15,8 +15,11 @@ dist-ssr
 public/external-data/*
 !public/external-data/.gitkeep
 
-.env*
-!.env.sample
+.env
+.env.local
+.env.*.local
+.env.production
+.env.production.*
 
 # Editor directories and files
 .vscode/*

@@ -75,22 +75,30 @@ pnpm lint-fix
 ## 環境変数とGitHub Secrets
 
 GitHub Actionsのデプロイおよび通知機能で利用される環境変数は、
-以下のGitHub Secretsとしてリポジトリに設定する必要があります。
+以下のGitHub Variables及びSecretsとしてリポジトリに設定する必要があります。
 
-### 開発・デプロイ共通の環境変数
+### 開発・デプロイ共通の環境変数(Variables)
 
-これらの環境変数は、開発環境の `.env` ファイルにも設定しますが、
+これらの環境変数は、開発環境の `.env` ファイルに設定しますが、
 GitHub Actionsでも利用するため、Secretsにも設定が必要です。
 
 | 環境変数名      | 説明                                                        |
 | :-------------- | :---------------------------------------------------------- |
 | `VITE_BASE_URL` | Viteビルド時のベースURL（例: `/` または `/your-app-path/`） |
 | `VITE_GA4_ID`   | Google Analytics 4の測定ID（`G-` から始まるID）             |
-| `REMOTE_USER`   | デプロイ先サーバーへのSSH接続ユーザー名                     |
-| `REMOTE_HOST`   | デプロイ先サーバーのホスト名                                |
-| `REMOTE_DIR`    | デプロイ先サーバーのディレクトリパス                        |
 
-### GitHub Actions専用の機密情報
+### 開発・デプロイ共通の機密情報(Secrets)
+
+これらの環境変数は、開発環境の `.env.local` ファイルに設定しますが、
+GitHub Actionsでも利用するため、Secretsにも設定が必要です。
+
+| 環境変数名    | 説明                                    |
+| :------------ | :-------------------------------------- |
+| `REMOTE_USER` | デプロイ先サーバーへのSSH接続ユーザー名 |
+| `REMOTE_HOST` | デプロイ先サーバーのホスト名            |
+| `REMOTE_DIR`  | デプロイ先サーバーのディレクトリパス    |
+
+### GitHub Actions専用の機密情報(Secrets)
 
 これらの環境変数は、GitHub Actionsでのみ利用されるため、Secretsにのみ設定が必要です。
 
