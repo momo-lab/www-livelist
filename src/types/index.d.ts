@@ -1,3 +1,9 @@
+export interface Versions {
+  data_version: string;
+  idols_version: string;
+  members_version: string;
+}
+
 export interface IdolColors {
   background: string;
   foreground: string;
