@@ -4,11 +4,11 @@ import { createRoot } from 'react-dom/client';
 import ReactGA from 'react-ga4';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
+import { AboutPage } from '@/pages/About';
+import { MembersPage } from '@/pages/MembersPage';
+import { PastEventsPage } from '@/pages/PastEventsPage';
+import { UpcomingEventsPage } from '@/pages/UpcomingEventsPage';
 import { LiveEventsProvider } from '@/providers/LiveEventsProvider';
-import { AboutPage } from './pages/About';
-import { MembersPage } from './pages/MembersPage';
-import { PastEventsPage } from './pages/PastEventsPage';
-import { UpcomingEventsPage } from './pages/UpcomingEventsPage';
 
 const ga4Id = import.meta.env.VITE_GA4_ID;
 if (ga4Id) {

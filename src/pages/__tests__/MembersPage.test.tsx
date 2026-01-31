@@ -2,11 +2,14 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { MembersPageSkeleton } from '@/components/MembersPageSkeleton';
-import * as useLiveEvents from '@/hooks/useLiveEvents';
+import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import type { Idol, Member } from '@/types';
 import { MembersPage } from '../MembersPage';
 
 vi.mock('@/components/MembersPageSkeleton');
+vi.mock('@/providers/LiveEventsProvider');
+
+const mockUseLiveEvents = vi.mocked(useLiveEvents);
 
 const mockIdols: Idol[] = [
   {
@@ -53,8 +56,6 @@ const mockMembers: Member[] = [
     leaving_date: '2024-01-01',
   },
 ];
-
-const mockUseLiveEvents = vi.spyOn(useLiveEvents, 'useLiveEvents');
 
 // Mock window.open
 const mockWindowOpen = vi.fn();

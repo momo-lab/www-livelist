@@ -4,8 +4,8 @@ import { LiveEventTable } from '@/components/LiveEventTable';
 import { LiveEventTableSkeleton } from '@/components/LiveEventTableSkeleton';
 import { PeriodFilter } from '@/components/PeriodFilter';
 import { useEventTableData } from '@/hooks/useEventTableData';
-import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { useSelectedIdols } from '@/hooks/useSelectedIdols';
+import { useLiveEvents } from '@/providers/LiveEventsProvider';
 
 export const PastEventsPage: React.FC = () => {
   const [selectedIdols, setSelectedIdols] = useSelectedIdols();

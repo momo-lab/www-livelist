@@ -1,14 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
-import { LiveEventsContext } from '@/contexts/LiveEventsContext';
 import { useEventTableData } from '@/hooks/useEventTableData';
-import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { useSelectedIdols } from '@/hooks/useSelectedIdols';
+import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import type { Idol, TableEvent } from '@/types';
 import { UpcomingEventsPage } from '../UpcomingEventsPage';
 
-vi.mock('@/hooks/useLiveEvents');
+vi.mock('@/providers/LiveEventsProvider');
 vi.mock('@/hooks/useEventTableData');
 vi.mock('@/hooks/useSelectedIdols');
 
@@ -58,20 +57,7 @@ describe('UpcomingEventsPage', () => {
   });
 
   const renderComponent = () => {
-    return render(
-      <LiveEventsContext.Provider
-        value={{
-          loading: false,
-          error: null,
-          idols: mockIdols,
-          allEvents: [],
-          members: [],
-          updatedAt: undefined,
-        }}
-      >
-        <UpcomingEventsPage />
-      </LiveEventsContext.Provider>
-    );
+    return render(<UpcomingEventsPage />);
   };
 
   it('ローディング中にスケルトンコンポーネントが表示される', () => {

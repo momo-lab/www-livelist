@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { getToday } from '@/lib/utils';
+import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import type { LiveEvent, TableEvent } from '@/types';
 
 export const useEventTableData = (mode: 'upcoming' | 'past', selectedIdols: string[]) => {

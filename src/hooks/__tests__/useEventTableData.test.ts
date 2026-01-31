@@ -1,10 +1,10 @@
 import { renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import { useEventTableData } from '../useEventTableData';
-import { useLiveEvents } from '../useLiveEvents';
 
 // Mock useLiveEvents hook
-vi.mock('../useLiveEvents');
+vi.mock('@/providers/LiveEventsProvider');
 
 // Mock formatDate utility (already tested, but for isolation)
 vi.mock('@/lib/utils', async () => {

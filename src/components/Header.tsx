@@ -12,7 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { useLiveEvents } from '@/hooks/useLiveEvents';
+import { useLiveEvents } from '@/providers/LiveEventsProvider';
 
 const TITLES: Record<string, string> = {
   '/': '開催予定のライブ',

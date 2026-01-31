@@ -7,8 +7,8 @@ import { RubyName } from '@/components/RubyName';
 import { SocialLinkItem } from '@/components/SocialLinkItem';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { getToday } from '@/lib/utils';
+import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import type { Member } from '@/types';
 
 export const MembersPage: React.FC = () => {

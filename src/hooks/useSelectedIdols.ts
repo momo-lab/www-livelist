@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useLiveEvents } from './useLiveEvents';
-import { useLocalStorage } from './useLocalStorage';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useLiveEvents } from '@/providers/LiveEventsProvider';
 
 export const useSelectedIdols = () => {
   const [selectedIdols, setSelectedIdols] = useLocalStorage<string[]>('selectedIdols', []);

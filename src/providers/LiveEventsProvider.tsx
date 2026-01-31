@@ -1,7 +1,17 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { LiveEventsContext } from '@/contexts/LiveEventsContext';
 import { fetchLiveEventsData } from '@/services/fetchLiveEventsData';
 import type { Idol, LiveEvent, Member } from '@/types';
+
+interface LiveEventsContextType {
+  idols: Idol[];
+  allEvents: LiveEvent[];
+  members: Member[];
+  updatedAt?: Date;
+  loading: boolean;
+  error: string | null;
+}
+
+export const LiveEventsContext = React.createContext<LiveEventsContextType | undefined>(undefined);
 
 interface LiveEventsProviderProps {
   children: React.ReactNode;
@@ -48,7 +58,7 @@ export const LiveEventsProvider: React.FC<LiveEventsProviderProps> = ({ children
   return <LiveEventsContext.Provider value={contextValue}>{children}</LiveEventsContext.Provider>;
 };
 
-export const useLiveEventsContext = () => {
+export const useLiveEvents = () => {
   const context = useContext(LiveEventsContext);
   if (context === undefined) {
     throw new Error('useLiveEventsContext must be used within a LiveEventsProvider');

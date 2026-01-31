@@ -1,10 +1,10 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useLiveEvents } from '@/hooks/useLiveEvents';
 import { useSelectedIdols } from '@/hooks/useSelectedIdols';
+import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import type { Idol } from '@/types';
 
-vi.mock('@/hooks/useLiveEvents');
+vi.mock('@/providers/LiveEventsProvider');
 
 const mockUseLiveEvents = vi.mocked(useLiveEvents);
 

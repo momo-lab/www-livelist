@@ -1,14 +1,13 @@
 import { renderHook } from '@testing-library/react';
 import React from 'react';
 import { describe, expect, it } from 'vitest';
-import { LiveEventsContext } from '@/contexts/LiveEventsContext';
-import { useLiveEvents } from '../useLiveEvents';
+import { LiveEventsContext, useLiveEvents } from '@/providers/LiveEventsProvider';
 
 describe('useLiveEvents', () => {
   it('throws error when used outside LiveEventsProvider', () => {
     // renderHookのwrapperオプションを使わずに、直接フックを呼び出すことでエラーを検証
     expect(() => renderHook(() => useLiveEvents())).toThrow(
-      'useLiveEvents must be used within a LiveEventsProvider'
+      'useLiveEventsContext must be used within a LiveEventsProvider'
     );
   });
 
@@ -25,6 +24,7 @@ describe('useLiveEvents', () => {
       ],
       allEvents: [],
       members: [],
+      updatedAt: new Date(),
       loading: false,
       error: null,
     };

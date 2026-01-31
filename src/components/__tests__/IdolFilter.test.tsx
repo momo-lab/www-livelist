@@ -21,7 +21,7 @@ const mockIdols = [
   },
 ];
 
-vi.mock('@/hooks/useLiveEvents', () => ({
+vi.mock('@/providers/LiveEventsProvider', () => ({
   useLiveEvents: () => ({
     idols: mockIdols,
     allEvents: [],

@@ -1,28 +1,28 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
-import { LiveEventsProvider } from '@/providers/LiveEventsProvider';
 import { Header } from '../Header';
 
-// LiveEventsProviderをモックして、テスト用のidolsデータを提供する
-vi.mock('@/providers/LiveEventsProvider', () => ({
-  LiveEventsProvider: ({ children }: { children: React.ReactNode }) => {
-    return (
-      <div data-testid="mock-live-events-provider">
-        {/* Contextの値をモックする代わりに、childrenを直接レンダリング */}
-        {children}
-      </div>
-    );
-  },
-}));
-
 // useLiveEventsフックをモックして、idolsデータを提供する
-vi.mock('@/hooks/useLiveEvents', () => ({
+vi.mock('@/providers/LiveEventsProvider', () => ({
   useLiveEvents: () => ({
     idols: [
-      { id: 'idol1', name: 'アイドルA', twitter_id: 'idol1_x', instagram_id: 'idol1_inst' },
-      { id: 'idol2', name: 'アイドルB', twitter_id: 'idol2_x', tiktok_id: 'idol2_tiktok' },
+      {
+        id: 'idol1',
+        name: 'アイドルA',
+        twitter_id: 'idol1_x',
+        instagram_id: 'idol1_inst',
+        litlink_id: 'idol1',
+      },
+      {
+        id: 'idol2',
+        name: 'アイドルB',
+        twitter_id: 'idol2_x',
+        tiktok_id: 'idol2_tiktok',
+        litlink_id: 'idol2',
+      },
     ],
+    updatedAt: '2024-01-01T00:00:00.000Z',
     error: null,
   }),
 }));
@@ -31,9 +31,7 @@ describe('Header', () => {
   it('renders header with title', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
-        <LiveEventsProvider>
-          <Header />
-        </LiveEventsProvider>
+        <Header />
       </MemoryRouter>
     );
     expect(screen.getByText('開催予定のライブ')).toBeInTheDocument();
@@ -42,9 +40,7 @@ describe('Header', () => {
   it('opens and closes the menu', async () => {
     render(
       <MemoryRouter initialEntries={['/']}>
-        <LiveEventsProvider>
-          <Header />
-        </LiveEventsProvider>
+        <Header />
       </MemoryRouter>
     );
 
@@ -68,9 +64,7 @@ describe('Header', () => {
   it('toggles between upcoming and past events', async () => {
     render(
       <MemoryRouter initialEntries={['/']}>
-        <LiveEventsProvider>
-          <Header />
-        </LiveEventsProvider>
+        <Header />
       </MemoryRouter>
     );
 
@@ -95,9 +89,7 @@ describe('Header', () => {
   it('hides the button on other paths', async () => {
     render(
       <MemoryRouter initialEntries={['/about']}>
-        <LiveEventsProvider>
-          <Header />
-        </LiveEventsProvider>
+        <Header />
       </MemoryRouter>
     );
 
@@ -109,9 +101,7 @@ describe('Header', () => {
   it('displays idol SNS items when menu is open', async () => {
     render(
       <MemoryRouter initialEntries={['/']}>
-        <LiveEventsProvider>
-          <Header />
-        </LiveEventsProvider>
+        <Header />
       </MemoryRouter>
     );
 
@@ -144,9 +134,7 @@ describe('Header', () => {
   it('displays idol lit.link items when menu is open', async () => {
     render(
       <MemoryRouter initialEntries={['/']}>
-        <LiveEventsProvider>
-          <Header />
-        </LiveEventsProvider>
+        <Header />
       </MemoryRouter>
     );
 
