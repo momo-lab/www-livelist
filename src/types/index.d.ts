@@ -23,6 +23,7 @@ export interface Idol {
 
 export interface LiveEvent {
   id: string;
+  idolId: string;
   date: string; // yyyy-MM-dd
   content: string;
   image?: string;

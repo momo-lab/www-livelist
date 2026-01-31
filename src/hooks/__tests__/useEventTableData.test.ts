@@ -26,7 +26,8 @@ vi.mock('@/lib/utils', async () => {
 describe('useEventTableData', () => {
   const mockAllEvents = [
     {
-      id: 'idol1',
+      id: '1',
+      idolId: 'idol1',
       name: 'Event 1',
       date: '2025-07-15',
       content: 'Event 1',
@@ -36,7 +37,8 @@ describe('useEventTableData', () => {
       image: 'image1',
     },
     {
-      id: 'idol2',
+      id: '2',
+      idolId: 'idol2',
       name: 'Event 2',
       date: '2025-07-15',
       content: 'Event 2',
@@ -46,7 +48,8 @@ describe('useEventTableData', () => {
       image: 'image2',
     },
     {
-      id: 'idol1',
+      id: '3',
+      idolId: 'idol1',
       name: 'Event 3',
       date: '2025-07-16',
       content: 'Event 3',
@@ -56,7 +59,8 @@ describe('useEventTableData', () => {
       image: 'image3',
     },
     {
-      id: 'idol3',
+      id: '4',
+      idolId: 'idol3',
       name: 'Event 4',
       date: '2025-07-14',
       content: 'Event 4',

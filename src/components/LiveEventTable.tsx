@@ -52,7 +52,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
           const isLastRow = i == tableData.length - (event.rowspan ?? 1);
 
           return (
-            <TableRow key={event.id + event.date + event.content}>
+            <TableRow key={event.id}>
               {event.isFirstOfDay && (
                 <TableCell
                   rowSpan={event.rowspan}

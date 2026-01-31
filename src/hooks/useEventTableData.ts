@@ -12,7 +12,7 @@ export const useEventTableData = (mode: 'upcoming' | 'past', selectedIdols: stri
     let result = allEvents
       .filter((e) => (mode === 'upcoming' ? e.date >= today : e.date < today))
       .map((e) => {
-        const idol = idols.find((i) => i.id === e.id);
+        const idol = idols.find((i) => i.id === e.idolId);
         return {
           ...e,
           isToday: e.date === today,
@@ -32,7 +32,7 @@ export const useEventTableData = (mode: 'upcoming' | 'past', selectedIdols: stri
     if (selectedIdols.length === 0) {
       return enrichedEvents;
     }
-    return enrichedEvents.filter((event) => selectedIdols.includes(event.id));
+    return enrichedEvents.filter((event) => selectedIdols.includes(event.idolId));
   }, [enrichedEvents, selectedIdols]);
 
   const createTableEvents = (liveEvents: LiveEvent[]): TableEvent[] => {
