@@ -16,7 +16,13 @@ const mockUseEventTableData = vi.mocked(useEventTableData);
 const mockUseSelectedIdols = vi.mocked(useSelectedIdols);
 
 const mockEventData: TableEvent[] = [
-  { id: 'event1', date: '2099-01-15', content: '未来のテストイベント1', short_name: 'アイカツ！' },
+  {
+    id: 'event1',
+    idolId: 'aikatsu',
+    date: '2099-01-15',
+    content: '未来のテストイベント1',
+    short_name: 'アイカツ！',
+  },
 ];
 
 const mockIdols: Idol[] = [

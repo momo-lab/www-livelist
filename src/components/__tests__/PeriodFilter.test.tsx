@@ -7,6 +7,7 @@ describe('PeriodFilter', () => {
   const mockEvents: TableEvent[] = [
     {
       id: '1',
+      idolId: 'idol1',
       short_name: 'E1',
       date: '2024-01-01',
       content: '',
@@ -14,6 +15,7 @@ describe('PeriodFilter', () => {
     },
     {
       id: '2',
+      idolId: 'idol2',
       short_name: 'E2',
       date: '2024-02-01',
       content: '',
@@ -21,6 +23,7 @@ describe('PeriodFilter', () => {
     },
     {
       id: '3',
+      idolId: 'idol3',
       short_name: 'E3',
       date: '2023-12-31',
       content: '',
@@ -28,6 +31,7 @@ describe('PeriodFilter', () => {
     },
     {
       id: '4',
+      idolId: 'idol4',
       short_name: 'E4',
       date: '2023-01-01',
       content: '',

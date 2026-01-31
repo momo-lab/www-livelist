@@ -14,6 +14,7 @@ const mockTableData: TableEvent[] = [
     date: '2025-07-15',
     content: 'Event 1 Content',
     id: 'idol1',
+    idolId: 'idol1',
     short_name: 'Idol A',
     link: 'http://example.com/link1',
     image: 'http://example.com/image1.png',
@@ -27,6 +28,7 @@ const mockTableData: TableEvent[] = [
     date: '2025-07-15',
     content: 'Event 2 Content',
     id: 'idol2',
+    idolId: 'idol2',
     short_name: 'Idol B',
     link: '', // No link
     image: '', // No image
@@ -40,6 +42,7 @@ const mockTableData: TableEvent[] = [
     date: '2025-07-16',
     content: 'Event 3 Content',
     id: 'idol3',
+    idolId: 'idol3',
     short_name: 'Idol C',
     link: 'http://example.com/link3',
     image: '', // No image
@@ -129,6 +132,7 @@ describe('LiveEventTable', () => {
         date: '2025-07-16',
         content: 'Event 3 Content',
         id: 'idol3',
+        idolId: 'idol3',
         short_name: 'Idol C',
         link: 'http://example.com/link3',
         image: '',

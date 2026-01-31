@@ -11,32 +11,43 @@ const mockVersions: Versions = {
 
 const mockAllEvents: LiveEvent[] = [
   {
-    id: 'live1',
-    name: 'Live Event 1',
+    id: '1',
+    idolId: 'idol1',
+    content: 'Live Event 1',
     date: '2024-01-10',
-    idol_id: ['idol1'],
   },
 ];
 
-const mockIdols: Idol[] = [{ id: 'idol1', name: 'Idol 1' }];
+const mockIdols: Idol[] = [
+  {
+    id: 'idol1',
+    name: 'Idol 1',
+    short_name: 'IDL1',
+    colors: { background: '#FFF', foreground: '#000', text: '#000' },
+  },
+];
 
 const mockMembers: Member[] = [
   {
     id: 'member1',
     name: 'Member 1',
+    name_ruby: 'めんばー 1',
+    color: 'white',
     idol_id: 'idol1',
     color_code: '#FFFFFF', // YIQ >= 128
   },
   {
     id: 'member2',
     name: 'Member 2',
+    name_ruby: 'めんばー 2',
+    color: 'black',
     idol_id: 'idol1',
     color_code: '#000000', // YIQ < 128
   },
 ];
 
 const mockFetch = vi.fn();
-vi.spyOn(global, 'fetch').mockImplementation(mockFetch);
+vi.spyOn(globalThis, 'fetch').mockImplementation(mockFetch);
 
 describe('fetchLiveEventsData', () => {
   beforeEach(() => {
