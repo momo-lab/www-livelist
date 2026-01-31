@@ -2,6 +2,7 @@ export interface Versions {
   data_version: string;
   idols_version: string;
   members_version: string;
+  updatedAt: string; // ISO 8601 format
 }
 
 export interface IdolColors {

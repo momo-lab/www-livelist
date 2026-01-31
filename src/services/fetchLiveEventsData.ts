@@ -8,38 +8,32 @@ const getContrastYIQ = (hexcolor: string) => {
   return yiq >= 128 ? '#000000' : '#FFFFFF';
 };
 
-const fetchJsonOrThrow = async <T>(
-  path: string,
-  version: string | number
-): Promise<{ res: Response; data: T }> => {
+const fetchJsonOrThrow = async <T>(path: string, version: string | number): Promise<T> => {
   const url = `${import.meta.env.BASE_URL}external-data/${path}?v=${version}`;
   const res = await fetch(url);
   if (!res.ok) {
     throw new Error(`${path}の取得に失敗しました。`);
   }
   const data = (await res.json()) as T;
-  return { res, data };
+  return data;
 };
 
 export const fetchLiveEventsData = async () => {
-  const { data: versions } = await fetchJsonOrThrow<Versions>('versions.json', Date.now());
+  const versions = await fetchJsonOrThrow<Versions>('versions.json', Date.now());
 
-  const [events, idols, members] = await Promise.all([
+  const [allEvents, idols, members] = await Promise.all([
     fetchJsonOrThrow<LiveEvent[]>('data.json', versions.data_version),
     fetchJsonOrThrow<Idol[]>('idols.json', versions.idols_version),
     fetchJsonOrThrow<Member[]>('members.json', versions.members_version),
   ]);
 
-  const lastModified = events.res.headers.get('Last-Modified');
-  const updatedAt = lastModified ? new Date(lastModified) : undefined;
-
   return {
-    allEvents: events.data,
-    idols: idols.data,
-    members: members.data.map((member) => ({
+    allEvents,
+    idols,
+    members: members.map((member) => ({
       ...member,
       text_color_code: getContrastYIQ(member.color_code),
     })),
-    updatedAt,
+    updatedAt: new Date(versions.updatedAt),
   };
 };
