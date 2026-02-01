@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { getToday } from '@/lib/utils';
+import { getToday } from '@/lib/date';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import type { LiveEvent, TableEvent } from '@/types';
 

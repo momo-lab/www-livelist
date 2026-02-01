@@ -7,7 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { cn, toDateString } from '@/lib/utils';
+import { toDateString } from '@/lib/date';
+import { cn } from '@/lib/utils';
 import type { LiveEvent } from '@/types';
 
 const escapeICSText = (text: string): string => {

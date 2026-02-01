@@ -7,7 +7,7 @@ import { RubyName } from '@/components/RubyName';
 import { SocialLinkItem } from '@/components/SocialLinkItem';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { getToday } from '@/lib/utils';
+import { getToday } from '@/lib/date';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import type { Member } from '@/types';
 
