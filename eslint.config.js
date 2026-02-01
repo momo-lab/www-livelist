@@ -6,26 +6,39 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default [
-  globalIgnores(['dist']),
+  // ビルド成果物などは除外
+  globalIgnores(['dist', 'node_modules']),
+
+  // JS推奨ルール
   js.configs.recommended,
+
+  // TypeScript推奨ルール（型チェック無しのlint）
   ...tseslint.configs.recommended,
+
+  // Vite + React Refresh向け
   reactRefresh.configs.vite,
+
+  // =========================
+  // Browser（src）向け
+  // =========================
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['src/**/*.{ts,tsx}'],
     plugins: {
       'react-hooks': reactHooks,
     },
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2022,
       globals: globals.browser,
     },
-
     rules: {
+      // React Refresh: コンポーネント export に関する制約（必要ならONに戻す）
       'react-refresh/only-export-components': 'off',
-      // Hooksのルールを有効化
+
+      // Hooksルール
       'react-hooks/rules-of-hooks': 'error',
-      // 依存配列の警告を有効化
       'react-hooks/exhaustive-deps': 'warn',
+
+      // 使ってない変数はエラー（_ で始まるものは許可）
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -35,6 +48,25 @@ export default [
       ],
     },
   },
+
+  // =========================
+  // Node（vite.config / scripts）向け
+  // =========================
+  {
+    files: ['vite.config.ts', 'scripts/**/*.ts'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      globals: globals.node,
+    },
+    rules: {
+      // Nodeスクリプトはconsoleを普通に使うので許可したいならON
+      // 'no-console': 'off',
+    },
+  },
+
+  // =========================
+  // CommonJS config（例: *.config.js）
+  // =========================
   {
     files: ['**/*.config.js'],
     languageOptions: {
