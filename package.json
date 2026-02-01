@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "build": "run-s build:*",
-    "build:tsc": "tsc -b",
     "build:vite": "vite build --mode ${ENV:-production}",
     "build-dev": "ENV=development nr build",
     "build-prod": "ENV=production nr build",
@@ -20,11 +19,11 @@
     "dev": "vite",
     "lint": "run-s -c lint:*",
     "lint:eslint": "eslint .",
-    "lint:tsc": "tsc --noEmit",
-    "lint:fmt": "oxfmt --check",
+    "lint:tsc": "tsc -b",
+    "lint:fmt": "oxfmt --check .",
     "lint-fix": "run-s -c lint-fix:*",
     "lint-fix:eslint": "eslint . --fix",
-    "lint-fix:fmt": "oxfmt",
+    "lint-fix:fmt": "oxfmt .",
     "test": "vitest run",
     "test-watch": "vitest",
     "preview": "vite preview"
