@@ -18,5 +18,5 @@
     "ignoreCase": true
   },
   "experimentalTailwindcss": {},
-  "ignorePatterns": ["pnpm-lock.yaml"]
+  "ignorePatterns": ["pnpm-lock.yaml", "src/components/ui"]
 }
