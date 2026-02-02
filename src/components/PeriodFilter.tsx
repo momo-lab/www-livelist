@@ -93,7 +93,7 @@ export const PeriodFilter: React.FC<PeriodFilterProps> = ({
         <SelectTrigger className="w-auto">
           <SelectValue placeholder="年月で絞り込み">{getDisplayValue()}</SelectValue>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="max-h-60">
           {yearMonths.map((ym) => [
             <SelectItem key={ym.year} value={ym.year.toString()}>
               {ym.year}年
