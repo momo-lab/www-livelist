@@ -30,12 +30,14 @@ const mockIdols: Idol[] = [
     id: 'aikatsu',
     name: 'アイカツ！',
     short_name: 'アイカツ！',
+    litlink_id: 'aikatsu',
     colors: { background: '#FF6347', foreground: '#FFFFFF', text: '#FF6347' },
   },
   {
     id: 'pripara',
     name: 'プリパラ',
     short_name: 'プリパラ',
+    litlink_id: 'pripara',
     colors: { background: '#8A2BE2', foreground: '#FFFFFF', text: '#8A2BE2' },
   },
 ];

@@ -106,7 +106,7 @@ export const Header: React.FC = () => {
                             onClick={() => setIsOpen(false)}
                           />
                           <SocialLinkItem
-                            to={`https://lit.link/${idol.id}`}
+                            to={idol.litlink_id && `https://lit.link/${idol.litlink_id}`}
                             icon={ExternalLink}
                             siteName="lit.link"
                             onClick={() => setIsOpen(false)}

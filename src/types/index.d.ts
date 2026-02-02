@@ -15,6 +15,7 @@ export interface Idol {
   id: string;
   name: string;
   short_name: string;
+  litlink_id?: string;
   twitter_id?: string;
   tiktok_id?: string;
   instagram_id?: string;

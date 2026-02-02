@@ -8,6 +8,7 @@ import { SocialLinkItem } from '@/components/SocialLinkItem';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getToday } from '@/lib/date';
+import { cn } from '@/lib/utils';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import type { Member } from '@/types';
 
@@ -152,11 +153,18 @@ export const MembersPage: React.FC = () => {
                     />
                     <label
                       htmlFor={`member-${member.id}`}
-                      style={{
-                        backgroundColor: member.color_code,
-                        color: member.text_color_code || '#000000',
-                      }}
-                      className="flex-1 cursor-pointer truncate rounded-lg border p-2 pt-4 font-semibold"
+                      style={
+                        member.color_code
+                          ? {
+                              backgroundColor: member.color_code,
+                              color: member.text_color_code || '#000000',
+                            }
+                          : {}
+                      }
+                      className={cn(
+                        'flex-1 cursor-pointer truncate rounded-lg p-2 pt-4 font-semibold',
+                        member.color_code && 'border'
+                      )}
                     >
                       <RubyName name={member.name} ruby={member.name_ruby} />
                     </label>

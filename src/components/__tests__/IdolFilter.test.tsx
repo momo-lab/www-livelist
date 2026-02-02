@@ -7,16 +7,19 @@ const mockIdols = [
   {
     id: 'idol1',
     short_name: 'Idol A',
+    litlink_id: 'idolA',
     colors: { background: '#FF0000', foreground: '#FFFFFF', text: '#000000' },
   },
   {
     id: 'idol2',
     short_name: 'Idol B',
+    litlink_id: 'idolB',
     colors: { background: '#00FF00', foreground: '#000000', text: '#000000' },
   },
   {
     id: 'idol3',
     short_name: 'Idol C',
+    litlink_id: 'idolC',
     colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' },
   },
 ];
