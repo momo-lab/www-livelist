@@ -90,7 +90,7 @@ export const PeriodFilter: React.FC<PeriodFilterProps> = ({
   return (
     <div>
       <Select value={selectedValue} onValueChange={handleValueChange}>
-        <SelectTrigger>
+        <SelectTrigger className="w-auto">
           <SelectValue placeholder="年月で絞り込み">{getDisplayValue()}</SelectValue>
         </SelectTrigger>
         <SelectContent>
