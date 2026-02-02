@@ -14,12 +14,12 @@ import {
 } from '@/components/ui/sheet';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 
-const TITLES: Record<string, string> = {
-  '/': '開催予定のライブ',
-  '/past': '過去のライブ',
-  '/members': 'メンバー一覧',
-  '/about': 'このサイトについて',
-};
+const menus = [
+  { path: '/', title: '開催予定のライブ', icon: <CalendarDays className="mr-2 h-4 w-4" /> },
+  { path: '/past', title: '過去のライブ', icon: <CalendarCheck className="mr-2 h-4 w-4" /> },
+  { path: '/members', title: 'メンバー一覧', icon: <Users className="mr-2 h-4 w-4" /> },
+  { path: '/about', title: 'このサイトについて', icon: <Info className="mr-2 h-4 w-4" /> },
+];
 
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,104 +30,7 @@ export const Header: React.FC = () => {
   const relativePath = location.pathname.replace(new RegExp(`^${base}`), '/');
   const isUpcoming = relativePath === '/';
   const isPast = relativePath === '/past';
-  const title = TITLES[relativePath];
-
-  const menuLinks = (
-    <>
-      <li className="mx-2">
-        <Link
-          to="/"
-          className="text-foreground flex items-center hover:underline"
-          onClick={() => setIsOpen(false)}
-        >
-          <CalendarDays className="mr-2 h-4 w-4" />
-          {TITLES['/']}
-        </Link>
-      </li>
-      <li className="mx-2">
-        <Link
-          to="/past"
-          className="text-foreground flex items-center hover:underline"
-          onClick={() => setIsOpen(false)}
-        >
-          <CalendarCheck className="mr-2 h-4 w-4" />
-          {TITLES['/past']}
-        </Link>
-      </li>
-      <li className="mx-2">
-        <Link
-          to="/members"
-          className="text-foreground flex items-center hover:underline"
-          onClick={() => setIsOpen(false)}
-        >
-          <Users className="mr-2 h-4 w-4" />
-          {TITLES['/members']}
-        </Link>
-      </li>
-      <li className="mx-2">
-        <Link
-          to="/about"
-          className="text-foreground flex items-center hover:underline"
-          onClick={() => setIsOpen(false)}
-        >
-          <Info className="mr-2 h-4 w-4" />
-          {TITLES['/about']}
-        </Link>
-      </li>
-      <hr className="border-border my-3" />
-      {idols.map((idol) => (
-        <li key={idol.id} className="flex flex-col items-start px-2">
-          <span className="text-foreground mb-2">{idol.name}</span>
-          <div className="mt-2 flex gap-4 ps-4">
-            <Link
-              to={`/members#${idol.id}`}
-              className="text-foreground flex flex-col items-center hover:underline"
-              onClick={() => setIsOpen(false)}
-            >
-              <Users className="h-8 w-8" />
-              <span className="mt-1 text-xs">メンバー</span>
-            </Link>
-            <SocialLinkItem
-              to={idol.twitter_id && `https://x.com/${idol.twitter_id}`}
-              icon={FaXTwitter}
-              siteName="X.com"
-              onClick={() => setIsOpen(false)}
-            />
-            <SocialLinkItem
-              to={idol.instagram_id && `https://www.instagram.com/${idol.instagram_id}/`}
-              icon={FaInstagram}
-              siteName="Instagram"
-              onClick={() => setIsOpen(false)}
-            />
-            <SocialLinkItem
-              to={idol.tiktok_id && `https://www.tiktok.com/@${idol.tiktok_id}`}
-              icon={FaTiktok}
-              siteName="TikTok"
-              onClick={() => setIsOpen(false)}
-            />
-            <SocialLinkItem
-              to={`https://lit.link/${idol.id}`}
-              icon={ExternalLink}
-              siteName="lit.link"
-              onClick={() => setIsOpen(false)}
-            />
-          </div>
-        </li>
-      ))}
-      <hr className="border-border my-3" />
-      <li className="mx-2 text-right text-xs opacity-40">
-        {updatedAt &&
-          `※${updatedAt.toLocaleString('ja-JP', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit',
-          })}時点の情報です。`}
-      </li>
-    </>
-  );
+  const title = menus.find((menu) => menu.path === relativePath)?.title ?? '';
 
   return (
     <header className="bg-header-bg text-header-fg fixed top-0 z-50 w-full p-2">
@@ -140,7 +43,7 @@ export const Header: React.FC = () => {
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-80 p-0">
+              <SheetContent side="left" className="flex h-full w-80 flex-col p-0">
                 <SheetHeader className="bg-header-bg text-header-fg px-2 pt-2 text-left">
                   <SheetTitle onClick={() => setIsOpen(false)}>
                     ルミナス所属アイドル
@@ -151,9 +54,80 @@ export const Header: React.FC = () => {
                     ルミナス所属のアイドルのライブ情報まとめページです。
                   </SheetDescription>
                 </SheetHeader>
-                <nav className="pt-4">
-                  <ul className="flex flex-col space-y-4">{menuLinks}</ul>
+                <nav>
+                  <ul className="space-y-4">
+                    {menus.map((menu) => (
+                      <li key={menu.path} className="mx-2">
+                        <Link
+                          to={menu.path}
+                          className="text-foreground flex items-center hover:underline"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {menu.icon}
+                          {menu.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </nav>
+                <hr />
+                <nav className="flex-1 overflow-y-auto">
+                  <ul className="space-y-4">
+                    {idols.map((idol) => (
+                      <li key={idol.id} className="flex flex-col items-start px-2">
+                        <span className="text-foreground mb-2">{idol.name}</span>
+                        <div className="mt-2 flex gap-4 ps-4">
+                          <Link
+                            to={`/members#${idol.id}`}
+                            className="text-foreground flex flex-col items-center hover:underline"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            <Users className="h-8 w-8" />
+                            <span className="mt-1 text-xs">メンバー</span>
+                          </Link>
+                          <SocialLinkItem
+                            to={idol.twitter_id && `https://x.com/${idol.twitter_id}`}
+                            icon={FaXTwitter}
+                            siteName="X.com"
+                            onClick={() => setIsOpen(false)}
+                          />
+                          <SocialLinkItem
+                            to={
+                              idol.instagram_id && `https://www.instagram.com/${idol.instagram_id}/`
+                            }
+                            icon={FaInstagram}
+                            siteName="Instagram"
+                            onClick={() => setIsOpen(false)}
+                          />
+                          <SocialLinkItem
+                            to={idol.tiktok_id && `https://www.tiktok.com/@${idol.tiktok_id}`}
+                            icon={FaTiktok}
+                            siteName="TikTok"
+                            onClick={() => setIsOpen(false)}
+                          />
+                          <SocialLinkItem
+                            to={`https://lit.link/${idol.id}`}
+                            icon={ExternalLink}
+                            siteName="lit.link"
+                            onClick={() => setIsOpen(false)}
+                          />
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+                <hr />
+                <div className="mx-2 mb-4 text-right text-xs opacity-70">
+                  {updatedAt &&
+                    `※${updatedAt.toLocaleString('ja-JP', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                      hour12: false,
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}時点の情報です。`}
+                </div>
               </SheetContent>
             </Sheet>
           </div>

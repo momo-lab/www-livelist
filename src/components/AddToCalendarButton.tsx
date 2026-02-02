@@ -98,7 +98,7 @@ END:VCALENDAR`;
           <span className="me-0.5 underline">登録</span>▾
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="border-border">
+      <DropdownMenuContent align="end">
         <DropdownMenuItem asChild>
           <a href={generateGoogleCalendarLink()} target="_blank" rel="noopener noreferrer">
             <FaGoogle className="h-4 w-4" />
