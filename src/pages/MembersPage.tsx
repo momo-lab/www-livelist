@@ -126,18 +126,7 @@ export const MembersPage: React.FC = () => {
                     aria-label={`${group.name}のメンバーをすべて選択`}
                     className="h-5 w-5"
                   />
-                  <h2 className="flex items-center gap-2 text-2xl font-bold">
-                    {group.name}
-                    <a
-                      href={`https://lit.link/${group.id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${group.name}のlit.link`}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <ExternalLink className="text-muted-foreground hover:text-foreground h-5 w-5" />
-                    </a>
-                  </h2>
+                  <h2 className="flex items-center gap-2 text-2xl font-bold">{group.name}</h2>
                 </label>
               </div>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
