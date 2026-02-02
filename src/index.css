@@ -112,7 +112,7 @@
   --destructive-foreground: oklch(1 0 0);
 
   /* 枠線・フォーム・フォーカス */
-  --border: oklch(0.922 0 0);
+  --border: oklch(0.7 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
