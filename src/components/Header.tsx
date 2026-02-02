@@ -140,8 +140,8 @@ export const Header: React.FC = () => {
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-80">
-                <SheetHeader className="bg-header-bg text-header-fg">
+              <SheetContent side="left" className="w-80 p-0">
+                <SheetHeader className="bg-header-bg text-header-fg px-2 pt-2 text-left">
                   <SheetTitle onClick={() => setIsOpen(false)}>
                     ルミナス所属アイドル
                     <br />
@@ -151,7 +151,7 @@ export const Header: React.FC = () => {
                     ルミナス所属のアイドルのライブ情報まとめページです。
                   </SheetDescription>
                 </SheetHeader>
-                <nav>
+                <nav className="pt-4">
                   <ul className="flex flex-col space-y-4">{menuLinks}</ul>
                 </nav>
               </SheetContent>
