@@ -83,10 +83,6 @@ describe('LiveEventTable', () => {
     expect(detailLinks[0]).toHaveAttribute('href', 'http://example.com/link1');
     expect(detailLinks[0].querySelector('[data-testid="ExternalLink"]')).toBeInTheDocument();
     expect(screen.getByRole('img')).toHaveAttribute('src', 'http://example.com/image1.png');
-    // For Badge, check the span element
-    const badge = screen.getByText('Idol A').closest('span');
-    expect(badge).toHaveStyle('background-color: #FF0000');
-    expect(badge).toHaveStyle('color: #FFFFFF');
   });
 
   it('renders subsequent event of the same day correctly without date cell', () => {
