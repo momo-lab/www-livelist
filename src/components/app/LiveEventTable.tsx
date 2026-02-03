@@ -1,7 +1,7 @@
 import { ExternalLink } from 'lucide-react';
-import { AddToCalendarButton } from '@/components/AddToCalendarButton';
+import { AddToCalendarButton } from '@/components/app/AddToCalendarButton';
+import { LinkButton } from '@/components/common/LinkButton';
 import { Badge } from '@/components/ui/badge';
-import { LinkButton } from '@/components/ui/LinkButton';
 import {
   Table,
   TableBody,

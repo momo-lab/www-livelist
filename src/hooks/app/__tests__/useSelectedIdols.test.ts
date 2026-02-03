@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useSelectedIdols } from '@/hooks/useSelectedIdols';
+import { useSelectedIdols } from '@/hooks/app/useSelectedIdols';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import type { Idol } from '@/types';
 

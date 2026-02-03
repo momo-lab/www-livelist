@@ -34,7 +34,7 @@ vi.mock('@/providers/LiveEventsProvider', () => ({
 }));
 
 // ToggleButtonをモック化
-vi.mock('@/components/ui/ToggleButton', () => ({
+vi.mock('@/components/common/ToggleButton', () => ({
   ToggleButton: vi.fn(({ label, isSelected, onToggle, onLongPress }) => (
     <button
       data-testid={`toggle-button-${label}`}

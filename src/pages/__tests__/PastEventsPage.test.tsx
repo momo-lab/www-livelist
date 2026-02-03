@@ -1,15 +1,15 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
-import { useEventTableData } from '@/hooks/useEventTableData';
-import { useSelectedIdols } from '@/hooks/useSelectedIdols';
+import { useEventTableData } from '@/hooks/app/useEventTableData';
+import { useSelectedIdols } from '@/hooks/app/useSelectedIdols';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import type { Idol, TableEvent } from '@/types';
 import { PastEventsPage } from '../PastEventsPage';
 
 vi.mock('@/providers/LiveEventsProvider');
-vi.mock('@/hooks/useEventTableData');
-vi.mock('@/hooks/useSelectedIdols');
+vi.mock('@/hooks/app/useEventTableData');
+vi.mock('@/hooks/app/useSelectedIdols');
 
 const mockUseLiveEvents = vi.mocked(useLiveEvents);
 const mockUseEventTableData = vi.mocked(useEventTableData);

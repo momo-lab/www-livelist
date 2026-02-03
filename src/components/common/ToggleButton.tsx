@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
-import { useLongPress } from '@/hooks/useLongPress';
+import { useLongPress } from '@/hooks/common/useLongPress';
 import { cn } from '@/lib/utils';
 
 interface ToggleButtonProps {

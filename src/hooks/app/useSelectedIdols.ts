@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useLocalStorage } from '@/hooks/common/useLocalStorage';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 
 export const useSelectedIdols = () => {

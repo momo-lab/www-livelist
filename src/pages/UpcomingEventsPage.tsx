@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IdolFilter } from '@/components/IdolFilter';
-import { LiveEventTable } from '@/components/LiveEventTable';
-import { LiveEventTableSkeleton } from '@/components/LiveEventTableSkeleton';
+import { IdolFilter } from '@/components/app/IdolFilter';
+import { LiveEventTable } from '@/components/app/LiveEventTable';
+import { LiveEventTableSkeleton } from '@/components/app/LiveEventTableSkeleton';
 import { Button } from '@/components/ui/button';
-import { useEventTableData } from '@/hooks/useEventTableData';
-import { useHeaderRight } from '@/hooks/useHeaderRight';
-import { useSelectedIdols } from '@/hooks/useSelectedIdols';
+import { useEventTableData } from '@/hooks/app/useEventTableData';
+import { useHeaderRight } from '@/hooks/app/useHeaderRight';
+import { useSelectedIdols } from '@/hooks/app/useSelectedIdols';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 
 export const UpcomingEventsPage: React.FC = () => {

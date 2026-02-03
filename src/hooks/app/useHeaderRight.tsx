@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import { HeaderContext } from '@/components/Layout';
+import { HeaderContext } from '@/components/layout/Layout';
 
 export function useHeaderRight(node: ReactNode) {
   const header = useContext(HeaderContext);

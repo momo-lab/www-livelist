@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { IdolFilterSkeleton } from '@/components/IdolFilterSkeleton';
-import { ToggleButton } from '@/components/ui/ToggleButton';
+import { IdolFilterSkeleton } from '@/components/app/IdolFilterSkeleton';
+import { ToggleButton } from '@/components/common/ToggleButton';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 
 interface IdolFilterProps {

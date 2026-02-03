@@ -1,12 +1,14 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { MembersPageSkeleton } from '@/components/MembersPageSkeleton';
+import { MembersPageSkeleton } from '@/components/app/MembersPageSkeleton';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import type { Idol, Member } from '@/types';
 import { MembersPage } from '../MembersPage';
 
-vi.mock('@/components/MembersPageSkeleton');
+vi.mock('@/components/app/MembersPageSkeleton', () => ({
+  MembersPageSkeleton: () => <div>Mocked MembersPageSkeleton</div>,
+}));
 vi.mock('@/providers/LiveEventsProvider');
 
 const mockUseLiveEvents = vi.mocked(useLiveEvents);
@@ -61,7 +63,7 @@ const mockMembers: Member[] = [
 const mockWindowOpen = vi.fn();
 beforeEach(() => {
   vi.stubGlobal('open', mockWindowOpen);
-  vi.mocked(MembersPageSkeleton).mockReturnValue(<div>Loading...</div>);
+
 
   mockUseLiveEvents.mockReturnValue({
     idols: mockIdols,

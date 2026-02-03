@@ -2,7 +2,7 @@ import { CalendarCheck, CalendarDays, ExternalLink, Info, Menu, Users } from 'lu
 import React, { useState } from 'react';
 import { FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6';
 import { Link, useLocation } from 'react-router-dom';
-import { SocialLinkItem } from '@/components/SocialLinkItem';
+import { SocialLinkItem } from '@/components/common/SocialLinkItem';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
