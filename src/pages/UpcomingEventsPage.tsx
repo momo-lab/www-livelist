@@ -15,15 +15,15 @@ export const UpcomingEventsPage: React.FC = () => {
   const { loading, error } = useLiveEvents();
   const { eventTableData } = useEventTableData('upcoming', selectedIdols);
 
-  if (error) {
-    return <div className="p-4 text-red-500">エラー: {error}</div>;
-  }
-
   useHeaderRight(
     <Button asChild className="w-20">
       <Link to="/past">過去の予定</Link>
     </Button>
   );
+
+  if (error) {
+    return <div className="p-4 text-red-500">エラー: {error}</div>;
+  }
 
   return (
     <div className="container mx-auto px-4 pb-4">

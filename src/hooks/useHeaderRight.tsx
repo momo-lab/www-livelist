@@ -8,5 +8,5 @@ export function useHeaderRight(node: ReactNode) {
   useEffect(() => {
     header?.setHeaderRight(node);
     return () => header?.setHeaderRight(null);
-  }, [header]);
+  }, [header, node]);
 }

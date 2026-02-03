@@ -1,8 +1,7 @@
 import { CalendarCheck, CalendarDays, ExternalLink, Info, Menu, Users } from 'lucide-react';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6';
 import { Link, useLocation } from 'react-router-dom';
-import { HeaderContext } from '@/components/Layout';
 import { SocialLinkItem } from '@/components/SocialLinkItem';
 import { Button } from '@/components/ui/button';
 import {

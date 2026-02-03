@@ -28,15 +28,15 @@ export const PastEventsPage: React.FC = () => {
     return true;
   });
 
-  if (error) {
-    return <div className="p-4 text-red-500">エラー: {error}</div>;
-  }
-
   useHeaderRight(
     <Button asChild className="w-20">
       <Link to="/">開催予定</Link>
     </Button>
   );
+
+  if (error) {
+    return <div className="p-4 text-red-500">エラー: {error}</div>;
+  }
 
   return (
     <div className="container mx-auto px-4 pb-4">

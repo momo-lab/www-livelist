@@ -26,6 +26,7 @@ export function Layout() {
           <Outlet />
         </div>
         <Footer />
+      </HeaderContext.Provider>
     </>
   );
 }

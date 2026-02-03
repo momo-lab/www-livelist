@@ -61,43 +61,6 @@ describe('Header', () => {
     });
   });
 
-  it('toggles between upcoming and past events', async () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <Header />
-      </MemoryRouter>
-    );
-
-    // 初期状態: 「過去分」ボタンが表示されている
-    const pastButton = screen.getByRole('link', { name: '過去分' });
-    expect(pastButton).toBeInTheDocument();
-
-    // 「過去分」ボタンをクリックするとURLが/pastに変わり、「開催予定」ボタンに切り替わる
-    fireEvent.click(pastButton);
-    await waitFor(() => {
-      expect(screen.getByRole('link', { name: '開催予定' })).toBeInTheDocument();
-    });
-
-    // 「開催予定」ボタンをクリックするとURLが/に戻り、「過去分」ボタンに切り替わる
-    const upcomingButton = screen.getByRole('link', { name: '開催予定' });
-    fireEvent.click(upcomingButton);
-    await waitFor(() => {
-      expect(screen.getByRole('link', { name: '過去分' })).toBeInTheDocument();
-    });
-  });
-
-  it('hides the button on other paths', async () => {
-    render(
-      <MemoryRouter initialEntries={['/about']}>
-        <Header />
-      </MemoryRouter>
-    );
-
-    // ボタンが存在しないことを確認
-    expect(screen.queryByRole('link', { name: '過去分' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: '開催予定' })).not.toBeInTheDocument();
-  });
-
   it('displays idol SNS items when menu is open', async () => {
     render(
       <MemoryRouter initialEntries={['/']}>
