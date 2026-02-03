@@ -1,7 +1,8 @@
 import { CalendarCheck, CalendarDays, ExternalLink, Info, Menu, Users } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6';
 import { Link, useLocation } from 'react-router-dom';
+import { HeaderContext } from '@/components/Layout';
 import { SocialLinkItem } from '@/components/SocialLinkItem';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,15 +22,17 @@ const menus = [
   { path: '/about', title: 'このサイトについて', icon: <Info className="mr-2 h-4 w-4" /> },
 ];
 
-export const Header: React.FC = () => {
+interface Props {
+  right?: React.ReactNode;
+}
+
+export function Header({ right }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const { idols, updatedAt } = useLiveEvents(); // idolsを取得
   const location = useLocation();
 
   const base = import.meta.env.BASE_URL; // 例: "/app/"
   const relativePath = location.pathname.replace(new RegExp(`^${base}`), '/');
-  const isUpcoming = relativePath === '/';
-  const isPast = relativePath === '/past';
   const title = menus.find((menu) => menu.path === relativePath)?.title ?? '';
 
   return (
@@ -131,17 +134,10 @@ export const Header: React.FC = () => {
               </SheetContent>
             </Sheet>
           </div>
-
-          <div className="text-2xl font-semibold whitespace-nowrap">{title}</div>
         </div>
-        <div>
-          {(isUpcoming || isPast) && (
-            <Button asChild className="w-20">
-              <Link to={isUpcoming ? '/past' : '/'}>{isUpcoming ? '過去分' : '開催予定'}</Link>
-            </Button>
-          )}
-        </div>
+        <div className="flex-1 text-2xl font-semibold whitespace-nowrap">{title}</div>
+        <div>{right}</div>
       </div>
     </header>
   );
-};
+}

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { IdolFilter } from '@/components/IdolFilter';
 import { LiveEventTable } from '@/components/LiveEventTable';
 import { LiveEventTableSkeleton } from '@/components/LiveEventTableSkeleton';
 import { PeriodFilter } from '@/components/PeriodFilter';
+import { Button } from '@/components/ui/button';
 import { useEventTableData } from '@/hooks/useEventTableData';
+import { useHeaderRight } from '@/hooks/useHeaderRight';
 import { useSelectedIdols } from '@/hooks/useSelectedIdols';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 
@@ -28,6 +31,12 @@ export const PastEventsPage: React.FC = () => {
   if (error) {
     return <div className="p-4 text-red-500">エラー: {error}</div>;
   }
+
+  useHeaderRight(
+    <Button asChild className="w-20">
+      <Link to="/">開催予定</Link>
+    </Button>
+  );
 
   return (
     <div className="container mx-auto px-4 pb-4">
