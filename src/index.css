@@ -75,6 +75,7 @@
 
 :root {
   --header-height: 3.25rem;
+  --footer-height: 3rem;
   --radius: 0.625rem;
 
   /* 基本 */

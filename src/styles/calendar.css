@@ -1,0 +1,45 @@
+@reference "../index.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 日付上部の調整 */
+.fc .fc-daygrid-day-number {
+  width: 100%;
+  @apply py-0;
+}
+
+/* 日付下部の調整 */
+.fc .fc-daygrid-more-link {
+  width: 100%;
+}
+
+/* 土曜 */
+.fc .fc-day-sat {
+  @apply bg-blue-500/5;
+}
+
+/* 日曜 */
+.fc .fc-day-sun {
+  @apply bg-red-500/5;
+}
+
+/* 祝日 */
+.fc .day--holiday {
+  @apply bg-red-500/10;
+}
+
+/* 今日 */
+.fc .fc-day-today {
+  @apply !bg-yellow-500/10;
+}
+
+/* イベント表示 */
+.fc .fc-daygrid-event {
+  @apply text-[8px];
+}
+
+.fc .fc-day-other {
+  @apply bg-gray-500/10;
+}

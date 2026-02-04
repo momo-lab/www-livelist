@@ -1,5 +1,5 @@
 import { CalendarCheck, CalendarDays, ExternalLink, Info, Menu, Users } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6';
 import { Link, useLocation } from 'react-router-dom';
 import { SocialLinkItem } from '@/components/common/SocialLinkItem';
@@ -12,6 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import { HeaderTitleSlot, HeaderRightSlot } from '@/providers/HeaderSlotsProvider';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 
 const menus = [
@@ -21,18 +22,24 @@ const menus = [
   { path: '/about', title: 'このサイトについて', icon: <Info className="mr-2 h-4 w-4" /> },
 ];
 
-interface Props {
-  right?: React.ReactNode;
-}
-
-export function Header({ right }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
-  const { idols, updatedAt } = useLiveEvents(); // idolsを取得
+function useTitle() {
   const location = useLocation();
 
-  const base = import.meta.env.BASE_URL; // 例: "/app/"
+  const title = HeaderTitleSlot.useSlotNode();
+  if (title) {
+    return title;
+  }
+  // タイトルが取得できない場合はメニュー名をつける
+  const base = import.meta.env.BASE_URL;
   const relativePath = location.pathname.replace(new RegExp(`^${base}`), '/');
-  const title = menus.find((menu) => menu.path === relativePath)?.title ?? '';
+  return menus.find((menu) => menu.path === relativePath)?.title ?? '';
+}
+
+export function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+  const { idols, updatedAt } = useLiveEvents(); // idolsを取得
+  const titleNode = useTitle();
+  const rightNode = HeaderRightSlot.useSlotNode();
 
   return (
     <header className="bg-header-bg text-header-fg fixed top-0 z-50 w-full p-2">
@@ -134,8 +141,8 @@ export function Header({ right }: Props) {
             </Sheet>
           </div>
         </div>
-        <div className="flex-1 text-2xl font-semibold whitespace-nowrap">{title}</div>
-        <div>{right}</div>
+        <div className="flex-1 text-2xl font-semibold whitespace-nowrap">{titleNode}</div>
+        <div>{rightNode}</div>
       </div>
     </header>
   );
