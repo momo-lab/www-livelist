@@ -5,6 +5,7 @@ import ReactGA from 'react-ga4';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { AboutPage } from '@/pages/About';
+import { CalendarPage } from '@/pages/CalendarPage';
 import { MembersPage } from '@/pages/MembersPage';
 import { PastEventsPage } from '@/pages/PastEventsPage';
 import { UpcomingEventsPage } from '@/pages/UpcomingEventsPage';
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<Layout />}>
             <Route index element={<UpcomingEventsPage />} />
             <Route path="past" element={<PastEventsPage />} />
+            <Route path="cal" element={<CalendarPage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="members" element={<MembersPage />} />
           </Route>

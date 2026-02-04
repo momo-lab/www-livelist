@@ -18,7 +18,7 @@ export function Layout() {
   const value = useMemo(() => ({ setHeaderRight }), []);
 
   return (
-    <>
+    <div className="min-h-screen">
       <HeaderContext.Provider value={value}>
         <ScrollToTop />
         <Header right={headerRight} />
@@ -27,6 +27,6 @@ export function Layout() {
         </div>
         <Footer />
       </HeaderContext.Provider>
-    </>
+    </div>
   );
 }
