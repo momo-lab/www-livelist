@@ -64,7 +64,6 @@ const mockWindowOpen = vi.fn();
 beforeEach(() => {
   vi.stubGlobal('open', mockWindowOpen);
 
-
   mockUseLiveEvents.mockReturnValue({
     idols: mockIdols,
     members: mockMembers,
