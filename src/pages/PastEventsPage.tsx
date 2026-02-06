@@ -6,9 +6,15 @@ import { LiveEventTableSkeleton } from '@/components/app/LiveEventTableSkeleton'
 import { PeriodFilter } from '@/components/app/PeriodFilter';
 import { Button } from '@/components/ui/button';
 import { useEventTableData } from '@/hooks/app/useEventTableData';
-import { useHeaderRight } from '@/hooks/app/useHeaderRight';
 import { useSelectedIdols } from '@/hooks/app/useSelectedIdols';
+import { useHeaderRight } from '@/providers/HeaderSlotsProvider';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
+
+const headerRightNode = (
+  <Button asChild className="w-20">
+    <Link to="/">開催予定</Link>
+  </Button>
+);
 
 export const PastEventsPage: React.FC = () => {
   const [selectedIdols, setSelectedIdols] = useSelectedIdols();
@@ -28,11 +34,7 @@ export const PastEventsPage: React.FC = () => {
     return true;
   });
 
-  useHeaderRight(
-    <Button asChild className="w-20">
-      <Link to="/">開催予定</Link>
-    </Button>
-  );
+  useHeaderRight(headerRightNode);
 
   if (error) {
     return <div className="p-4 text-red-500">エラー: {error}</div>;

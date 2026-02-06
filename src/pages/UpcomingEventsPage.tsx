@@ -1,13 +1,18 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { IdolFilter } from '@/components/app/IdolFilter';
 import { LiveEventTable } from '@/components/app/LiveEventTable';
 import { LiveEventTableSkeleton } from '@/components/app/LiveEventTableSkeleton';
 import { Button } from '@/components/ui/button';
 import { useEventTableData } from '@/hooks/app/useEventTableData';
-import { useHeaderRight } from '@/hooks/app/useHeaderRight';
 import { useSelectedIdols } from '@/hooks/app/useSelectedIdols';
+import { useHeaderRight } from '@/providers/HeaderSlotsProvider';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
+
+const headerRightNode = (
+  <Button asChild className="w-20">
+    <Link to="/past">過去の予定</Link>
+  </Button>
+);
 
 export const UpcomingEventsPage: React.FC = () => {
   const [selectedIdols, setSelectedIdols] = useSelectedIdols();
@@ -15,11 +20,7 @@ export const UpcomingEventsPage: React.FC = () => {
   const { loading, error } = useLiveEvents();
   const { eventTableData } = useEventTableData('upcoming', selectedIdols);
 
-  useHeaderRight(
-    <Button asChild className="w-20">
-      <Link to="/past">過去の予定</Link>
-    </Button>
-  );
+  useHeaderRight(headerRightNode);
 
   if (error) {
     return <div className="p-4 text-red-500">エラー: {error}</div>;

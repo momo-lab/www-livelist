@@ -98,7 +98,7 @@ export const MembersPage: React.FC = () => {
   const idolGroupsWithMembers = membersByGroup.filter((group) => group.members.length > 0);
 
   return (
-    <div className="mx-4 space-y-6">
+    <div className="m-4 space-y-6">
       <div className="container mx-auto space-y-8">
         {idolGroupsWithMembers.map((group) => {
           const allMembersInGroupSelected =
@@ -107,7 +107,7 @@ export const MembersPage: React.FC = () => {
             group.members.some((m) => selectedMembers.has(m.id)) && !allMembersInGroupSelected;
 
           return (
-            <section key={group.id} id={group.id} className="scroll-mt-15 pt-4">
+            <section key={group.id} id={group.id} className="scroll-mt-15">
               <div className="mb-4 border-b pb-2">
                 <label
                   htmlFor={`group-${group.id}`}
