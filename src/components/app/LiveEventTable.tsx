@@ -40,10 +40,10 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
           const dateBgColor =
             dayOfWeek === 0 || holidayName ? 'bg-red-100' : dayOfWeek === 6 ? 'bg-blue-100' : '';
 
-          const badgeStyle = event.colors
+          const badgeStyle = event.idol.colors
             ? {
-                backgroundColor: event.colors.background,
-                color: event.colors.foreground,
+                backgroundColor: event.idol.colors.background,
+                color: event.idol.colors.foreground,
               }
             : {};
 
@@ -80,7 +80,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
               <TableCell className={cn(isLastRow && 'rounded-br-lg', !isLastRow && 'border-b')}>
                 <div className="px-2">
                   <div className="mb-2 flex items-center justify-between">
-                    <Badge style={badgeStyle}>{event.short_name}</Badge>
+                    <Badge style={badgeStyle}>{event.idol.short_name}</Badge>
                     <div className="flex gap-3">
                       {event.link && (
                         <LinkButton href={event.link} className="inline-flex items-center">

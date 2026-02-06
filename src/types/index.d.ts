@@ -36,9 +36,7 @@ export interface LiveEvent extends Omit<LiveEventRaw, 'idolId'> {
 }
 
 export interface TableEvent extends LiveEvent {
-  short_name?: string;
   isToday?: boolean;
-  colors?: IdolColors;
 
   rowspan?: number;
   isFirstOfDay?: boolean;

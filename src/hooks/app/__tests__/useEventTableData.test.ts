@@ -88,9 +88,9 @@ describe('useEventTableData', () => {
     const tableData = result.current.eventTableData;
 
     // mockProcessedIdols の定義順序と mockProcessedEvents の idol の id を考慮
-    expect(tableData[0].colors).toEqual(mockEvents[0].idol.colors); // 未来のテストイベント1 (Idol A)
-    expect(tableData[1].colors).toEqual(mockEvents[1].idol.colors); // Event 2 (Idol B)
-    expect(tableData[2].colors).toEqual(mockEvents[2].idol.colors); // Event 3 (Idol A)
+    expect(tableData[0].idol.colors).toEqual(mockEvents[0].idol.colors); // 未来のテストイベント1 (Idol A)
+    expect(tableData[1].idol.colors).toEqual(mockEvents[1].idol.colors); // Event 2 (Idol B)
+    expect(tableData[2].idol.colors).toEqual(mockEvents[2].idol.colors); // Event 3 (Idol A)
   });
 
   it('sorts past events in descending order by date', () => {
