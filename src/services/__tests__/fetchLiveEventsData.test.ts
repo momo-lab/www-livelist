@@ -1,50 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { mockRawEvents, mockEvents, mockIdols, mockMembers, mockVersions } from '@/__mocks__';
 import { fetchLiveEventsData } from '@/services/fetchLiveEventsData';
-import type { Idol, LiveEvent, Member, Versions } from '@/types';
-
-const mockVersions: Versions = {
-  data_version: 'v1',
-  idols_version: 'v1',
-  members_version: 'v1',
-  updatedAt: '2024-01-01T00:00:00.000Z',
-};
-
-const mockIdols: Idol[] = [
-  {
-    id: 'idol1',
-    name: 'Idol 1',
-    short_name: 'IDL1',
-    colors: { background: '#FFF', foreground: '#000', text: '#000' },
-  },
-];
-
-const mockAllEvents: LiveEvent[] = [
-  {
-    id: '1',
-    idol: mockIdols[0],
-    content: 'Live Event 1',
-    date: '2024-01-10',
-  },
-];
-
-const mockMembers: Member[] = [
-  {
-    id: 'member1',
-    name: 'Member 1',
-    name_ruby: 'めんばー 1',
-    color: 'white',
-    idol_id: 'idol1',
-    color_code: '#FFFFFF', // YIQ >= 128
-  },
-  {
-    id: 'member2',
-    name: 'Member 2',
-    name_ruby: 'めんばー 2',
-    color: 'black',
-    idol_id: 'idol1',
-    color_code: '#000000', // YIQ < 128
-  },
-];
 
 const mockFetch = vi.fn();
 vi.spyOn(globalThis, 'fetch').mockImplementation(mockFetch);
@@ -64,7 +20,7 @@ describe('fetchLiveEventsData', () => {
         case 'data.json':
           return Promise.resolve({
             ok: true,
-            json: () => Promise.resolve(mockAllEvents),
+            json: () => Promise.resolve(mockRawEvents),
           } as Response);
         case 'idols.json':
           return Promise.resolve({
@@ -89,11 +45,12 @@ describe('fetchLiveEventsData', () => {
   it('正常にデータを取得し、整形して返すこと', async () => {
     const { allEvents, idols, members, updatedAt } = await fetchLiveEventsData();
 
-    expect(allEvents).toEqual(mockAllEvents);
+    expect(allEvents).toEqual(mockEvents);
     expect(idols).toEqual(mockIdols);
     expect(members).toEqual([
       { ...mockMembers[0], text_color_code: '#000000' },
       { ...mockMembers[1], text_color_code: '#FFFFFF' },
+      { ...mockMembers[2], text_color_code: '#FFFFFF' },
     ]);
     expect(updatedAt).toEqual(new Date(mockVersions.updatedAt));
 

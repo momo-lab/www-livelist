@@ -1,13 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
+import { mockIdols, mockEvents } from '@/__mocks__';
 import { useEventTableData } from '@/hooks/app/useEventTableData';
 import { useSelectedIdols } from '@/hooks/app/useSelectedIdols';
+import { HeaderSlotsProvider } from '@/providers/HeaderSlotsProvider';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
-import type { Idol, TableEvent } from '@/types';
 import { UpcomingEventsPage } from '../UpcomingEventsPage';
 
 vi.mock('@/providers/LiveEventsProvider');
+vi.mock('@/providers/HeaderTitleProvider');
 vi.mock('@/hooks/app/useEventTableData');
 vi.mock('@/hooks/app/useSelectedIdols');
 
@@ -15,33 +17,7 @@ const mockUseLiveEvents = vi.mocked(useLiveEvents);
 const mockUseEventTableData = vi.mocked(useEventTableData);
 const mockUseSelectedIdols = vi.mocked(useSelectedIdols);
 
-const mockIdols: Idol[] = [
-  {
-    id: 'aikatsu',
-    name: 'アイカツ！',
-    short_name: 'アイカツ！',
-    litlink_id: 'aikatsu',
-    colors: { background: '#FF6347', foreground: '#FFFFFF', text: '#FF6347' },
-  },
-  {
-    id: 'pripara',
-    name: 'プリパラ',
-    short_name: 'プリパラ',
-    litlink_id: 'pripara',
-    colors: { background: '#8A2BE2', foreground: '#FFFFFF', text: '#8A2BE2' },
-  },
-];
 const allIdolIds = mockIdols.map((idol) => idol.id);
-
-const mockEventData: TableEvent[] = [
-  {
-    id: 'event1',
-    idol: mockIdols[0],
-    date: '2099-01-15',
-    content: '未来のテストイベント1',
-    short_name: 'アイカツ！',
-  },
-];
 
 describe('UpcomingEventsPage', () => {
   const user = userEvent.setup();
@@ -56,16 +32,20 @@ describe('UpcomingEventsPage', () => {
       loading: false,
       error: null,
       idols: mockIdols,
-      allEvents: [],
+      allEvents: mockEvents,
       members: [],
       updatedAt: undefined,
     });
-    mockUseEventTableData.mockReturnValue({ eventTableData: mockEventData });
+    mockUseEventTableData.mockReturnValue({ eventTableData: mockEvents });
     mockUseSelectedIdols.mockReturnValue([allIdolIds, mockSetSelectedIdols]);
   });
 
   const renderComponent = () => {
-    return render(<UpcomingEventsPage />);
+    return render(
+      <HeaderSlotsProvider>
+        <UpcomingEventsPage />
+      </HeaderSlotsProvider>
+    );
   };
 
   it('ローディング中にスケルトンコンポーネントが表示される', () => {
@@ -97,7 +77,7 @@ describe('UpcomingEventsPage', () => {
 
   it('データがある場合にイベントテーブルが表示される', () => {
     renderComponent();
-    expect(screen.getByText('未来のテストイベント1')).toBeInTheDocument();
+    expect(screen.getByText(mockEvents[0].content)).toBeInTheDocument();
   });
 
   it('データがない場合に「今後のライブ予定はありません。」と表示される', () => {
@@ -110,10 +90,11 @@ describe('UpcomingEventsPage', () => {
     mockUseSelectedIdols.mockReturnValue([allIdolIds, mockSetSelectedIdols]);
     renderComponent();
 
-    // 「アイカツ！」をクリックして選択解除
-    const aikatsuButton = screen.getByRole('button', { name: 'アイカツ！' });
-    await user.click(aikatsuButton);
+    // mockIdols の最初のアイドル名に合わせて修正
+    const idolButton = screen.getByRole('button', { name: mockIdols[0].name });
+    await user.click(idolButton);
 
-    expect(mockSetSelectedIdols).toHaveBeenCalledWith(['pripara']);
+    // mockIdols の最初のアイドルが除外されることを想定
+    expect(mockSetSelectedIdols).toHaveBeenCalledWith(allIdolIds.slice(1));
   });
 });

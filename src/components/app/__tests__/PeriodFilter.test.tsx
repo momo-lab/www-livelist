@@ -1,83 +1,38 @@
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
+import { mockTableEvents } from '@/__mocks__';
 import type { TableEvent } from '@/types';
 import { PeriodFilter } from '../PeriodFilter';
 
 describe('PeriodFilter', () => {
-  const mockEvents: TableEvent[] = [
-    {
-      id: '1',
-      idol: {
-        id: 'idol1',
-        name: 'idol 1',
-        short_name: 'E1',
-        colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' },
-      },
-      short_name: 'E1',
-      date: '2024-01-01',
-      content: '',
-      link: '',
-    },
-    {
-      id: '2',
-      idol: {
-        id: 'idol2',
-        name: 'idol 2',
-        short_name: 'E2',
-        colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' },
-      },
-      short_name: 'E2',
-      date: '2024-02-01',
-      content: '',
-      link: '',
-    },
-    {
-      id: '3',
-      idol: {
-        id: 'idol3',
-        name: 'idol 3',
-        short_name: 'E3',
-        colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' },
-      },
-      short_name: 'E3',
-      date: '2023-12-31',
-      content: '',
-      link: '',
-    },
-    {
-      id: '4',
-      idol: {
-        id: 'idol4',
-        name: 'idol 4',
-        short_name: 'E4',
-        colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' },
-      },
-      short_name: 'E4',
-      date: '2023-01-01',
-      content: '',
-      link: '',
-    },
-  ];
+  // mockTableEvents を PeriodFilter の events プロップとして利用
+  const eventsForPeriodFilter = mockTableEvents.filter(
+    (event) => new Date(event.date) < new Date('2025-07-15T00:00:00Z')
+  ) as TableEvent[];
 
   it('初期選択値が正しく表示される', () => {
-    const mockOnSelectedYearChange = vi.fn();
+    const mockOnSelectedPeriodChange = vi.fn();
 
     const { rerender } = render(
-      <PeriodFilter onSelectedPeriodChange={mockOnSelectedYearChange} events={mockEvents} />
+      <PeriodFilter
+        onSelectedPeriodChange={mockOnSelectedPeriodChange}
+        events={eventsForPeriodFilter}
+      />
     );
 
-    expect(mockOnSelectedYearChange).toHaveBeenCalledWith({ year: 2024 });
+    // mockProcessedEvents の日付を考慮して、2025年が最新となるため初期値として期待
+    expect(mockOnSelectedPeriodChange).toHaveBeenCalledWith({ year: 2025 });
 
     // 2024年が選択されている状態で再レンダリング
     rerender(
       <PeriodFilter
-        selectedPeriod={{ year: 2024 }}
-        onSelectedPeriodChange={mockOnSelectedYearChange}
-        events={mockEvents}
+        selectedPeriod={{ year: 2025 }}
+        onSelectedPeriodChange={mockOnSelectedPeriodChange}
+        events={eventsForPeriodFilter}
       />
     );
 
     const triggerWithYear = screen.getByRole('combobox');
-    expect(triggerWithYear.textContent).toContain('2024年');
+    expect(triggerWithYear.textContent).toContain('2025年');
   });
 });

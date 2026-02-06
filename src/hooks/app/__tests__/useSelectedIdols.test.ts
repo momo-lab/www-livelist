@@ -1,27 +1,12 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { mockIdols } from '@/__mocks__'; // mockProcessedIdols をインポート
 import { useSelectedIdols } from '@/hooks/app/useSelectedIdols';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
-import type { Idol } from '@/types';
 
 vi.mock('@/providers/LiveEventsProvider');
 
 const mockUseLiveEvents = vi.mocked(useLiveEvents);
-
-const mockIdols: Idol[] = [
-  {
-    id: 'lumi7',
-    name: 'LUMiNATiO',
-    short_name: 'lumi7',
-    colors: { background: '#fff', foreground: '#000', text: '#000' },
-  },
-  {
-    id: 'mofcro',
-    name: 'もふくろちゃん',
-    short_name: 'mofcro',
-    colors: { background: '#fff', foreground: '#000', text: '#000' },
-  },
-];
 
 describe('useSelectedIdols', () => {
   beforeEach(() => {
@@ -50,11 +35,11 @@ describe('useSelectedIdols', () => {
       updatedAt: undefined,
     });
     const { result } = renderHook(() => useSelectedIdols());
-    expect(result.current[0]).toEqual(['lumi7', 'mofcro']);
+    expect(result.current[0]).toEqual(mockIdols.map((idol) => idol.id));
   });
 
   it('should return selected idols from localStorage', () => {
-    localStorage.setItem('selectedIdols', JSON.stringify(['mofcro']));
+    localStorage.setItem('selectedIdols', JSON.stringify([mockIdols[0].id]));
     mockUseLiveEvents.mockReturnValue({
       idols: mockIdols,
       loading: false,
@@ -64,7 +49,7 @@ describe('useSelectedIdols', () => {
       updatedAt: undefined,
     });
     const { result } = renderHook(() => useSelectedIdols());
-    expect(result.current[0]).toEqual(['mofcro']);
+    expect(result.current[0]).toEqual([mockIdols[0].id]);
   });
 
   it('should update selected idols and localStorage', () => {
@@ -80,11 +65,11 @@ describe('useSelectedIdols', () => {
     const [, setSelectedIdols] = result.current;
 
     act(() => {
-      setSelectedIdols(['lumi7']);
+      setSelectedIdols([mockIdols[0].id]);
     });
 
-    expect(result.current[0]).toEqual(['lumi7']);
-    expect(localStorage.getItem('selectedIdols')).toBe(JSON.stringify(['lumi7']));
+    expect(result.current[0]).toEqual([mockIdols[0].id]);
+    expect(localStorage.getItem('selectedIdols')).toBe(JSON.stringify([mockIdols[0].id]));
   });
 
   it('should return an empty array if there are no idols', () => {

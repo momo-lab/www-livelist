@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { mockEvents } from '@/__mocks__';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import { useEventTableData } from '../useEventTableData';
 
@@ -24,84 +25,13 @@ vi.mock('@/lib/utils', async () => {
 });
 
 describe('useEventTableData', () => {
-  const mockIdols = [
-    {
-      id: 'idol1',
-      name: 'Idol A',
-      short_name: 'Idol A',
-      twitter_id: 'idol1_x',
-      colors: { background: '#FF0000', foreground: '#FFFFFF', text: '#000000' },
-    },
-    {
-      id: 'idol2',
-      name: 'Idol B',
-      short_name: 'Idol B',
-      twitter_id: 'idol2_x',
-      colors: { background: '#00FF00', foreground: '#000000', text: '#000000' },
-    },
-    {
-      id: 'idol3',
-      name: 'Idol C',
-      short_name: 'Idol C',
-      twitter_id: 'idol3_x',
-      colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' },
-    },
-  ];
-
-  const mockAllEvents = [
-    {
-      id: '1',
-      idol: mockIdols[0],
-      name: 'Event 1',
-      date: '2025-07-15',
-      content: 'Event 1',
-      url: 'url1',
-      short_name: 'Idol A',
-      link: 'link1',
-      image: 'image1',
-    },
-    {
-      id: '2',
-      idol: mockIdols[1],
-      name: 'Event 2',
-      date: '2025-07-15',
-      content: 'Event 2',
-      url: 'url2',
-      short_name: 'Idol B',
-      link: 'link2',
-      image: 'image2',
-    },
-    {
-      id: '3',
-      idol: mockIdols[0],
-      name: 'Event 3',
-      date: '2025-07-16',
-      content: 'Event 3',
-      url: 'url3',
-      short_name: 'Idol A',
-      link: 'link3',
-      image: 'image3',
-    },
-    {
-      id: '4',
-      idol: mockIdols[2],
-      name: 'Event 4',
-      date: '2025-07-14',
-      content: 'Event 4',
-      url: 'url4',
-      short_name: 'Idol C',
-      link: 'link4',
-      image: 'image4',
-    },
-  ];
-
   beforeEach(() => {
     vi.mocked(useLiveEvents).mockReturnValue({
-      allEvents: mockAllEvents,
-      idols: mockIdols,
+      allEvents: mockEvents,
+      idols: [],
+      members: [],
       loading: false,
       error: null,
-      members: [],
     });
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2025-07-15T00:00:00Z')); // Set current date to 2025-07-15
@@ -113,41 +43,42 @@ describe('useEventTableData', () => {
 
   it('filters upcoming events correctly', () => {
     const { result } = renderHook(() => useEventTableData('upcoming', []));
-    expect(result.current.eventTableData).toHaveLength(3); // Event 1, 2, 3
-    expect(result.current.eventTableData[0].content).toBe('Event 1');
-    expect(result.current.eventTableData[1].content).toBe('Event 2');
-    expect(result.current.eventTableData[2].content).toBe('Event 3');
+    expect(result.current.eventTableData).toHaveLength(3); // 未来のテストイベント1, Event 2, Event 3
+    expect(result.current.eventTableData[0].content).toBe(mockEvents[0].content);
+    expect(result.current.eventTableData[1].content).toBe(mockEvents[1].content);
+    expect(result.current.eventTableData[2].content).toBe(mockEvents[2].content);
   });
 
   it('filters past events correctly', () => {
     const { result } = renderHook(() => useEventTableData('past', []));
-    expect(result.current.eventTableData).toHaveLength(1); // Event 4
-    expect(result.current.eventTableData[0].content).toBe('Event 4');
+    expect(result.current.eventTableData).toHaveLength(2); // 過去のテストイベント1, 過去のテストイベント2
+    expect(result.current.eventTableData[0].content).toBe(mockEvents[3].content);
+    expect(result.current.eventTableData[1].content).toBe(mockEvents[4].content);
   });
 
   it('filters events by selected idols correctly', () => {
     const { result } = renderHook(() => useEventTableData('upcoming', ['idol1']));
-    expect(result.current.eventTableData).toHaveLength(2); // Event 1, 3
-    expect(result.current.eventTableData[0].content).toBe('Event 1');
-    expect(result.current.eventTableData[1].content).toBe('Event 3');
+    expect(result.current.eventTableData).toHaveLength(2); // 未来のテストイベント1, Event 3
+    expect(result.current.eventTableData[0].content).toBe(mockEvents[0].content);
+    expect(result.current.eventTableData[1].content).toBe(mockEvents[2].content);
   });
 
   it('applies correct rowspan and isFirstOfDay for grouped events', () => {
     const { result } = renderHook(() => useEventTableData('upcoming', []));
     const tableData = result.current.eventTableData;
 
-    // Event 1 (first of day)
-    expect(tableData[0].content).toBe('Event 1');
+    // 未来のテストイベント1 (first of day)
+    expect(tableData[0].content).toBe(mockEvents[0].content);
     expect(tableData[0].isFirstOfDay).toBe(true);
-    expect(tableData[0].rowspan).toBe(2); // Event 1 and Event 2 are on the same day
+    expect(tableData[0].rowspan).toBe(2); // 未来のテストイベント1 and Event 2 are on the same day
 
     // Event 2 (not first of day)
-    expect(tableData[1].content).toBe('Event 2');
+    expect(tableData[1].content).toBe(mockEvents[1].content);
     expect(tableData[1].isFirstOfDay).toBe(false);
     expect(tableData[1].rowspan).toBeUndefined();
 
     // Event 3 (first of new day)
-    expect(tableData[2].content).toBe('Event 3');
+    expect(tableData[2].content).toBe(mockEvents[2].content);
     expect(tableData[2].isFirstOfDay).toBe(true);
     expect(tableData[2].rowspan).toBe(1);
   });
@@ -156,31 +87,33 @@ describe('useEventTableData', () => {
     const { result } = renderHook(() => useEventTableData('upcoming', []));
     const tableData = result.current.eventTableData;
 
-    expect(tableData[0].colors).toEqual(mockIdols[0].colors); // Idol A
-    expect(tableData[1].colors).toEqual(mockIdols[1].colors); // Idol B
-    expect(tableData[2].colors).toEqual(mockIdols[0].colors); // Idol A
+    // mockProcessedIdols の定義順序と mockProcessedEvents の idol の id を考慮
+    expect(tableData[0].colors).toEqual(mockEvents[0].idol.colors); // 未来のテストイベント1 (Idol A)
+    expect(tableData[1].colors).toEqual(mockEvents[1].idol.colors); // Event 2 (Idol B)
+    expect(tableData[2].colors).toEqual(mockEvents[2].idol.colors); // Event 3 (Idol A)
   });
 
   it('sorts past events in descending order by date', () => {
     const { result } = renderHook(() => useEventTableData('past', []));
     const tableData = result.current.eventTableData;
 
-    // Only Event 4 is a past event in mockAllEvents
-    expect(tableData[0].content).toBe('Event 4');
+    // 過去のテストイベント1 が最初の過去イベント (日付が新しい)
+    expect(tableData[0].content).toBe(mockEvents[3].content);
+    expect(tableData[1].content).toBe(mockEvents[4].content);
   });
 
   it('sets isToday correctly for events on the current date', () => {
-    // Event 1 and Event 2 are on 2025-07-15, which is the mocked current date
+    // 未来のテストイベント1 と Event 2 は 2025-07-15
     const { result } = renderHook(() => useEventTableData('upcoming', []));
     const tableData = result.current.eventTableData;
 
-    expect(tableData[0].content).toBe('Event 1');
+    expect(tableData[0].content).toBe(mockEvents[0].content);
     expect(tableData[0].isToday).toBe(true);
 
-    expect(tableData[1].content).toBe('Event 2');
+    expect(tableData[1].content).toBe(mockEvents[1].content);
     expect(tableData[1].isToday).toBe(true);
 
-    expect(tableData[2].content).toBe('Event 3'); // Event 3 is on 2025-07-16
+    expect(tableData[2].content).toBe(mockEvents[2].content); // Event 3 は 2025-07-16
     expect(tableData[2].isToday).toBe(false);
   });
 });

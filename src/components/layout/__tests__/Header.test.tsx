@@ -1,48 +1,37 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
+import { mockIdols, mockVersions } from '@/__mocks__';
+import { HeaderSlotsProvider } from '@/providers/HeaderSlotsProvider'; // HeaderSlotsProvider をインポート
 import { Header } from '../Header';
 
 // useLiveEventsフックをモックして、idolsデータを提供する
 vi.mock('@/providers/LiveEventsProvider', () => ({
   useLiveEvents: () => ({
-    idols: [
-      {
-        id: 'idol1',
-        name: 'アイドルA',
-        twitter_id: 'idol1_x',
-        instagram_id: 'idol1_inst',
-        litlink_id: 'idol1',
-      },
-      {
-        id: 'idol2',
-        name: 'アイドルB',
-        twitter_id: 'idol2_x',
-        tiktok_id: 'idol2_tiktok',
-        litlink_id: 'idol2',
-      },
-    ],
-    updatedAt: '2024-01-01T00:00:00.000Z',
+    idols: mockIdols,
+    updatedAt: mockVersions.updatedAt,
     error: null,
   }),
 }));
 
 describe('Header', () => {
-  it('renders header with title', () => {
-    render(
+  const renderHeader = () => {
+    return render(
       <MemoryRouter initialEntries={['/']}>
-        <Header />
+        <HeaderSlotsProvider>
+          <Header />
+        </HeaderSlotsProvider>
       </MemoryRouter>
     );
+  };
+
+  it('renders header with title', () => {
+    renderHeader();
     expect(screen.getByText('開催予定のライブ')).toBeInTheDocument();
   });
 
   it('opens and closes the menu', async () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <Header />
-      </MemoryRouter>
-    );
+    renderHeader();
 
     // メニューが開くことを確認
     const menuButton = screen.getByRole('button', { name: 'Menu' });
@@ -62,11 +51,7 @@ describe('Header', () => {
   });
 
   it('displays idol SNS items when menu is open', async () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <Header />
-      </MemoryRouter>
-    );
+    renderHeader();
 
     const menuButton = screen.getByRole('button', { name: 'Menu' });
     fireEvent.click(menuButton);
@@ -80,26 +65,34 @@ describe('Header', () => {
           .getAllByRole('link', { name: name })
           .find((link) => link.getAttribute('href') === href);
 
-      // アイドルAのSNSリンクを確認
-      expect(findSNSLink('lit.link', 'https://lit.link/idol1')).toBeInTheDocument();
-      expect(findSNSLink('X.com', 'https://x.com/idol1_x')).toBeInTheDocument();
-      expect(findSNSLink('TikTok', 'https://www.tiktok.com/@idol1_tiktok')).toBeUndefined();
-      expect(findSNSLink('Instagram', 'https://www.instagram.com/idol1_inst/')).toBeInTheDocument();
+      // アイドルA (mockIdols[0] = mofcro) のSNSリンクを確認
+      expect(
+        findSNSLink('lit.link', `https://lit.link/${mockIdols[0].litlink_id}`)
+      ).toBeInTheDocument();
+      expect(findSNSLink('X.com', `https://x.com/${mockIdols[0].twitter_id}`)).toBeInTheDocument();
+      expect(
+        findSNSLink('TikTok', `https://www.tiktok.com/@${mockIdols[0].tiktok_id}`)
+      ).toBeUndefined(); // mofcroにはtiktok_idがない
+      expect(
+        findSNSLink('Instagram', `https://www.instagram.com/${mockIdols[0].instagram_id}/`)
+      ).toBeInTheDocument();
 
-      // アイドルBのSNSリンクを確認
-      expect(findSNSLink('lit.link', 'https://lit.link/idol2')).toBeInTheDocument();
-      expect(findSNSLink('X.com', 'https://x.com/idol2_x')).toBeInTheDocument();
-      expect(findSNSLink('TikTok', 'https://www.tiktok.com/@idol2_tiktok')).toBeInTheDocument();
-      expect(findSNSLink('Instagram', 'https://www.instagram.com/idol2_inst/')).toBeUndefined();
+      // アイドルB (mockIdols[1] = lumi7) のSNSリンクを確認
+      expect(
+        findSNSLink('lit.link', `https://lit.link/${mockIdols[1].litlink_id}`)
+      ).toBeInTheDocument();
+      expect(findSNSLink('X.com', `https://x.com/${mockIdols[1].twitter_id}`)).toBeInTheDocument();
+      expect(
+        findSNSLink('TikTok', `https://www.tiktok.com/@${mockIdols[1].tiktok_id}`)
+      ).toBeInTheDocument();
+      expect(
+        findSNSLink('Instagram', `https://www.instagram.com/${mockIdols[1].instagram_id}/`)
+      ).toBeUndefined(); // lumi7にはinstagram_idがない
     });
   });
 
   it('displays idol lit.link items when menu is open', async () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <Header />
-      </MemoryRouter>
-    );
+    renderHeader();
 
     const menuButton = screen.getByRole('button', { name: 'Menu' });
     fireEvent.click(menuButton);

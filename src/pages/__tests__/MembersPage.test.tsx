@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { mockIdols, mockMembers } from '@/__mocks__';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
-import type { Idol, Member } from '@/types';
 import { MembersPage } from '../MembersPage';
 
 vi.mock('@/components/app/MembersPageSkeleton', () => ({
@@ -11,52 +11,6 @@ vi.mock('@/components/app/MembersPageSkeleton', () => ({
 vi.mock('@/providers/LiveEventsProvider');
 
 const mockUseLiveEvents = vi.mocked(useLiveEvents);
-
-const mockIdols: Idol[] = [
-  {
-    id: 'mofcro',
-    name: 'もふくろちゃん',
-    short_name: 'もふ',
-    colors: { background: '#fff', foreground: '#000', text: '#000' },
-  },
-  {
-    id: 'lumi7',
-    name: 'LUMiNATiO',
-    short_name: 'るみな',
-    colors: { background: '#fff', foreground: '#000', text: '#000' },
-  },
-];
-
-const mockMembers: Member[] = [
-  {
-    id: 'mofcrokoharu',
-    idol_id: 'mofcro',
-    name: '一野瀬 心晴',
-    name_ruby: 'いちのせ こはる',
-    color: 'yellow',
-    color_code: '#000000',
-    twitter_id: 'koharu',
-  },
-  {
-    id: 'mofcroELLiE',
-    idol_id: 'mofcro',
-    name: '六星 エリィ',
-    name_ruby: 'ろくほし えりぃ',
-    color: 'purple',
-    color_code: '#000000',
-    twitter_id: 'ellie',
-  },
-  {
-    id: 'lumi7rina',
-    idol_id: 'lumi7',
-    name: '高橋 りな',
-    name_ruby: 'たかはし りな',
-    color: 'blue',
-    color_code: '#000000',
-    twitter_id: 'rina',
-    leaving_date: '2024-01-01',
-  },
-];
 
 // Mock window.open
 const mockWindowOpen = vi.fn();
@@ -88,9 +42,11 @@ const renderComponent = () =>
 describe('MembersPage', () => {
   it('renders members grouped by idol', () => {
     renderComponent();
-    expect(screen.getByText('もふくろちゃん', { selector: 'h2' })).toBeInTheDocument();
+    expect(screen.getByText(mockIdols[3].name, { selector: 'h2' })).toBeInTheDocument();
     expect(
-      screen.getByRole('checkbox', { name: '一野瀬 いちのせ 心晴 こはる' })
+      screen.getByRole('checkbox', {
+        name: new RegExp(`^${mockMembers[0].name.split(' ')[0]}`),
+      })
     ).toBeInTheDocument();
   });
 
@@ -98,7 +54,9 @@ describe('MembersPage', () => {
     renderComponent();
     expect(screen.queryByRole('button', { name: /ツイートを検索/ })).not.toBeInTheDocument();
 
-    const checkbox = screen.getByRole('checkbox', { name: '一野瀬 いちのせ 心晴 こはる' });
+    const checkbox = screen.getByRole('checkbox', {
+      name: new RegExp(`^${mockMembers[0].name.split(' ')[0]}`),
+    });
     fireEvent.click(checkbox);
 
     await waitFor(() => {
@@ -109,8 +67,12 @@ describe('MembersPage', () => {
   it('opens twitter search with correct query when search button is clicked', async () => {
     renderComponent();
 
-    const checkbox1 = screen.getByRole('checkbox', { name: '一野瀬 いちのせ 心晴 こはる' });
-    const checkbox2 = screen.getByRole('checkbox', { name: '六星 ろくほし エリィ' });
+    const checkbox1 = screen.getByRole('checkbox', {
+      name: new RegExp(`^${mockMembers[0].name.split(' ')[0]}`),
+    });
+    const checkbox2 = screen.getByRole('checkbox', {
+      name: new RegExp(`^${mockMembers[1].name.split(' ')[0]}`),
+    });
     fireEvent.click(checkbox1);
     fireEvent.click(checkbox2);
 

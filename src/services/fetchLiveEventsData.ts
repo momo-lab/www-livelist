@@ -38,7 +38,6 @@ export const fetchLiveEventsData = async (): Promise<{
   return {
     allEvents: allEvents.map(({ idolId, ...event }) => ({
       ...event,
-      idolId,
       idol: idols.find(({ id }) => idolId === id) ?? throwError(`idolId(${idolId}) is not found`),
     })),
     idols,
