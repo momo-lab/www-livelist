@@ -4,7 +4,7 @@ import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import type { LiveEvent, TableEvent } from '@/types';
 
 export const useEventTableData = (mode: 'upcoming' | 'past', selectedIdols: string[]) => {
-  const { allEvents, idols } = useLiveEvents();
+  const { allEvents } = useLiveEvents();
 
   const today = getToday();
 
@@ -12,27 +12,24 @@ export const useEventTableData = (mode: 'upcoming' | 'past', selectedIdols: stri
     let result = allEvents
       .filter((e) => (mode === 'upcoming' ? e.date >= today : e.date < today))
       .map((e) => {
-        const idol = idols.find((i) => i.id === e.idolId);
         return {
           ...e,
           isToday: e.date === today,
-          ...(idol && {
-            colors: idol.colors,
-            short_name: idol.short_name,
-          }),
+          colors: e.idol.colors,
+          short_name: e.idol.short_name,
         };
       });
     if (mode === 'past') {
       result = result.map(({ image: _, ...e }) => e).sort((a, b) => b.date.localeCompare(a.date));
     }
     return result;
-  }, [allEvents, mode, today, idols]);
+  }, [allEvents, mode, today]);
 
   const idolFilteredEvents = useMemo(() => {
     if (selectedIdols.length === 0) {
       return enrichedEvents;
     }
-    return enrichedEvents.filter((event) => selectedIdols.includes(event.idolId));
+    return enrichedEvents.filter((event) => selectedIdols.includes(event.idol.id));
   }, [enrichedEvents, selectedIdols]);
 
   const createTableEvents = (liveEvents: LiveEvent[]): TableEvent[] => {

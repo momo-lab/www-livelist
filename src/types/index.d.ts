@@ -22,13 +22,17 @@ export interface Idol {
   colors: IdolColors;
 }
 
-export interface LiveEvent {
+export interface LiveEventRaw {
   id: string;
   idolId: string;
   date: string; // yyyy-MM-dd
   content: string;
   image?: string;
   link?: string;
+}
+
+export interface LiveEvent extends Omit<LiveEventRaw, 'idolId'> {
+  idol: Idol;
 }
 
 export interface TableEvent extends LiveEvent {

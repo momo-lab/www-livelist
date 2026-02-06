@@ -1,4 +1,4 @@
-import type { Versions, Idol, LiveEvent, Member } from '@/types';
+import type { Versions, Idol, LiveEventRaw, LiveEvent, Member } from '@/types';
 
 const getContrastYIQ = (hexcolor: string) => {
   const r = parseInt(hexcolor.substring(1, 3), 16);
@@ -18,17 +18,29 @@ const fetchJsonOrThrow = async <T>(path: string, version: string | number): Prom
   return data;
 };
 
-export const fetchLiveEventsData = async () => {
+export const fetchLiveEventsData = async (): Promise<{
+  allEvents: LiveEvent[];
+  idols: Idol[];
+  members: Member[];
+  updatedAt: Date;
+}> => {
   const versions = await fetchJsonOrThrow<Versions>('versions.json', Date.now());
 
   const [allEvents, idols, members] = await Promise.all([
-    fetchJsonOrThrow<LiveEvent[]>('data.json', versions.data_version),
+    fetchJsonOrThrow<LiveEventRaw[]>('data.json', versions.data_version),
     fetchJsonOrThrow<Idol[]>('idols.json', versions.idols_version),
     fetchJsonOrThrow<Member[]>('members.json', versions.members_version),
   ]);
 
+  const throwError = (message: string): never => {
+    throw new Error(message);
+  };
   return {
-    allEvents,
+    allEvents: allEvents.map(({ idolId, ...event }) => ({
+      ...event,
+      idolId,
+      idol: idols.find(({ id }) => idolId === id) ?? throwError(`idolId(${idolId}) is not found`),
+    })),
     idols,
     members: members.map((member) => ({
       ...member,

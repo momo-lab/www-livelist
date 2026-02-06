@@ -15,16 +15,6 @@ const mockUseLiveEvents = vi.mocked(useLiveEvents);
 const mockUseEventTableData = vi.mocked(useEventTableData);
 const mockUseSelectedIdols = vi.mocked(useSelectedIdols);
 
-const mockEventData: TableEvent[] = [
-  {
-    id: 'event1',
-    idolId: 'aikatsu',
-    date: '2099-01-15',
-    content: '未来のテストイベント1',
-    short_name: 'アイカツ！',
-  },
-];
-
 const mockIdols: Idol[] = [
   {
     id: 'aikatsu',
@@ -42,6 +32,16 @@ const mockIdols: Idol[] = [
   },
 ];
 const allIdolIds = mockIdols.map((idol) => idol.id);
+
+const mockEventData: TableEvent[] = [
+  {
+    id: 'event1',
+    idol: mockIdols[0],
+    date: '2099-01-15',
+    content: '未来のテストイベント1',
+    short_name: 'アイカツ！',
+  },
+];
 
 describe('UpcomingEventsPage', () => {
   const user = userEvent.setup();

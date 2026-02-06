@@ -24,53 +24,6 @@ vi.mock('@/lib/utils', async () => {
 });
 
 describe('useEventTableData', () => {
-  const mockAllEvents = [
-    {
-      id: '1',
-      idolId: 'idol1',
-      name: 'Event 1',
-      date: '2025-07-15',
-      content: 'Event 1',
-      url: 'url1',
-      short_name: 'Idol A',
-      link: 'link1',
-      image: 'image1',
-    },
-    {
-      id: '2',
-      idolId: 'idol2',
-      name: 'Event 2',
-      date: '2025-07-15',
-      content: 'Event 2',
-      url: 'url2',
-      short_name: 'Idol B',
-      link: 'link2',
-      image: 'image2',
-    },
-    {
-      id: '3',
-      idolId: 'idol1',
-      name: 'Event 3',
-      date: '2025-07-16',
-      content: 'Event 3',
-      url: 'url3',
-      short_name: 'Idol A',
-      link: 'link3',
-      image: 'image3',
-    },
-    {
-      id: '4',
-      idolId: 'idol3',
-      name: 'Event 4',
-      date: '2025-07-14',
-      content: 'Event 4',
-      url: 'url4',
-      short_name: 'Idol C',
-      link: 'link4',
-      image: 'image4',
-    },
-  ];
-
   const mockIdols = [
     {
       id: 'idol1',
@@ -92,6 +45,53 @@ describe('useEventTableData', () => {
       short_name: 'Idol C',
       twitter_id: 'idol3_x',
       colors: { background: '#0000FF', foreground: '#FFFFFF', text: '#000000' },
+    },
+  ];
+
+  const mockAllEvents = [
+    {
+      id: '1',
+      idol: mockIdols[0],
+      name: 'Event 1',
+      date: '2025-07-15',
+      content: 'Event 1',
+      url: 'url1',
+      short_name: 'Idol A',
+      link: 'link1',
+      image: 'image1',
+    },
+    {
+      id: '2',
+      idol: mockIdols[1],
+      name: 'Event 2',
+      date: '2025-07-15',
+      content: 'Event 2',
+      url: 'url2',
+      short_name: 'Idol B',
+      link: 'link2',
+      image: 'image2',
+    },
+    {
+      id: '3',
+      idol: mockIdols[0],
+      name: 'Event 3',
+      date: '2025-07-16',
+      content: 'Event 3',
+      url: 'url3',
+      short_name: 'Idol A',
+      link: 'link3',
+      image: 'image3',
+    },
+    {
+      id: '4',
+      idol: mockIdols[2],
+      name: 'Event 4',
+      date: '2025-07-14',
+      content: 'Event 4',
+      url: 'url4',
+      short_name: 'Idol C',
+      link: 'link4',
+      image: 'image4',
     },
   ];
 

@@ -9,21 +9,21 @@ const mockVersions: Versions = {
   updatedAt: '2024-01-01T00:00:00.000Z',
 };
 
-const mockAllEvents: LiveEvent[] = [
-  {
-    id: '1',
-    idolId: 'idol1',
-    content: 'Live Event 1',
-    date: '2024-01-10',
-  },
-];
-
 const mockIdols: Idol[] = [
   {
     id: 'idol1',
     name: 'Idol 1',
     short_name: 'IDL1',
     colors: { background: '#FFF', foreground: '#000', text: '#000' },
+  },
+];
+
+const mockAllEvents: LiveEvent[] = [
+  {
+    id: '1',
+    idol: mockIdols[0],
+    content: 'Live Event 1',
+    date: '2024-01-10',
   },
 ];
 
