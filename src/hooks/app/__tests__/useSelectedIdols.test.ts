@@ -35,7 +35,13 @@ describe('useSelectedIdols', () => {
       updatedAt: undefined,
     });
     const { result } = renderHook(() => useSelectedIdols());
-    expect(result.current[0]).toEqual(mockIdols.map((idol) => idol.id));
+    expect(result.current[0]).toEqual([
+      mockIdols[0].id,
+      mockIdols[1].id,
+      // mockIdols[2]はlitlink_idがないので追加されない
+      mockIdols[3].id,
+      mockIdols[4].id,
+    ]);
   });
 
   it('should return selected idols from localStorage', () => {

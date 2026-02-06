@@ -9,7 +9,9 @@ interface IdolFilterProps {
 }
 
 export const IdolFilter: React.FC<IdolFilterProps> = ({ selectedIdols, onSelectedIdolsChange }) => {
-  const { idols, loading } = useLiveEvents();
+  const { idols: rawIdols, loading } = useLiveEvents();
+
+  const idols = rawIdols.filter((idol) => idol.litlink_id);
 
   const handleToggleIdol = (id: string) => {
     const newSelectedIdols = selectedIdols.includes(id)
@@ -34,34 +36,32 @@ export const IdolFilter: React.FC<IdolFilterProps> = ({ selectedIdols, onSelecte
 
   return (
     <div className="flex flex-wrap gap-2">
-      {idols
-        .filter((idol) => idol.litlink_id)
-        .map((idol) => {
-          const isSelected = selectedIdols.includes(idol.id);
-          const style = isSelected
-            ? {
-                backgroundColor: idol.colors.background,
-                color: idol.colors.foreground,
-                borderColor: idol.colors.background,
-              }
-            : {
-                backgroundColor: 'transparent',
-                color: idol.colors.text,
-                borderColor: idol.colors.text,
-              };
+      {idols.map((idol) => {
+        const isSelected = selectedIdols.includes(idol.id);
+        const style = isSelected
+          ? {
+              backgroundColor: idol.colors.background,
+              color: idol.colors.foreground,
+              borderColor: idol.colors.background,
+            }
+          : {
+              backgroundColor: 'transparent',
+              color: idol.colors.text,
+              borderColor: idol.colors.text,
+            };
 
-          return (
-            <ToggleButton
-              key={idol.id}
-              value={idol.id}
-              label={idol.short_name}
-              isSelected={isSelected}
-              onToggle={handleToggleIdol}
-              onLongPress={handleLongPressIdol}
-              style={style}
-            />
-          );
-        })}
+        return (
+          <ToggleButton
+            key={idol.id}
+            value={idol.id}
+            label={idol.short_name}
+            isSelected={isSelected}
+            onToggle={handleToggleIdol}
+            onLongPress={handleLongPressIdol}
+            style={style}
+          />
+        );
+      })}
     </div>
   );
 };

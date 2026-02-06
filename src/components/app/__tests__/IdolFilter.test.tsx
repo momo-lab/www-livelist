@@ -83,7 +83,13 @@ describe('IdolFilter', () => {
 
     // Idol Aのボタンをクリック（モックされたToggleButtonのonClickを直接呼び出す）
     screen.getByText(mockIdols[0].short_name).click();
-    expect(mockOnSelectedIdolsChange).toHaveBeenCalledWith(mockIdols.map((idol) => idol.id));
+    expect(mockOnSelectedIdolsChange).toHaveBeenCalledWith([
+      mockIdols[0].id,
+      mockIdols[1].id,
+      // mockIdols[2]はlitlink_idがないので追加されない
+      mockIdols[3].id,
+      mockIdols[4].id,
+    ]);
   });
 
   it('calls onSelectedIdolsChange with only the long-pressed idol', () => {
