@@ -1,4 +1,5 @@
 import { ExternalLink } from 'lucide-react';
+import { useMemo } from 'react';
 import { AddToCalendarButton } from '@/components/app/AddToCalendarButton';
 import { LinkButton } from '@/components/common/LinkButton';
 import { Badge } from '@/components/ui/badge';
@@ -12,10 +13,11 @@ import {
 } from '@/components/ui/table';
 import { getHolidayName } from '@/lib/holidays-jp';
 import { cn } from '@/lib/utils';
-import type { TableEvent } from '@/types';
+import type { LiveEvent } from '@/types';
 
-interface LiveEventTableProps {
-  tableData: TableEvent[];
+interface TableEvent {
+  event: LiveEvent;
+  rowspan?: number;
 }
 
 const formatter = Intl.DateTimeFormat('ja-JP', {
@@ -24,7 +26,31 @@ const formatter = Intl.DateTimeFormat('ja-JP', {
   weekday: 'short',
 });
 
-export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => {
+function createTableEvents(liveEvents: LiveEvent[]): TableEvent[] {
+  const eventsByDate = liveEvents.reduce<Record<string, LiveEvent[]>>((acc, event) => {
+    (acc[event.date] ??= []).push(event);
+    return acc;
+  }, {});
+
+  return Object.values(eventsByDate).flatMap((dayEvents) =>
+    dayEvents.map((event, index) =>
+      index === 0
+        ? {
+            event,
+            rowspan: dayEvents.length,
+          }
+        : { event }
+    )
+  );
+}
+
+interface Props {
+  today: string; // yyyy-MM-dd
+  events: LiveEvent[];
+}
+
+export function LiveEventTable({ today, events }: Props) {
+  const tableData = useMemo(() => createTableEvents(events), [events]);
   return (
     <Table className="border-separate border-spacing-0 rounded-lg border">
       <TableHeader className="bg-header-bg text-header-fg">
@@ -34,7 +60,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
         </TableRow>
       </TableHeader>
       <TableBody>
-        {tableData.map((event, i) => {
+        {tableData.map(({ event, rowspan }, i) => {
           const dayOfWeek = new Date(event.date).getDay(); // 0:日, 1:月, ..., 6:土
           const holidayName = getHolidayName(event.date);
           const dateBgColor =
@@ -47,13 +73,13 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
               }
             : {};
 
-          const isLastRow = i == tableData.length - (event.rowspan ?? 1);
+          const isLastRow = i == tableData.length - (rowspan ?? 1);
 
           return (
             <TableRow key={event.id}>
-              {event.isFirstOfDay && (
+              {rowspan && (
                 <TableCell
-                  rowSpan={event.rowspan}
+                  rowSpan={rowspan}
                   className={cn(
                     `font-medium ${dateBgColor} border-r p-2 text-center align-top`,
                     isLastRow && 'rounded-bl-lg',
@@ -68,7 +94,7 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
                           {holidayName}
                         </Badge>
                       )}
-                      {event.isToday && (
+                      {event.date === today && (
                         <Badge className="my-0.5 bg-amber-100 px-1 text-xs font-normal text-amber-800">
                           本日
                         </Badge>
@@ -110,4 +136,4 @@ export const LiveEventTable: React.FC<LiveEventTableProps> = ({ tableData }) => 
       </TableBody>
     </Table>
   );
-};
+}

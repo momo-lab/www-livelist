@@ -1,4 +1,4 @@
-import type { Idol, LiveEventRaw, LiveEvent, Member, Versions, TableEvent } from '@/types';
+import type { Idol, LiveEventRaw, LiveEvent, Member, Versions } from '@/types';
 
 export const mockVersions: Versions = {
   data_version: 'v1',
@@ -130,7 +130,7 @@ export const mockMembers: Member[] = [
   },
 ];
 
-export const mockTableEvents: TableEvent[] = [
+export const mockTableEvents = [
   {
     ...mockEvents[0],
     isToday: true,

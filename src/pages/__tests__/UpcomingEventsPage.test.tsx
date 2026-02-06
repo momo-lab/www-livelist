@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 import { mockIdols, mockEvents } from '@/__mocks__';
-import { useEventTableData } from '@/hooks/app/useEventTableData';
+import { useFilteredEvents } from '@/hooks/app/useFilteredEvents';
 import { useSelectedIdols } from '@/hooks/app/useSelectedIdols';
 import { HeaderSlotsProvider } from '@/providers/HeaderSlotsProvider';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
@@ -10,11 +10,15 @@ import { UpcomingEventsPage } from '../UpcomingEventsPage';
 
 vi.mock('@/providers/LiveEventsProvider');
 vi.mock('@/providers/HeaderTitleProvider');
-vi.mock('@/hooks/app/useEventTableData');
+vi.mock('@/hooks/app/useFilteredEvents');
 vi.mock('@/hooks/app/useSelectedIdols');
 
 const mockUseLiveEvents = vi.mocked(useLiveEvents);
-const mockUseEventTableData = vi.mocked(useEventTableData);
+const mockUseFilteredEvents = vi.mocked(useFilteredEvents);
+mockUseFilteredEvents.mockReturnValue({
+  today: '2024-07-15',
+  filteredEvents: mockEvents,
+});
 const mockUseSelectedIdols = vi.mocked(useSelectedIdols);
 
 const allIdolIds = mockIdols.map((idol) => idol.id);
@@ -36,7 +40,10 @@ describe('UpcomingEventsPage', () => {
       members: [],
       updatedAt: undefined,
     });
-    mockUseEventTableData.mockReturnValue({ eventTableData: mockEvents });
+    mockUseFilteredEvents.mockReturnValue({
+      today: '2024-07-15',
+      filteredEvents: mockEvents,
+    });
     mockUseSelectedIdols.mockReturnValue([allIdolIds, mockSetSelectedIdols]);
   });
 
@@ -81,7 +88,7 @@ describe('UpcomingEventsPage', () => {
   });
 
   it('データがない場合に「今後のライブ予定はありません。」と表示される', () => {
-    mockUseEventTableData.mockReturnValue({ eventTableData: [] });
+    mockUseFilteredEvents.mockReturnValue({ today: '2025-07-15', filteredEvents: [] });
     renderComponent();
     expect(screen.getByText('今後のライブ予定はありません。')).toBeInTheDocument();
   });

@@ -35,14 +35,6 @@ export interface LiveEvent extends Omit<LiveEventRaw, 'idolId'> {
   idol: Idol;
 }
 
-export interface TableEvent extends LiveEvent {
-  isToday?: boolean;
-
-  rowspan?: number;
-  isFirstOfDay?: boolean;
-  groupIndex?: number;
-}
-
 export interface Member {
   id: string;
   idol_id: string;

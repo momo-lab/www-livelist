@@ -3,7 +3,7 @@ import { IdolFilter } from '@/components/app/IdolFilter';
 import { LiveEventTable } from '@/components/app/LiveEventTable';
 import { LiveEventTableSkeleton } from '@/components/app/LiveEventTableSkeleton';
 import { Button } from '@/components/ui/button';
-import { useEventTableData } from '@/hooks/app/useEventTableData';
+import { useFilteredEvents } from '@/hooks/app/useFilteredEvents';
 import { useSelectedIdols } from '@/hooks/app/useSelectedIdols';
 import { useHeaderRight } from '@/providers/HeaderSlotsProvider';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
@@ -18,7 +18,10 @@ export const UpcomingEventsPage: React.FC = () => {
   const [selectedIdols, setSelectedIdols] = useSelectedIdols();
 
   const { loading, error } = useLiveEvents();
-  const { eventTableData } = useEventTableData('upcoming', selectedIdols);
+  const { today, filteredEvents } = useFilteredEvents({
+    target: 'upcoming',
+    targetIdols: selectedIdols,
+  });
 
   useHeaderRight(headerRightNode);
 
@@ -34,8 +37,8 @@ export const UpcomingEventsPage: React.FC = () => {
 
       {loading ? (
         <LiveEventTableSkeleton />
-      ) : eventTableData.length > 0 ? (
-        <LiveEventTable tableData={eventTableData} />
+      ) : filteredEvents.length > 0 ? (
+        <LiveEventTable today={today} events={filteredEvents} />
       ) : (
         <p className="p-4 text-center">今後のライブ予定はありません。</p>
       )}

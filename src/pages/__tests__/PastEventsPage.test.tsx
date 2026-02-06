@@ -1,18 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 import { mockIdols, mockEvents } from '@/__mocks__';
-import { useEventTableData } from '@/hooks/app/useEventTableData';
+import { useFilteredEvents } from '@/hooks/app/useFilteredEvents';
 import { useSelectedIdols } from '@/hooks/app/useSelectedIdols';
 import { HeaderSlotsProvider } from '@/providers/HeaderSlotsProvider';
 import { useLiveEvents } from '@/providers/LiveEventsProvider';
 import { PastEventsPage } from '../PastEventsPage';
 
 vi.mock('@/providers/LiveEventsProvider');
-vi.mock('@/hooks/app/useEventTableData');
+vi.mock('@/hooks/app/useFilteredEvents');
 vi.mock('@/hooks/app/useSelectedIdols');
 
 const mockUseLiveEvents = vi.mocked(useLiveEvents);
-const mockUseEventTableData = vi.mocked(useEventTableData);
+const mockUseFilteredEvents = vi.mocked(useFilteredEvents);
 const mockUseSelectedIdols = vi.mocked(useSelectedIdols);
 
 const allIdolIds = mockIdols.map((idol) => idol.id);
@@ -35,10 +35,9 @@ describe('PastEventsPage', () => {
     });
     // 現在の日付を仮定して、過去のイベントのみをフィルタリング
     // useEventTableDataの内部ロジックを模倣してイベントをフィルタリング
-    const pastEvents = mockEvents.filter(
-      (event) => new Date(event.date) < new Date('2025-07-15T00:00:00Z')
-    );
-    mockUseEventTableData.mockReturnValue({ eventTableData: pastEvents });
+    const today = '2025-07-15';
+    const pastEvents = mockEvents.filter((event) => event.date < today);
+    mockUseFilteredEvents.mockReturnValue({ today, filteredEvents: pastEvents });
     mockUseSelectedIdols.mockReturnValue([allIdolIds, mockSetSelectedIdols]);
 
     vi.useFakeTimers();
