@@ -73,17 +73,19 @@ export function LiveEventTable({ today, events }: Props) {
               }
             : {};
 
-          const isLastRow = i == tableData.length - (rowspan ?? 1);
+          // 最終セルで角丸にするかどうか。左側はrowspanの考慮をしている
+          const isRoundedLeft = i === tableData.length - (rowspan ?? 1);
+          const isRoundedRight = i === tableData.length - 1;
 
           return (
             <TableRow key={event.id}>
-              {rowspan && (
+              {rowspan !== undefined && (
                 <TableCell
                   rowSpan={rowspan}
                   className={cn(
                     `font-medium ${dateBgColor} border-r p-2 text-center align-top`,
-                    isLastRow && 'rounded-bl-lg',
-                    !isLastRow && 'border-b'
+                    isRoundedLeft && 'rounded-bl-lg',
+                    !isRoundedLeft && 'border-b'
                   )}
                 >
                   <div className="sticky top-[calc(var(--header-height)+0.5rem)] inline-flex w-full items-center justify-center">
@@ -103,7 +105,9 @@ export function LiveEventTable({ today, events }: Props) {
                   </div>
                 </TableCell>
               )}
-              <TableCell className={cn(isLastRow && 'rounded-br-lg', !isLastRow && 'border-b')}>
+              <TableCell
+                className={cn(isRoundedRight && 'rounded-br-lg', !isRoundedRight && 'border-b')}
+              >
                 <div className="px-2">
                   <div className="mb-2 flex items-center justify-between">
                     <Badge style={badgeStyle}>{event.idol.short_name}</Badge>
