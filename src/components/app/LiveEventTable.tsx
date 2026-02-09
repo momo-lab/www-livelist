@@ -125,12 +125,13 @@ export function LiveEventTable({ today, events }: Props) {
                     {event.image && (
                       <img
                         src={event.image}
+                        alt="関連画像"
                         width="48"
                         height="48"
                         className="h-12 w-12 rounded-lg border"
                       />
                     )}
-                    <pre className="font-sans whitespace-pre-wrap">{event.content}</pre>
+                    <div className="font-sans whitespace-pre-wrap">{event.content}</div>
                   </div>
                 </div>
               </TableCell>
