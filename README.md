@@ -2,6 +2,12 @@
 
 アイドルのライブ情報を一覧表示するWebサイトです。
 
+## アーカイブ済み
+
+このリポジトリはアーカイブ済みです。litlinkによるライブ情報の更新が終了しTimeTreeへ移行されたため、サービスを終了しました（詳細は#7参照）。SNSリンク集としての機能は後継サービス[momo-lab/www-snslinks](https://github.com/momo-lab/www-snslinks)（推し活SNSリンク集）に引き継がれています。
+
+`https://momo-lab.net/livelist/` は現在、[momo-lab/www-root](https://github.com/momo-lab/www-root)側でサービス終了案内ページとして管理しています。
+
 ## プロジェクト概要
 
 このプロジェクトは、[アイドルのライブ一覧を表示するサイト]を目的としています。
